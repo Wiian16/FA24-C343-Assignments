@@ -2,7 +2,7 @@ This is the "assignments" repo for C343 that will contain the startercode for As
 
 ## To Get Started
 ### Execute the following set-up steps in the terminal JUST ONCE.
-1. Make sure that your github repo is named in the following format: username-submission. For example, if your username is jghafoor, your private github repo should be named jghafoor-submission
+1. Make sure that your github repo is named in the following format: username-submission. For example, if your username is jghafoor, your github repo should be named jghafoor-submission. This repo of yours must be set as private and must be created within the CSCI-C343-Fall2024 organization
 2. Open the terminal in your computer and type the following commands to clone this repository
 ```console
 foo@bar:~$ cd IdeaProjects
