@@ -34,16 +34,16 @@ upstream	https://github.iu.edu/CSCI-C343-Fall2024/assignments.git (fetch)
 upstream	https://github.iu.edu/CSCI-C343-Fall2024/assignments.git (push)
 ```
 
-## To Make Submissions:
-The [Autograder page](https://autograder.luddy.indiana.edu) submission is must but not the sole reference for grading. Your assignments would be manually graded, by referring to your username-submission repo. So make sure to update your repo for each Assignment/Lab in accordance to their deadlines. Any commits post-deadline would not be considered.
-To do this:
-1. First of all, make sure that the latest changes from the Teacher's repo "assignments" have been Pulled
+## To Pull from the upstream repo (i.e. Teacher's "assignments repo")
+To Pull or to make sure that the latest changes from the Teacher's repo "assignments" have been Pulled, run commands:
 ```console
 foo@bar:assignments$ git fetch upstream      # download latest from teacher repo
 foo@bar:assignments$ git checkout main       # ensure you are on your main branch
 foo@bar:assignments$ git merge upstream/main # add your changes on top of those from upstream
 ```
-2. Commit your code to GitHub (replace <...> in the following commands with the proper arguments)
+
+## To Make Submissions:
+The [Autograder page](https://autograder.luddy.indiana.edu) submission is must but not the sole reference for grading. Your assignments would be manually graded, by referring to your username-submission repo. So make sure to update your username-submissions repo for each Assignment/Lab in accordance to their deadlines. Any commits post-deadline would not be considered. To do this, commit (Push) your code to GitHub (replace <...> in the following commands with the proper arguments)
 ```console
 foo@bar:assignments$ git add <LIST OF FILES/FOLDERS YOU WANT TO COMMIT SEPARATED BY SPACE>
 foo@bar:assignments$ git commit -m "<MESSAGE IN DOUBLE QUOTES>"
