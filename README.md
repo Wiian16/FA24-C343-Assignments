@@ -42,8 +42,9 @@ foo@bar:assignments$ git checkout main       # ensure you are on your main branc
 foo@bar:assignments$ git merge upstream/main # add your changes on top of those from upstream
 ```
 
-## To Make Submissions:
-The [Autograder page](https://autograder.luddy.indiana.edu) submission is must but not the sole reference for grading. Your assignments would be manually graded, by referring to your username-submission repo. So make sure to update your username-submissions repo for each Assignment/Lab in accordance to their deadlines. Any commits post-deadline would not be considered. To do this, commit (Push) your code to GitHub (replace <...> in the following commands with the proper arguments)
+## To Make Submissions (To Push to your "username-submission" repo):
+The [Autograder page](https://autograder.luddy.indiana.edu) submission is must but not the sole reference for grading. Your assignments would be manually graded, by referring to your username-submission repo. So make sure to update your username-submissions repo for each Assignment/Lab in accordance to their deadlines. Any commits post-deadline would not be considered.
+To do this, commit (Push) your code to GitHub (replace <...> in the following commands with the proper arguments)
 ```console
 foo@bar:assignments$ git add <LIST OF FILES/FOLDERS YOU WANT TO COMMIT SEPARATED BY SPACE>
 foo@bar:assignments$ git commit -m "<MESSAGE IN DOUBLE QUOTES>"
