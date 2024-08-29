@@ -1,4 +1,3 @@
-import org.jetbrains.annotations.Nullable;
 
 public class User {
     private String name;
