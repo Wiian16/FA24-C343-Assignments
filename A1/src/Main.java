@@ -126,7 +126,9 @@ public class Main {
      * Sort the characters in a string using merge sort.
      */
     public static String mergeSort (String s) {
-        if(s.length() == 1) {
+
+
+        if(s.length() == 1 || s.isEmpty()) {
             return s;
         }
 
@@ -150,7 +152,7 @@ public class Main {
         }
 
         for(int i = 0; i < str.length(); i++) {
-            String next = swap(str, 0, i);
+            String next = swapFirst(str, i);
 
             for(String temp : allPermutations(next.substring(1))) {
                 result.add(next.charAt(0) + temp);
@@ -160,10 +162,10 @@ public class Main {
         return result;
     }
 
-    private static String swap(String str, int a, int b) {
+    private static String swapFirst(String str, int b) {
         char[] charArray = str.toCharArray();
-        char temp = charArray[a];
-        charArray[a] = charArray[b];
+        char temp = charArray[0];
+        charArray[0] = charArray[b];
         charArray[b] = temp;
         return String.valueOf(charArray);
     }

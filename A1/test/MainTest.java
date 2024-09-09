@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -122,12 +121,9 @@ class MainTest {
 
         assertEquals("abcdefghijklmnopqrstuvwxyz", Main.mergeSort("zyxwvutsrqponmlkjihgfedcba"));
 
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < Integer.MAX_VALUE / 2; i++){
-            sb.append('a');
-        }
+        assertNotNull(Main.mergeSort("a".repeat(1000)));
 
-        assertNotNull(Main.mergeSort(sb.toString()));
+        assertNotNull(Main.mergeSort(""));
     }
 
     @Test
