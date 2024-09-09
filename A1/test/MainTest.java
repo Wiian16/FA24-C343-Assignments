@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MainTest {
 
     @Test
-    void testAllSubsequences () {
+    void testAllSubsequences() {
         Set<String> result = Main.allSubsequences("abc");
         assertEquals(8, result.size());
         assertTrue(result.contains(""));
@@ -53,7 +53,7 @@ class MainTest {
     }
 
     @Test
-    void testMinDistance () {
+    void testMinDistance() {
         assertEquals(3, Main.minEditDistance("abc", "def"));
         assertEquals(1, Main.minEditDistance("abc", "dbc"));
         assertEquals(1, Main.minEditDistance("abc", "ab"));
@@ -78,7 +78,7 @@ class MainTest {
     }
 
     @Test
-    void testLongestCommonSubsequence () {
+    void testLongestCommonSubsequence() {
         assertEquals("", Main.longestCommonSubsequence("abc", "def"));
         assertEquals("bc", Main.longestCommonSubsequence("abc", "dbc"));
         assertEquals("ab", Main.longestCommonSubsequence("abc", "ab"));
@@ -95,7 +95,7 @@ class MainTest {
     }
 
     @Test
-    void testMergeStrings () {
+    void testMergeStrings() {
         assertEquals("abc", Main.mergeStrings("a", "bc"));
         assertEquals("abc", Main.mergeStrings("ab", "c"));
         assertEquals("abc", Main.mergeStrings("ac", "b"));
@@ -110,7 +110,7 @@ class MainTest {
     }
 
     @Test
-    void testMergeSort () {
+    void testMergeSort() {
         assertEquals("abc", Main.mergeSort("abc"));
         assertEquals("abc", Main.mergeSort("bac"));
         assertEquals("abc", Main.mergeSort("bca"));
@@ -127,7 +127,7 @@ class MainTest {
     }
 
     @Test
-    void testPermutations () {
+    void testPermutations() {
         Set<String> result = Main.allPermutations("abc");
         assertEquals(6, result.size());
         assertTrue(result.contains("abc"));
@@ -149,13 +149,12 @@ class MainTest {
     }
 
     @Test
-    void testLineWrap () {
+    void testLineWrap() {
         List<String> words = List.of("quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog");
         String result = "The" + Main.lineWrap(words, 15, 15);
         assertEquals("The quick brown\nfox jumps over\nthe lazy dog", result);
 
-        words = List.of( "you", "rather", "have", "unlimited", "bacon", "but", "no", "more", "games",
-                "or", "unlimited", "games", "and", "no", "games");
+        words = List.of("you", "rather", "have", "unlimited", "bacon", "but", "no", "more", "games", "or", "unlimited", "games", "and", "no", "games");
         result = "Would" + Main.lineWrap(words, 23, 18);
         String expected = "Would you rather have\nunlimited bacon but no\nmore games or unlimited\ngames and no games";
         assertEquals(expected, result);

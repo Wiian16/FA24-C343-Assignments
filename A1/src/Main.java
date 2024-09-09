@@ -126,8 +126,6 @@ public class Main {
      * Sort the characters in a string using merge sort.
      */
     public static String mergeSort (String s) {
-
-
         if(s.length() == 1 || s.isEmpty()) {
             return s;
         }
