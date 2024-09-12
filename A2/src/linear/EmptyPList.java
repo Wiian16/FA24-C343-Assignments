@@ -15,38 +15,31 @@ public class EmptyPList<E> implements PListI<E> {
     public EmptyPList() {}
 
     public int size() {
-        // TODO: Implement this method
         return 0;
     }
 
     public boolean isEmpty() {
-        // TODO: Implement this method
-        return false;
+        return true;
     }
 
     public @NotNull E first() throws EmptyListE {
-        // TODO: Implement this method
-        return null;
+        throw new EmptyListE();
     }
 
     public @NotNull E last() throws EmptyListE {
-        // TODO: Implement this method
-        return null;
+        throw new EmptyListE();
     }
 
     public @NotNull PListI<E> addFirst(@NotNull E elem) {
-        // TODO: Implement this method
-        return null;
+        return new ConsPList<>(elem, new EmptyPList<>());
     }
 
     public @NotNull PListI<E> addLast(@NotNull E elem) {
-        // TODO: Implement this method
-        return null;
+        return addFirst(elem); //addFirst and addLast do the same thing since the list is empty
     }
 
     public @NotNull PListI<E> removeFirst() throws EmptyListE {
-        // TODO: Implement this method
-        return null;
+        throw new EmptyListE();
     }
 
     public @NotNull String toString() {

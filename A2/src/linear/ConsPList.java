@@ -15,44 +15,46 @@ public class ConsPList<E> implements PListI<E> {
     private final @NotNull E first;
     private final @NotNull PListI<E> rest;
 
+    private final int size;
+
     public ConsPList(@NotNull E first, @NotNull PListI<E> rest) {
         this.first = first;
         this.rest = rest;
+
+        this.size = 1 + rest.size();
     }
 
-    public int size() {
-        // TODO: Implement this method
-        return 0;
+    public int size() { //TODO: fix size being 1
+        return size;
     }
 
     public boolean isEmpty() {
-        // TODO: Implement this method
         return false;
     }
 
     public @NotNull E first() {
-        // TODO: Implement this method
-        return null;
+        return first;
     }
 
     public @NotNull E last() {
-        // TODO: Implement this method
-        return null;
+        try{
+            return rest.last();
+        }
+        catch(EmptyListE e){
+            return first;
+        }
     }
 
     public @NotNull PListI<E> addFirst(@NotNull E elem) {
-        // TODO: Implement this method
-        return null;
+        return new ConsPList<>(elem, this);
     }
 
     public @NotNull PListI<E> addLast(@NotNull E elem) {
-        // TODO: Implement this method
-        return null;
+        return rest.addLast(elem);
     }
 
     public @NotNull PListI<E> removeFirst() {
-        // TODO: Implement this method
-        return null;
+        return rest;
     }
 
     public @NotNull String toString() {
