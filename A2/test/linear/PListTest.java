@@ -44,7 +44,7 @@ class PListTest {
         } catch (EmptyListE e) {
             fail();
         }
-        //TODO: add more test cases
+
         PListI<String> list3 = new EmptyPList<>();
 
         assertTrue(list3.isEmpty());
