@@ -64,7 +64,7 @@ class PQueueAmortizedTest {
             long slowTime = timeEnqueue(slowQueue, n);
             long fastTime = timeEnqueue(fastQueue, n);
             System.out.printf("n=%d: %n\tSlow time: %d%n\tFast time: %d%n", n, slowTime, fastTime);
-            assertTrue(fastTime <= slowTime);
+            assertTrue(fastTime <= slowTime); //todo: slow and fast time both 0?
         }
     }
 }

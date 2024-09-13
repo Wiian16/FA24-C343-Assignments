@@ -28,26 +28,65 @@ public class PQueueAmortized<E> implements QueueI<E> {
     }
 
     public int size() {
-        // TODO: Implement this method
-        return 0;
+        return in.size() + out.size();
     }
 
     public boolean isEmpty() {
-        // TODO: Implement this method
-        return false;
+        return in.isEmpty() && out.isEmpty();
     }
 
     public void enqueue(@NotNull E e) {
-        // TODO: Implement this method
+        in.push(e);
     }
 
     public @NotNull E first() throws EmptyQueueE {
-        // TODO: Implement this method
-        return null;
+        if(isEmpty()){ //guard for empty queue
+            throw new EmptyQueueE();
+        }
+
+        try {
+            if(!out.isEmpty()){
+                return out.top();
+            }
+
+            transfer();
+            return out.top();
+        }
+        catch(EmptyStackE e) {
+            throw new EmptyQueueE();
+        }
     }
 
     public @NotNull E dequeue() throws EmptyQueueE {
-        // TODO: Implement this method
-        return null;
+        if(isEmpty()){
+            throw new EmptyQueueE();
+        }
+
+        try{
+            if(!out.isEmpty()){
+                return out.pop();
+            }
+
+            transfer();
+            return out.pop();
+        }
+        catch(EmptyStackE e) {
+            throw new EmptyQueueE();
+        }
+    }
+
+    private void transfer() throws EmptyQueueE {
+        if(isEmpty()){ //guard for empty queue
+            throw new EmptyQueueE();
+        }
+
+        try {
+            while(!in.isEmpty()){
+                out.push(in.pop());
+            }
+        }
+        catch(EmptyStackE e) {
+            throw new EmptyQueueE();
+        }
     }
 }
