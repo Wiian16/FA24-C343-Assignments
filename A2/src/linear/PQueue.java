@@ -18,26 +18,34 @@ public class PQueue<E> implements QueueI<E> {
     public PQueue() { elements = new EmptyPList<>(); }
 
     public int size() {
-        // TODO: Implement this method
-        return 0;
+        return elements.size();
     }
 
     public boolean isEmpty() {
-        // TODO: Implement this method
-        return false;
+        return elements.isEmpty();
     }
 
     public void enqueue(@NotNull E e) {
-        // TODO: Implement this method
+        elements = elements.addLast(e);
     }
 
     public @NotNull E first() throws EmptyQueueE {
-        // TODO: Implement this method
-        return null;
+        try{
+            return elements.first();
+        }
+        catch(EmptyListE e){
+            throw new EmptyQueueE();
+        }
     }
 
     public @NotNull E dequeue() throws EmptyQueueE {
-        // TODO: Implement this method
-        return null;
+        try{
+            E temp = elements.first();
+            elements = elements.removeFirst();
+            return temp;
+        }
+        catch(EmptyListE e){
+            throw new EmptyQueueE();
+        }
     }
 }
