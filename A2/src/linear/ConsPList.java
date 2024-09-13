@@ -24,7 +24,7 @@ public class ConsPList<E> implements PListI<E> {
         this.size = 1 + rest.size();
     }
 
-    public int size() { //TODO: fix size being 1
+    public int size() {
         return size;
     }
 
@@ -50,7 +50,7 @@ public class ConsPList<E> implements PListI<E> {
     }
 
     public @NotNull PListI<E> addLast(@NotNull E elem) {
-        return rest.addLast(elem);
+        return new ConsPList<>(first, rest.addLast(elem));
     }
 
     public @NotNull PListI<E> removeFirst() {

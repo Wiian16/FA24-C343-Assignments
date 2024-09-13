@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class PListTest {
     @Test
     void test() {
-
         @NotNull PListI<Integer> list = new EmptyPList<>();
         @NotNull PListI<Integer> list2 = new EmptyPList<>();
         assertTrue(list.isEmpty());
@@ -46,6 +45,44 @@ class PListTest {
             fail();
         }
         //TODO: add more test cases
+        PListI<String> list3 = new EmptyPList<>();
+
+        assertTrue(list3.isEmpty());
+        assertEquals(0, list3.size());
+        assertThrows(EmptyListE.class, list3::first);
+        assertThrows(EmptyListE.class, list3::last);
+        assertThrows(EmptyListE.class, list3::removeFirst);
+
+        list3 = list3.addFirst("one");
+        list3 = list3.addFirst("two");
+        list3 = list3.addFirst("three");
+        list3 = list3.addFirst("four");
+        list3 = list3.addFirst("five");
+
+        try{
+            assertEquals(5, list3.size());
+            assertEquals("five", list3.first());
+            assertEquals("one", list3.last());
+
+            for(int i = 0; i < 5; i++){
+                list3 = list3.removeFirst();
+            }
+
+            assertTrue(list3.isEmpty());
+
+            list3 = list3.addFirst("five");
+            list3 = list3.addFirst("four");
+            list3 = list3.addFirst("three");
+            list3 = list3.addFirst("two");
+            list3 = list3.addFirst("one");
+
+            assertEquals(5, list3.size());
+            assertEquals("one", list3.first());
+            assertEquals("five", list3.last());
+        }
+        catch(EmptyListE e){
+            fail();
+        }
     }
 
 }
