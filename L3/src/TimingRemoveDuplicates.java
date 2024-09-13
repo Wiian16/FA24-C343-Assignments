@@ -82,16 +82,36 @@ public class TimingRemoveDuplicates {
 
         // All should print a list from 0 to 9
         // Time1 : <time elapsed by execution of RemoveDuplicates1 on your local machine>
+        //Local time: 19.876204 ms
+        //O(nlog(n))
+        long start = System.nanoTime();
         List<Integer> result1 = RemoveDuplicates1(input);
+        long end = System.nanoTime();
         System.out.println(result1);
+        System.out.println("Time 1: " + ((float) (end - start) / 1000000) + " ms");
         // Time2 : <time elapsed by execution of RemoveDuplicates2 on your local machine>
+        //Local time: 43.694607 ms
+        //O(n^2)
+        start = System.nanoTime();
         List<Integer> result2 = RemoveDuplicates2(input);
+        end = System.nanoTime();
         System.out.println(result2);
+        System.out.println("Time 2: " + ((float) (end - start) / 1000000) + " ms");
         // Time3 : <time elapsed by execution of RemoveDuplicates3 on your local machine>
+        //Local time: 9.1257 ms
+        //O(n)
+        start = System.nanoTime();
         List<Integer> result3 = RemoveDuplicates3(input);
+        end = System.nanoTime();
         System.out.println(result3);
+        System.out.println("Time 3: " + ((float) (end - start) / 1000000) + " ms");
+
         
         // TODO: Write comments here in code on what analysis you made on their time complexities
-
+        /*
+        The sort in the first method has a sort that is nlog(n)
+        the second method has a nested loop, which makes it n^2
+        the third method only loops through the list once, so it's n
+         */
     }
 }
