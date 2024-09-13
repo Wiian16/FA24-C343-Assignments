@@ -38,8 +38,6 @@ class PStackTest {
         }
         assertTrue(stack.isEmpty());
 
-        //todo: write test cases
-
         StackI<String> stack3 = new PStack<>();
 
         assertTrue(stack3.isEmpty());
