@@ -21,27 +21,35 @@ public class PStack<E> implements StackI<E> {
     }
 
     public int size() {
-        // TODO: Implement this method
-        return 0;
+        return elements.size();
     }
 
     public boolean isEmpty() {
-        // TODO: Implement this method
-        return false;
+        return elements.isEmpty();
     }
 
     public void push(@NotNull E e) {
-        // TODO: Implement this method
+        elements = elements.addFirst(e);
     }
 
     public @NotNull E top() throws EmptyStackE {
-        // TODO: Implement this method
-        return null;
+        try{
+            return elements.first();
+        }
+        catch(EmptyListE e){
+            throw new EmptyStackE();
+        }
     }
 
     public @NotNull E pop() throws EmptyStackE {
-        // TODO: Implement this method
-        return null;
+        try{
+            E temp = elements.first();
+            elements = elements.removeFirst();
+            return temp;
+        }
+        catch (EmptyListE e){
+            throw new EmptyStackE();
+        }
     }
 
     public @NotNull String toString() {

@@ -37,5 +37,37 @@ class PStackTest {
             }
         }
         assertTrue(stack.isEmpty());
+
+        //todo: write test cases
+
+        StackI<String> stack3 = new PStack<>();
+
+        assertTrue(stack3.isEmpty());
+        assertEquals(0, stack3.size());
+        assertThrows(EmptyStackE.class, stack3::pop);
+        assertThrows(EmptyStackE.class, stack3::top);
+
+        for(int i = 1; i <= 5; i++){
+            stack3.push("a".repeat(i));
+        }
+
+        try{
+            assertEquals("aaaaa", stack3.top());
+            assertFalse(stack3.isEmpty());
+            assertEquals(5, stack3.size());
+
+            StackI<String> stack4 = new PStack<>();
+
+            while(!stack3.isEmpty()){
+                stack4.push(stack3.pop());
+            }
+
+            assertFalse(stack4.isEmpty());
+            assertEquals(5, stack4.size());
+            assertEquals("a", stack4.top());
+        }
+        catch(EmptyStackE e){
+            fail();
+        }
     }
 }
