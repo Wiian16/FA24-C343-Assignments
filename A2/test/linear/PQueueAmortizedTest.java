@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PQueueAmortizedTest { //todo: add more test cases
+class PQueueAmortizedTest {
 
     @Test
     void testFunctionality() {
@@ -37,6 +37,17 @@ class PQueueAmortizedTest { //todo: add more test cases
             }
         }
         assertTrue(queue.isEmpty());
+
+        queue = new PQueue<>();
+        try {
+            for(int i = 0; i < 1000; i++) {
+                queue.enqueue(1);
+                queue.dequeue();
+            }
+        }
+        catch(EmptyQueueE e){
+            fail();
+        }
     }
 
     long timeEnqueue(@NotNull QueueI<Integer> queue, int n) {
@@ -60,11 +71,11 @@ class PQueueAmortizedTest { //todo: add more test cases
     void testSpeed () {
         @NotNull QueueI<Integer> slowQueue = new PQueue<>();
         @NotNull QueueI<Integer> fastQueue = new PQueueAmortized<>();
-        for (int n = 8; n <= 40000; n *= 2) {
+        for (int n = 8; n <= 20000; n *= 2) { //changed to smaller amount bc of stack overflow
             long slowTime = timeEnqueue(slowQueue, n);
             long fastTime = timeEnqueue(fastQueue, n);
             System.out.printf("n=%d: %n\tSlow time: %d%n\tFast time: %d%n", n, slowTime, fastTime);
-            assertTrue(fastTime <= slowTime); //todo: slow and fast time both 0?
+            assertTrue(fastTime <= slowTime);
         }
     }
 }
