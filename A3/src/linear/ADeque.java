@@ -71,53 +71,89 @@ public class ADeque<E> implements DequeI<E> {
     }
 
     public int size() {
-        // TODO: Implement this method
-        return 0;
+        return size;
     }
 
     public boolean isEmpty() {
-        // TODO: Implement this method
-        return false;
+        return size == 0;
     }
 
     public @NotNull E first() throws EmptyDequeE {
-        // TODO: Implement this method
-        return null;
+        if(isEmpty()){
+            throw new EmptyDequeE();
+        }
+
+        return elements[first].get(); //todo: check for present, what should it throw?
     }
 
     public @NotNull E last() throws EmptyDequeE {
-        // TODO: Implement this method
-        return null;
+        if(isEmpty()){
+            throw new EmptyDequeE();
+        }
+
+        return elements[last].get(); //todo present check, throws?
     }
 
     public void addFirst(@NotNull E elem) {
-        // TODO: Implement this method
         // Remember to resize the array when it is full
+        if(size() == capacity){
+            doubleCapacity();
+        }
+
+        elements[mod(first + 1, capacity)] = Optional.of(elem);
+        size++;
+        first = mod(first + 1, capacity);
     }
 
     public void addLast(@NotNull E elem) {
-        // TODO: Implement this method
         // Remember to resize the array when it is full
+        if(size() == capacity){
+            doubleCapacity();
+        }
+
+        elements[mod(last - 1, capacity)] = Optional.of(elem);
+        size++;
+        last = mod(last - 1, capacity);
     }
 
     public @NotNull E removeFirst() throws EmptyDequeE {
-        // TODO: Implement this method
         // Remember to mark the position as empty
-        return null;
+        E elem = elements[first].get();
+        elements[first] = Optional.empty();
+        size--;
+        first = mod(first - 1, capacity);
+        return elem;
     }
 
     public @NotNull E removeLast() throws EmptyDequeE {
-        // TODO: Implement this method
         // Remember to mark the position as empty
-        return null;
+        E elem = elements[last].get();
+        elements[last] = Optional.empty();
+        size--;
+        last = mod(last + 1, capacity);
+        return elem;
     }
 
     @SuppressWarnings("unchecked")
-    public void doubleCapacity () {
-        // TODO: Implement this method
+    public void doubleCapacity () { //todo: elements are getting placed wrong on doubling, probably issue with first + i
         // No matter where the first and last are, we want to
         // copy the elements to a new array where the first
         // element is at index 0 and the last element is at
         // index size-1.
+        Optional<E>[] temp = new Optional[capacity * 2];
+
+        for(int i = 0; i < capacity; i++){
+            temp[i] = elements[mod(first + i, capacity)];
+        }
+
+        elements = temp;
+
+        capacity *= 2;
+        first = capacity - 1;
+        last = 0;
+    }
+
+    private static int mod(int a, int b){
+        return (a % b + b) % b;
     }
 }
