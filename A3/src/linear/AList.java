@@ -24,39 +24,49 @@ public class AList<E> implements ListI<E> {
     }
 
     public int size() {
-        // TODO: Implement this method
-        return 0;
+        return elements.size();
     }
 
     public boolean isEmpty() {
-        // TODO: Implement this method
-        return false;
+        return elements.isEmpty();
     }
 
     public @NotNull E first() throws EmptyListE {
-        // TODO: Implement this method
-        return null;
+        try {
+            return elements.first();
+        }
+        catch(EmptyDequeE e) {
+            throw new EmptyListE();
+        }
     }
 
     public @NotNull E last() throws EmptyListE {
-        // TODO: Implement this method
-        return null;
+        try {
+            return elements.last();
+        }
+        catch(EmptyDequeE e) {
+            throw new EmptyListE();
+        }
     }
 
     public void addFirst(@NotNull E elem) {
-        // TODO: Implement this method
+        elements.addFirst(elem);
     }
 
     public void addLast(@NotNull E elem) {
-        // TODO: Implement this method
+        elements.addLast(elem);
     }
 
     public @NotNull E removeFirst() throws EmptyListE {
-        // TODO: Implement this method
-        return null;
+        try {
+            return elements.removeFirst();
+        }
+        catch(EmptyDequeE e) {
+            throw new EmptyListE();
+        }
     }
 
     public void doubleCapacity() {
-        // TODO: Implement this method
+        elements.doubleCapacity();
     }
 }

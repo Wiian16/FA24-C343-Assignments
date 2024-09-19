@@ -135,21 +135,22 @@ public class ADeque<E> implements DequeI<E> {
     }
 
     @SuppressWarnings("unchecked")
-    public void doubleCapacity () { //todo: elements are getting placed wrong on doubling, probably issue with first + i
+    public void doubleCapacity() {
         // No matter where the first and last are, we want to
         // copy the elements to a new array where the first
         // element is at index 0 and the last element is at
         // index size-1.
-        Optional<E>[] temp = new Optional[capacity * 2];
+        Optional<E>[] temp = (Optional<E>[]) Array.newInstance(Optional.class, capacity * 2);
+        Arrays.fill(temp, Optional.empty());
 
         for(int i = 0; i < capacity; i++){
-            temp[i] = elements[mod(first + i, capacity)];
+            temp[i] = elements[mod(last + i, capacity)];
         }
 
         elements = temp;
 
         capacity *= 2;
-        first = capacity - 1;
+        first = mod(capacity - 1 + size, capacity);
         last = 0;
     }
 

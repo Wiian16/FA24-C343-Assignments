@@ -24,30 +24,37 @@ public class AQueue<E> implements QueueI<E> {
     }
 
     public int size() {
-        // TODO: Implement this method
-        return 0;
+        return elements.size();
     }
 
     public boolean isEmpty() {
-        // TODO: Implement this method
-        return false;
+        return elements.isEmpty();
     }
 
     public void enqueue(@NotNull E e) {
-        // TODO: Implement this method
+        elements.addLast(e);
     }
 
+
     public @NotNull E first() throws EmptyQueueE {
-        // TODO: Implement this method
-        return null;
+        try {
+            return elements.first();
+        }
+        catch(EmptyDequeE e) {
+            throw new EmptyQueueE();
+        }
     }
 
     public @NotNull E dequeue() throws EmptyQueueE {
-        // TODO: Implement this method
-        return null;
+        try {
+            return elements.removeFirst();
+        }
+        catch(EmptyDequeE e) {
+            throw new EmptyQueueE();
+        }
     }
 
     public void doubleCapacity() {
-        // TODO: Implement this method
+        elements.doubleCapacity();
     }
 }

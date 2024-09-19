@@ -24,30 +24,36 @@ public class AStack<E> implements StackI<E> {
     }
 
     public int size() {
-        // TODO: Implement this method
-        return 0;
+        return elements.size();
     }
 
     public boolean isEmpty() {
-        // TODO: Implement this method
-        return false;
+        return elements.isEmpty();
     }
 
     public void push(@NotNull E e) {
-        // TODO: Implement this method
+        elements.addFirst(e);
     }
 
     public @NotNull E top() throws EmptyStackE {
-       // TODO: Implement this method
-        return null;
+        try {
+            return elements.first();
+        }
+        catch(EmptyDequeE e) {
+            throw new EmptyStackE();
+        }
     }
 
     public @NotNull E pop() throws EmptyStackE {
-        // TODO: Implement this method
-        return null;
+        try {
+            return elements.removeFirst();
+        }
+        catch(EmptyDequeE e) {
+            throw new EmptyStackE();
+        }
     }
 
     public void doubleCapacity() {
-        // TODO: Implement this method
+        elements.doubleCapacity();
     }
 }
