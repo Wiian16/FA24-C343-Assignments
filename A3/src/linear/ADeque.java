@@ -83,7 +83,7 @@ public class ADeque<E> implements DequeI<E> {
             throw new EmptyDequeE();
         }
 
-        return elements[first].get(); //todo: check for present, what should it throw?
+        return elements[first].orElseThrow(EmptyDequeE::new);
     }
 
     public @NotNull E last() throws EmptyDequeE {
@@ -91,7 +91,7 @@ public class ADeque<E> implements DequeI<E> {
             throw new EmptyDequeE();
         }
 
-        return elements[last].get(); //todo present check, throws?
+        return elements[last].orElseThrow(EmptyDequeE::new);
     }
 
     public void addFirst(@NotNull E elem) {
@@ -118,7 +118,7 @@ public class ADeque<E> implements DequeI<E> {
 
     public @NotNull E removeFirst() throws EmptyDequeE {
         // Remember to mark the position as empty
-        E elem = elements[first].get();
+        E elem = elements[first].orElseThrow(EmptyDequeE::new);
         elements[first] = Optional.empty();
         size--;
         first = mod(first - 1, capacity);
@@ -127,7 +127,7 @@ public class ADeque<E> implements DequeI<E> {
 
     public @NotNull E removeLast() throws EmptyDequeE {
         // Remember to mark the position as empty
-        E elem = elements[last].get();
+        E elem = elements[last].orElseThrow(EmptyDequeE::new);
         elements[last] = Optional.empty();
         size--;
         last = mod(last + 1, capacity);
