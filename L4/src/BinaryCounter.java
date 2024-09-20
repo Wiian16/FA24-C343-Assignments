@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class BinaryCounter {
     private ArrayList<Boolean> bits;
@@ -14,9 +15,24 @@ public class BinaryCounter {
 
     int bitsFlipped() { return bitsFlipped; }
 
-    // TODO: Complete this method.
+    /*
+    Since each bit flipped gets flipped half as often as the one preceding it, the total number of flips works out to 2n
+     */
     void increment(int i) {
         // Implement the logic for incrementing the binary counter.
+        if(i >= len){
+            return;
+        }
+
+        bitsFlipped++;
+
+        if(!bits.get(i)){
+           bits.set(i, true);
+           return;
+        }
+
+        bits.set(i, false);
+        increment(i + 1);
     }
 
     public static void main(String[] args) {
