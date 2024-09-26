@@ -110,7 +110,7 @@ class HashTable<K, V> {
     }
 }
 
-// TODO 3 : Write and explain the outputs you got for this code
+// TODO 2 : Write and explain the outputs you got for this code
 
 
 // TODO 3 :  For question 1 in the lab manual, write down the keys you got for each index. If key is null, type null. We have solved two spots for you.
