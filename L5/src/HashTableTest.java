@@ -63,7 +63,28 @@ class HashTable<K, V> {
         // If the key wasn't found, return the first available slot using -(avail + 1)
           // Returning the first available slot as a negative value if key not found
 
-        return 0; //Dummy statement
+        int j = h;
+        int available = -1;
+
+        do{
+            if(isAvailable(j)){
+                if(available == -1){
+                    available = j;
+                }
+            }
+            else if(table[j].getKey().equals(k)){
+                return j;
+            }
+
+            j = mod(j + 1, capacity);
+        }while(j != h);
+
+        return -(available + 1);
+    }
+
+
+    int mod(int a, int b){
+        return (a % b + b) % b;
     }
 
 
@@ -112,21 +133,27 @@ class HashTable<K, V> {
 
 // TODO 2 : Write and explain the outputs you got for this code
 
+/**
+ * My code found key 5 at slot 5, 15 at slot 4, and the first available slot for key 7 was -8.
+ * key 5 was found at 5 because the capacity is 11 and 5 % 11 = 5, which was available when it was inserted
+ * key 15 was found at 4 because 15 % 11 = 4 and 4 was available when it was inserted.
+ * The first available slot for key 7 was -8 because 7 % 11 = 7, 7 was available, and -(7 + 1) = -8
+ */
 
 // TODO 3 :  For question 1 in the lab manual, write down the keys you got for each index. If key is null, type null. We have solved two spots for you.
 
 
 //Index   Key
 
-//0 -
+//0 - 22
 //1 -    null
-//2 -
-//3 -
-//4 -
-//5 -
-//6 -
-//7 -
-//8 -
+//2 - null
+//3 - 3
+//4 - 25
+//5 - 5
+//6 - 14
+//7 - null
+//8 - null
 //9 -    null
-//10 -
+//10 - 21
 
