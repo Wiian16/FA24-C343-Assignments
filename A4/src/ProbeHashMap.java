@@ -61,10 +61,12 @@ public abstract class ProbeHashMap<K,V> extends AbstractHashMap<K,V> {
 
     protected void bucketPut(int h, K k, V v) {
         bucketPutIter(h, k, v, 0);
+        n++;
     }
 
     protected void bucketRemove(int h, K k) throws KeyNotFoundE {
         bucketRemoveIter(h, k, 0);
+        n--;
     }
 
     /**
@@ -80,8 +82,15 @@ public abstract class ProbeHashMap<K,V> extends AbstractHashMap<K,V> {
      */
 
     protected @NotNull V bucketGetIter(int h, K k, int iter) throws KeyNotFoundE {
-        // TODO
-        return null;
+        if(iter == table.length){
+            throw new KeyNotFoundE();
+        }
+
+        if(table[h].isPresent() && table[h].get().getKey().equals(k)){
+            return table[h].orElseThrow(KeyNotFoundE::new).getValue();
+        }
+
+        return bucketGetIter(mod(h + secondary.apply(h, iter), capacity), k, iter + 1);
     }
 
     /**
@@ -93,7 +102,18 @@ public abstract class ProbeHashMap<K,V> extends AbstractHashMap<K,V> {
      * the new value.
      */
     protected void bucketPutIter(int h, K k, V v, int iter) {
-        // TODO
+        if(table[h].isPresent() && table[h].get().getKey().equals(k)){
+            table[h] = Optional.of(new MapEntry<>(k, v));
+            return;
+        }
+
+        if(status[h] == Status.OCCUPIED){
+            bucketPutIter(mod(h + secondary.apply(h, iter), capacity), k, v, iter + 1);
+            return;
+        }
+
+        table[h] = Optional.of(new MapEntry<>(k, v));
+        status[h] = Status.OCCUPIED;
     }
 
     /**
@@ -105,11 +125,26 @@ public abstract class ProbeHashMap<K,V> extends AbstractHashMap<K,V> {
 
     protected void bucketRemoveIter(int h, K k, int iter) throws KeyNotFoundE {
         // TODO
+        if(status[h] == Status.FRESH){
+            throw new KeyNotFoundE();
+        }
+
+        if(table[h].isPresent() && table[h].get().getKey().equals(k)){
+            table[h] = Optional.empty();
+            status[h] = Status.DELETED;
+            return;
+        }
+
+        bucketRemoveIter(mod(h + secondary.apply(h, iter), capacity), k, iter + 1);
     }
 
     public @NotNull Iterable<Entry<K, V>> entrySet() {
         ArrayList<Entry<K,V>> buffer = new ArrayList<>();
         for (int h=0; h < capacity; h++) table[h].ifPresent(buffer::add);
         return buffer;
+    }
+
+    private int mod(int a, int b){
+        return (a % b + b) % b;
     }
 }
