@@ -124,7 +124,6 @@ public abstract class ProbeHashMap<K,V> extends AbstractHashMap<K,V> {
      */
 
     protected void bucketRemoveIter(int h, K k, int iter) throws KeyNotFoundE {
-        // TODO
         if(status[h] == Status.FRESH){
             throw new KeyNotFoundE();
         }
