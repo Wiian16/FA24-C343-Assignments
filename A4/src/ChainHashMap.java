@@ -25,7 +25,7 @@ public class ChainHashMap<K,V> extends AbstractHashMap<K,V> {
     protected @NotNull V bucketGet(int h, K k) throws KeyNotFoundE {
         UnsortedTableMap<K, V> bucket = table[h];
 
-        if(bucket.isEmpty()){
+        if(bucket.isEmpty()) {
             throw new KeyNotFoundE();
         }
 
@@ -44,7 +44,7 @@ public class ChainHashMap<K,V> extends AbstractHashMap<K,V> {
     protected void bucketRemove(int h, K k) throws KeyNotFoundE {
         UnsortedTableMap<K, V> bucket = table[h];
 
-        if(bucket.isEmpty()){
+        if(bucket.isEmpty()) {
             throw new KeyNotFoundE();
         }
 

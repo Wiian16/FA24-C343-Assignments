@@ -82,11 +82,11 @@ public abstract class ProbeHashMap<K,V> extends AbstractHashMap<K,V> {
      */
 
     protected @NotNull V bucketGetIter(int h, K k, int iter) throws KeyNotFoundE {
-        if(status[h] == Status.FRESH){
+        if(status[h] == Status.FRESH) {
             throw new KeyNotFoundE();
         }
 
-        if(table[h].isPresent() && table[h].get().getKey().equals(k)){
+        if(table[h].isPresent() && table[h].get().getKey().equals(k)) {
             return table[h].orElseThrow(KeyNotFoundE::new).getValue();
         }
 
@@ -102,12 +102,12 @@ public abstract class ProbeHashMap<K,V> extends AbstractHashMap<K,V> {
      * the new value.
      */
     protected void bucketPutIter(int h, K k, V v, int iter) {
-        if(table[h].isPresent() && table[h].get().getKey().equals(k)){
+        if(table[h].isPresent() && table[h].get().getKey().equals(k)) {
             table[h] = Optional.of(new MapEntry<>(k, v));
             return;
         }
 
-        if(status[h] == Status.OCCUPIED){
+        if(status[h] == Status.OCCUPIED) {
             bucketPutIter(mod(h + secondary.apply(h, iter), capacity), k, v, iter + 1);
             return;
         }
@@ -124,11 +124,11 @@ public abstract class ProbeHashMap<K,V> extends AbstractHashMap<K,V> {
      */
 
     protected void bucketRemoveIter(int h, K k, int iter) throws KeyNotFoundE {
-        if(status[h] == Status.FRESH){
+        if(status[h] == Status.FRESH) {
             throw new KeyNotFoundE();
         }
 
-        if(table[h].isPresent() && table[h].get().getKey().equals(k)){
+        if(table[h].isPresent() && table[h].get().getKey().equals(k)) {
             table[h] = Optional.empty();
             status[h] = Status.DELETED;
             return;
@@ -143,7 +143,7 @@ public abstract class ProbeHashMap<K,V> extends AbstractHashMap<K,V> {
         return buffer;
     }
 
-    private int mod(int a, int b){
+    private int mod(int a, int b) {
         return (a % b + b) % b;
     }
 }

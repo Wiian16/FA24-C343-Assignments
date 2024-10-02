@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class QuadraticProbeHashMapTest {
     @Test
-    void testQuadratic(){
+    void testQuadratic() {
         QuadraticProbeHashMap<Integer, Integer> quadratic = new QuadraticProbeHashMap<>();
 
         quadratic.put(1, 1);
@@ -31,7 +31,7 @@ class QuadraticProbeHashMapTest {
 
             assertThrows(KeyNotFoundE.class, () -> quadratic.get(1));
 
-            for(int i = 0; i < 100; i++){
+            for(int i = 0; i < 100; i++) {
                 quadratic.put(i, i);
             }
 
@@ -40,7 +40,7 @@ class QuadraticProbeHashMapTest {
             assertEquals(99, quadratic.get(99));
             assertEquals(100, quadratic.size());
 
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 50; i++) {
                 quadratic.remove(i);
             }
 
@@ -51,7 +51,7 @@ class QuadraticProbeHashMapTest {
             assertThrows(KeyNotFoundE.class, () -> quadratic.get(0));
             assertThrows(KeyNotFoundE.class, () -> quadratic.get(25));
 
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 50; i++) {
                 quadratic.put(i, i + 100);
             }
 
@@ -62,7 +62,7 @@ class QuadraticProbeHashMapTest {
             assertEquals(75, quadratic.get(75));
             assertEquals(99, quadratic.get(99));
         }
-        catch(KeyNotFoundE e){
+        catch(KeyNotFoundE e) {
             e.printStackTrace();
             fail();
         }
@@ -70,8 +70,8 @@ class QuadraticProbeHashMapTest {
 
     //Running the test multiple times catches issues with the random aspect of hashing
     @Test
-    void repeatTest(){
-        for(int i = 0; i < 100; i++){
+    void repeatTest() {
+        for(int i = 0; i < 100; i++) {
             testQuadratic();
         }
     }

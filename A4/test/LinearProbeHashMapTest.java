@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LinearProbeHashMapTest {
     @Test
-    void testLinear(){
+    void testLinear() {
         LinearProbeHashMap<Integer, Integer> linear = new LinearProbeHashMap<>();
 
         linear.put(1, 1);
@@ -31,7 +31,7 @@ class LinearProbeHashMapTest {
 
             assertThrows(KeyNotFoundE.class, () -> linear.get(1));
 
-            for(int i = 0; i < 100; i++){
+            for(int i = 0; i < 100; i++) {
                 linear.put(i, i);
             }
 
@@ -40,7 +40,7 @@ class LinearProbeHashMapTest {
             assertEquals(99, linear.get(99));
             assertEquals(100, linear.size());
 
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 50; i++) {
                 linear.remove(i);
             }
 
@@ -51,7 +51,7 @@ class LinearProbeHashMapTest {
             assertThrows(KeyNotFoundE.class, () -> linear.get(0));
             assertThrows(KeyNotFoundE.class, () -> linear.get(25));
 
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 50; i++) {
                 linear.put(i, i + 100);
             }
 
@@ -62,7 +62,7 @@ class LinearProbeHashMapTest {
             assertEquals(75, linear.get(75));
             assertEquals(99, linear.get(99));
         }
-        catch(KeyNotFoundE e){
+        catch(KeyNotFoundE e) {
             e.printStackTrace();
             fail();
         }
@@ -70,8 +70,8 @@ class LinearProbeHashMapTest {
 
     //Running the test multiple times catches issues with the random aspect of hashing
     @Test
-    void repeatTest(){
-        for(int i = 0; i < 100; i++){
+    void repeatTest() {
+        for(int i = 0; i < 100; i++) {
             testLinear();
         }
     }

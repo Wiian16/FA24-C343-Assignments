@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ChainHashMapTest {
     @Test
-    void testChain(){
+    void testChain() {
         ChainHashMap<Integer, Integer> chain = new ChainHashMap<>();
 
         chain.put(1, 1);
@@ -31,7 +31,7 @@ class ChainHashMapTest {
 
             assertThrows(KeyNotFoundE.class, () -> chain.get(1));
 
-            for(int i = 0; i < 100; i++){
+            for(int i = 0; i < 100; i++) {
                 chain.put(i, i);
             }
 
@@ -40,7 +40,7 @@ class ChainHashMapTest {
             assertEquals(99, chain.get(99));
             assertEquals(100, chain.size());
 
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 50; i++) {
                 chain.remove(i);
             }
 
@@ -51,7 +51,7 @@ class ChainHashMapTest {
             assertThrows(KeyNotFoundE.class, () -> chain.get(0));
             assertThrows(KeyNotFoundE.class, () -> chain.get(25));
 
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 50; i++) {
                 chain.put(i, i + 100);
             }
 
@@ -62,7 +62,7 @@ class ChainHashMapTest {
             assertEquals(75, chain.get(75));
             assertEquals(99, chain.get(99));
         }
-        catch(KeyNotFoundE e){
+        catch(KeyNotFoundE e) {
             e.printStackTrace();
             fail();
         }
@@ -70,8 +70,8 @@ class ChainHashMapTest {
 
     //Running the test multiple times catches issues with the random aspect of hashing
     @Test
-    void repeatTest(){
-        for(int i = 0; i < 100; i++){
+    void repeatTest() {
+        for(int i = 0; i < 100; i++) {
             testChain();
         }
     }

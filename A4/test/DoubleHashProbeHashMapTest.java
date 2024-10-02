@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DoubleHashProbeHashMapTest {
     @Test
-    void testDoubleHash(){
+    void testDoubleHash() {
         DoubleHashProbeHashMap<Integer, Integer> doubleHash = new DoubleHashProbeHashMap<>();
 
         doubleHash.put(1, 1);
@@ -31,7 +31,7 @@ class DoubleHashProbeHashMapTest {
 
             assertThrows(KeyNotFoundE.class, () -> doubleHash.get(1));
 
-            for(int i = 0; i < 100; i++){
+            for(int i = 0; i < 100; i++) {
                 doubleHash.put(i, i);
             }
 
@@ -40,7 +40,7 @@ class DoubleHashProbeHashMapTest {
             assertEquals(99, doubleHash.get(99));
             assertEquals(100, doubleHash.size());
 
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 50; i++) {
                 doubleHash.remove(i);
             }
 
@@ -51,7 +51,7 @@ class DoubleHashProbeHashMapTest {
             assertThrows(KeyNotFoundE.class, () -> doubleHash.get(0));
             assertThrows(KeyNotFoundE.class, () -> doubleHash.get(25));
 
-            for(int i = 0; i < 50; i++){
+            for(int i = 0; i < 50; i++) {
                 doubleHash.put(i, i + 100);
             }
 
@@ -62,7 +62,7 @@ class DoubleHashProbeHashMapTest {
             assertEquals(75, doubleHash.get(75));
             assertEquals(99, doubleHash.get(99));
         }
-        catch(KeyNotFoundE e){
+        catch(KeyNotFoundE e) {
             e.printStackTrace();
             fail();
         }
@@ -70,8 +70,8 @@ class DoubleHashProbeHashMapTest {
 
     //Running the test multiple times catches issues with the random aspect of hashing
     @Test
-    void repeatTest(){
-        for(int i = 0; i < 100; i++){
+    void repeatTest() {
+        for(int i = 0; i < 100; i++) {
             testDoubleHash();
         }
     }
