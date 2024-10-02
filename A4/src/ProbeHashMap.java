@@ -82,7 +82,7 @@ public abstract class ProbeHashMap<K,V> extends AbstractHashMap<K,V> {
      */
 
     protected @NotNull V bucketGetIter(int h, K k, int iter) throws KeyNotFoundE {
-        if(iter == table.length){
+        if(status[h] == Status.FRESH){
             throw new KeyNotFoundE();
         }
 
