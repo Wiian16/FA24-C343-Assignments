@@ -1,0 +1,7 @@
+discord.xml
+out/
+workspace.xml
+tasks.xml
+.iws
+*.iml
+modules.xml
