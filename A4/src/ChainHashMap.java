@@ -23,16 +23,35 @@ public class ChainHashMap<K,V> extends AbstractHashMap<K,V> {
     }
 
     protected @NotNull V bucketGet(int h, K k) throws KeyNotFoundE {
-        // TODO
-        return null;
+        UnsortedTableMap<K, V> bucket = table[h];
+
+        if(bucket.isEmpty()){
+            throw new KeyNotFoundE();
+        }
+
+        return bucket.get(k);
     }
 
     protected void bucketPut(int h, K k, V v) {
-        // TODO
+        UnsortedTableMap<K, V> bucket = table[h];
+        int oldSize = bucket.size();
+
+        bucket.put(k, v);
+
+        n += bucket.size() - oldSize;
     }
 
     protected void bucketRemove(int h, K k) throws KeyNotFoundE {
-        // TODO
+        UnsortedTableMap<K, V> bucket = table[h];
+
+        if(bucket.isEmpty()){
+            throw new KeyNotFoundE();
+        }
+
+        int oldSize = bucket.size();
+
+        bucket.remove(k);
+        n += bucket.size() - oldSize;
     }
 
     public @NotNull Iterable<Entry<K, V>> entrySet() {
