@@ -1,7 +1,5 @@
 import org.junit.jupiter.api.Test;
 
-import java.security.Key;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class LinearProbeHashMapTest {
