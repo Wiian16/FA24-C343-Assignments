@@ -83,33 +83,11 @@ class HashTable<K, V> {
 
         // If the key wasn't found, return the first available slot using -(avail + 1)
         // Returning the first available slot as a negative value if key not found
-
-<<<<<<< HEAD
-        int j = h;
-        int available = -1;
-
-        do{
-            if(isAvailable(j)){
-                if(available == -1){
-                    available = j;
-                }
-            }
-            else if(table[j].getKey().equals(k)){
-                return j;
-            }
-
-            j = mod(j + 1, capacity);
-        }while(j != h);
-
-        return -(available + 1);
     }
 
 
     int mod(int a, int b){
         return (a % b + b) % b;
-=======
-        //Dummy statement
->>>>>>> upstream
     }
 
 
@@ -180,9 +158,4 @@ class HashTable<K, V> {
 //7 - null
 //8 - null
 //9 -    null
-<<<<<<< HEAD
 //10 - 21
-
-=======
-//10 -
->>>>>>> upstream
