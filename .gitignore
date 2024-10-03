@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 discord.xml
 out/
 workspace.xml
@@ -5,3 +6,6 @@ tasks.xml
 .iws
 *.iml
 modules.xml
+=======
+.DS_Store
+>>>>>>> upstream

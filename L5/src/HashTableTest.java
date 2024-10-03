@@ -18,10 +18,10 @@ public class HashTableTest {
 
         // Test cases using findSlot
         System.out.println("Slot for key 5 (should be found): " + hashTable.findSlot(hashTable.hash(5), 5));  // should find key 5
-        System.out.println("Slot for key 15 (should be found): " + hashTable.findSlot(hashTable.hash(15), 15));  // should find key 15
-
-        // Try to find an empty slot for a new key
-        System.out.println("First available slot for key 7: " + hashTable.findSlot(hashTable.hash(7), 7));  // should return a negative index for first available slot
+//        System.out.println("Slot for key 15 (should be found): " + hashTable.findSlot(hashTable.hash(15), 15));  // should find key 15
+//
+//        // Try to find an empty slot for a new key
+//        System.out.println("First available slot for key 7: " + hashTable.findSlot(hashTable.hash(7), 7));  // should return a negative index for first available slot
     }
 }
 
@@ -46,23 +46,45 @@ class HashTable<K, V> {
      * Returns index with key k, or -(a+1) such that k could be added at index a.
      */
     public int findSlot(int h, K k) {
-          // Initialize: no available slot found so far (-1 means no slot found)
-               // Start scanning the table from the hash index h (hash of the key k)
-
+        // Initialize: no available slot found so far (-1 means no slot found)
+        // Start scanning the table from the hash index h (hash of the key k)
         // Start a cyclic search to find either an empty slot, a defunct slot, or the matching key
 
-            // TODO: Fill in the code here
-            // 1. Check if the slot at index j is available.
-            // 2. Mark the first available slot (if it hasn't been marked already).
-            // 3. Stop searching immediately if the slot is empty.
-            // 4. Check if the key at index j matches the search key and return the index if true.
-            // 5. Move to the next slot in a cyclic manner using modulus operation.
+        int firstAvailable = -1;
+        int j = h;
 
-           // Continue searching until we return to the starting index h (End of do-while)
+        if (isAvailable(j)) {
+            if (firstAvailable == -1)
+                firstAvailable = j;
+        }
+        else if (table[j].getKey().equals(k))
+            return j;
+        j = (j + 1) % capacity;
+
+        while (j != h){
+            if (isAvailable(j)) {
+                if (firstAvailable == -1)
+                    firstAvailable = j;
+                if (table[j] == null)
+                    break;
+            }
+            else if (table[j].getKey().equals(k))
+                return j;
+            j = (j + 1) % capacity;
+        }
+        return -(firstAvailable + 1);
+        // 1. Check if the slot at index j is available.
+        // 2. Mark the first available slot (if it hasn't been marked already).
+        // 3. Stop searching immediately if the slot is empty.
+        // 4. Check if the key at index j matches the search key and return the index if true.
+        // 5. Move to the next slot in a cyclic manner using modulus operation.
+
+        // Continue searching until we return to the starting index h (End of do-while)
 
         // If the key wasn't found, return the first available slot using -(avail + 1)
-          // Returning the first available slot as a negative value if key not found
+        // Returning the first available slot as a negative value if key not found
 
+<<<<<<< HEAD
         int j = h;
         int available = -1;
 
@@ -85,6 +107,9 @@ class HashTable<K, V> {
 
     int mod(int a, int b){
         return (a % b + b) % b;
+=======
+        //Dummy statement
+>>>>>>> upstream
     }
 
 
@@ -155,5 +180,9 @@ class HashTable<K, V> {
 //7 - null
 //8 - null
 //9 -    null
+<<<<<<< HEAD
 //10 - 21
 
+=======
+//10 -
+>>>>>>> upstream
