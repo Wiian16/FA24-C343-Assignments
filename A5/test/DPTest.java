@@ -120,6 +120,9 @@ class DPTest {
         int r1 = rec.treasureCollector(grid, 0, 1, 2);
         int r2 = td.treasureCollector(grid, 0, 1, 2);
         int r3 = bu.treasureCollector(grid, 0, 1, 2);
+        System.out.println("r1 = " + r1);
+        System.out.println("r2 = " + r2);
+        System.out.println("r3 = " + r3);
         assertTrue(r1 == 9 && r2 == 9 && r3 == 9);
     }
 
