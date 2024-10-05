@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Rec {
 
@@ -55,8 +56,24 @@ public class Rec {
      *
      */
     public int treasureCollector (Pair<Integer,Integer>[][] grid, int row, int col, int availableWeight) {
-        // TODO: Implement this method
-        return 0;
+        if(row >= grid.length || col >= grid[0].length || row < 0 || col < 0 || availableWeight <= 0){
+            return 0;
+        }
+
+        Pair<Integer, Integer> current = grid[row][col];
+
+        int nextWeight = availableWeight - current.first();
+
+        int[] options = new int[6]; // left, down, right taking current treasure, left, down, right, leaving current treasure
+
+        options[0] = current.second() + treasureCollector(grid, row + 1, col - 1, nextWeight);
+        options[1] =current.second() + treasureCollector(grid, row + 1, col, nextWeight);
+        options[2] = current.second() + treasureCollector(grid, row + 1, col + 1, nextWeight);
+        options[3] = treasureCollector(grid, row + 1, col - 1, availableWeight);
+        options[4] = treasureCollector(grid, row + 1, col, availableWeight);
+        options[5] = treasureCollector(grid, row + 1, col + 1, availableWeight);
+
+        return Arrays.stream(options).max().getAsInt();
     }
 }
 
