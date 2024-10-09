@@ -66,9 +66,16 @@ public class Rec {
 
         int[] options = new int[6]; // left, down, right taking current treasure, left, down, right, leaving current treasure
 
-        options[0] = current.second() + treasureCollector(grid, row + 1, col - 1, nextWeight);
-        options[1] =current.second() + treasureCollector(grid, row + 1, col, nextWeight);
-        options[2] = current.second() + treasureCollector(grid, row + 1, col + 1, nextWeight);
+        if(current.first() <= availableWeight) {
+            options[0] = current.second() + treasureCollector(grid, row + 1, col - 1, nextWeight);
+            options[1] = current.second() + treasureCollector(grid, row + 1, col, nextWeight);
+            options[2] = current.second() + treasureCollector(grid, row + 1, col + 1, nextWeight);
+        }
+        else{
+            options[0] = -1;
+            options[1] = -1;
+            options[2] = -1;
+        }
         options[3] = treasureCollector(grid, row + 1, col - 1, availableWeight);
         options[4] = treasureCollector(grid, row + 1, col, availableWeight);
         options[5] = treasureCollector(grid, row + 1, col + 1, availableWeight);

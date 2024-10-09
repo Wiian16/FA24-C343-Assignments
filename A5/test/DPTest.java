@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+import java.util.function.BinaryOperator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DPTest { //todo: write more test cases
@@ -120,9 +123,6 @@ class DPTest { //todo: write more test cases
         int r1 = rec.treasureCollector(grid, 0, 1, 2);
         int r2 = td.treasureCollector(grid, 0, 1, 2);
         int r3 = bu.treasureCollector(grid, 0, 1, 2);
-        System.out.println("r1 = " + r1);
-        System.out.println("r2 = " + r2);
-        System.out.println("r3 = " + r3);
         assertTrue(r1 == 9 && r2 == 9 && r3 == 9);
     }
 
@@ -147,4 +147,88 @@ class DPTest { //todo: write more test cases
         assertTrue(r1 > r3);
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    void testTreasureCollector2(){
+        Rec rec = new Rec();
+        TopDown td = new TopDown();
+        BottomUp bu = new BottomUp();
+
+        Pair<Integer, Integer>[][] grid = new Pair[0][0];
+
+        assertEquals(0, rec.treasureCollector(grid, 0, 0, 1));
+        assertEquals(0, td.treasureCollector(grid, 0, 0, 1));
+        assertEquals(0, bu.treasureCollector(grid, 0, 0, 1));
+
+        grid = new Pair[][]{
+                {new Pair<>(1, 1), new Pair<>(1, 1), new Pair<>(1, 1)},
+                {new Pair<>(1, 1), new Pair<>(1, 1), new Pair<>(1, 1)},
+                {new Pair<>(1, 1), new Pair<>(1, 1), new Pair<>(1, 1)}
+        };
+
+        td.clearHashes();
+
+        assertEquals(0, rec.treasureCollector(grid, 0, 1, 0));
+        assertEquals(0, td.treasureCollector(grid, 0, 1, 0));
+        assertEquals(0, bu.treasureCollector(grid, 0, 1, 0));
+
+        grid = new Pair[][]{
+                {new Pair<>(5, 10)}
+        };
+
+        td.clearHashes();
+
+        assertEquals(10, rec.treasureCollector(grid, 0, 0, 5));
+        assertEquals(10, td.treasureCollector(grid, 0, 0, 5));
+        assertEquals(10, bu.treasureCollector(grid, 0, 0, 5));
+
+        grid = new Pair[][]{
+                {new Pair<>(10, 100), new Pair<>(10, 100)},
+                {new Pair<>(10, 100), new Pair<>(10, 100)}
+        };
+
+        td.clearHashes();
+
+        assertEquals(0, rec.treasureCollector(grid, 0, 0, 5));
+        assertEquals(0, td.treasureCollector(grid, 0, 0, 5));
+        assertEquals(0, bu.treasureCollector(grid, 0, 0, 5));
+
+        grid = new Pair[][]{
+                {new Pair<>(1, 100), new Pair<>(1, 100), new Pair<>(1, 100)},
+                {new Pair<>(1, 100), new Pair<>(1, 100), new Pair<>(1, 100)},
+                {new Pair<>(1, 100), new Pair<>(1, 1), new Pair<>(1, 100)}
+        };
+
+        td.clearHashes();
+
+        assertEquals(1, rec.treasureCollector(grid, 2, 1, 5));
+        assertEquals(1, td.treasureCollector(grid, 2, 1, 5));
+        assertEquals(1, bu.treasureCollector(grid, 2, 1, 5));
+
+        grid = new Pair[][]{
+                {new Pair<>(1, 0), new Pair<>(2, 0)},
+                {new Pair<>(3, 0), new Pair<>(4, 0)}
+        };
+
+        td.clearHashes();
+
+        assertEquals(0, rec.treasureCollector(grid, 0, 0, 5));
+        assertEquals(0, td.treasureCollector(grid, 0, 0, 5));
+        assertEquals(0, bu.treasureCollector(grid, 0, 0, 5));
+
+        Random rand = new Random();
+
+        grid = new Pair[10][10];
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[i].length; j++){
+                grid[i][j] = new Pair<>(rand.nextInt(1, 10), rand.nextInt(1, 10));
+            }
+        }
+
+        td.clearHashes();
+
+        assertTrue(rec.treasureCollector(grid, 0, 5, 10) > 0);
+        assertTrue(td.treasureCollector(grid, 0, 5, 10) > 0);
+        assertTrue(bu.treasureCollector(grid, 0, 5, 10) > 0);
+    }
 }

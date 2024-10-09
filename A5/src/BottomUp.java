@@ -69,6 +69,10 @@ public class BottomUp extends Rec {
     // -----------------------------------------------------------------------------------
 
     public int treasureCollector (Pair<Integer,Integer>[][] grid, int row, int col, int availableWeight) {
+        if(grid.length == 0 || grid[0].length == 0){
+            return 0;
+        }
+
         int[][][] treasureSolutions = new int[grid.length + 1][grid[0].length][availableWeight + 1];
 
         for(int r = treasureSolutions.length - 2; r >= 0; r--){
