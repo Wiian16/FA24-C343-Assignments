@@ -231,4 +231,158 @@ class DPTest { //todo: write more test cases
         assertTrue(td.treasureCollector(grid, 0, 5, 10) > 0);
         assertTrue(bu.treasureCollector(grid, 0, 5, 10) > 0);
     }
+
+    @Test
+    void testLCS2(){
+        String s1, s2;
+
+        Rec rec = new Rec();
+        TopDown td = new TopDown();
+        BottomUp bu = new BottomUp();
+
+        s1 = "";
+        s2 = "";
+
+        td.clearHashes();
+
+        assertEquals(0, rec.minEditDistance(s1, s2));
+        assertEquals(0, td.minEditDistance(s1, s2));
+        assertEquals(0, bu.minEditDistance(s1, s2));
+
+        s1 = "";
+        s2 = "abc";
+
+        td.clearHashes();
+
+        assertEquals(3, rec.minEditDistance(s1, s2));
+        assertEquals(3, td.minEditDistance(s1, s2));
+        assertEquals(3, bu.minEditDistance(s1, s2));
+
+        s1 = "abc";
+        s2 = "abc";
+
+        td.clearHashes();
+
+        assertEquals(0, rec.minEditDistance(s1, s2));
+        assertEquals(0, td.minEditDistance(s1, s2));
+        assertEquals(0, bu.minEditDistance(s1, s2));
+
+        s1 = "a";
+        s2 = "b";
+
+        td.clearHashes();
+
+        assertEquals(1, rec.minEditDistance(s1, s2));
+        assertEquals(1, td.minEditDistance(s1, s2));
+        assertEquals(1, bu.minEditDistance(s1, s2));
+
+        s1 = "abc";
+        s2 = "abcd";
+
+        td.clearHashes();
+
+        assertEquals(1, rec.minEditDistance(s1, s2));
+        assertEquals(1, td.minEditDistance(s1, s2));
+        assertEquals(1, bu.minEditDistance(s1, s2));
+
+        s1 = "abcd";
+        s2 = "bcd";
+
+        td.clearHashes();
+
+        assertEquals(1, rec.minEditDistance(s1, s2));
+        assertEquals(1, td.minEditDistance(s1, s2));
+        assertEquals(1, bu.minEditDistance(s1, s2));
+
+        s1 = "abc";
+        s2 = "cba";
+
+        td.clearHashes();
+
+        assertEquals(2, rec.minEditDistance(s1, s2));
+        assertEquals(2, td.minEditDistance(s1, s2));
+        assertEquals(2, bu.minEditDistance(s1, s2));
+
+        s1 = "abc";
+        s2 = "xyz";
+
+        td.clearHashes();
+
+        assertEquals(3, rec.minEditDistance(s1, s2));
+        assertEquals(3, td.minEditDistance(s1, s2));
+        assertEquals(3, bu.minEditDistance(s1, s2));
+
+        s1 = "abcdefg";
+        s2 = "abcdeXg";
+
+        td.clearHashes();
+
+        assertEquals(1, rec.minEditDistance(s1, s2));
+        assertEquals(1, td.minEditDistance(s1, s2));
+        assertEquals(1, bu.minEditDistance(s1, s2));
+
+        s1 = "aaaa";
+        s2 = "bbbb";
+
+        td.clearHashes();
+
+        assertEquals(4, rec.minEditDistance(s1, s2));
+        assertEquals(4, td.minEditDistance(s1, s2));
+        assertEquals(4, bu.minEditDistance(s1, s2));
+
+        s1 = "abc";
+        s2 = "ab";
+
+        td.clearHashes();
+
+        assertEquals(1, rec.minEditDistance(s1, s2));
+        assertEquals(1, td.minEditDistance(s1, s2));
+        assertEquals(1, bu.minEditDistance(s1, s2));
+
+        s1 = "listen";
+        s2 = "silent";
+
+        td.clearHashes();
+
+        assertEquals(4, rec.minEditDistance(s1, s2));
+        assertEquals(4, td.minEditDistance(s1, s2));
+        assertEquals(4, bu.minEditDistance(s1, s2));
+
+        s1 = "a";
+        s2 = "a";
+
+        td.clearHashes();
+
+        assertEquals(0, rec.minEditDistance(s1, s2));
+        assertEquals(0, td.minEditDistance(s1, s2));
+        assertEquals(0, bu.minEditDistance(s1, s2));
+
+        s1 = "a";
+        s2 = "z";
+
+        td.clearHashes();
+
+        assertEquals(1, rec.minEditDistance(s1, s2));
+        assertEquals(1, td.minEditDistance(s1, s2));
+        assertEquals(1, bu.minEditDistance(s1, s2));
+
+        s1 = "a";
+        s2 = "A";
+
+        td.clearHashes();
+
+        assertEquals(1, rec.minEditDistance(s1, s2));
+        assertEquals(1, td.minEditDistance(s1, s2));
+        assertEquals(1, bu.minEditDistance(s1, s2));
+
+        s1 = "abc";
+        s2 = "abcdef";
+
+        td.clearHashes();
+
+        assertEquals(3, rec.minEditDistance(s1, s2));
+        assertEquals(3, td.minEditDistance(s1, s2));
+        assertEquals(3, bu.minEditDistance(s1, s2));
+
+    }
 }
