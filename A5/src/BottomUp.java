@@ -33,7 +33,6 @@ public class BottomUp extends Rec {
     // -----------------------------------------------------------------------------------
 
     public String longestCommonSubsequence(String s1, String s2) {
-        // TODO: Implement this method
         String[][] solutions = new String[s1.length() + 1][s2.length() + 1];
 
         for(String[] solutionsRow : solutions) {
@@ -44,22 +43,14 @@ public class BottomUp extends Rec {
         for(int i = 1; i < solutions.length; i++){
             for(int j = 1; j < solutions[i].length; j++){
                 String max = "";
-                //Check pre-computed neighbors for best previous solution
-                if(solutions[i - 1][j - 1].length() > max.length()){
-                    max = solutions[i -1][j - 1];
-                }
-                if(solutions[i - 1][j].length() > max.length()){
-                    max = solutions[i - 1][j];
-                }
-                if(solutions[i][j - 1].length() > max.length()){
-                    max = solutions[i][j - 1];
-                }
-                //if current characters match, add to current LCS
+                //if characters match, add from diagonal result
                 if(s1.charAt(i - 1) == s2.charAt(j - 1)){
-                    max += s1.charAt(i - 1);
+                    solutions[i][j] = solutions[i - 1][j - 1] + s1.charAt(i - 1);
                 }
-                //store current LCS
-                solutions[i][j] = max;
+                else{ //if characters don't match, check other neighbors for best LCS
+                    solutions[i][j] = solutions[i - 1][j].length() > solutions[i][j - 1].length() ?
+                            solutions[i - 1][j] : solutions[i][j - 1];
+                }
             }
         }
 
@@ -108,5 +99,11 @@ public class BottomUp extends Rec {
             }
         }
         return treasureSolutions[row][col][availableWeight];
+    }
+
+    public static void main(String[] args) {
+        BottomUp bu = new BottomUp();
+
+        System.out.println(bu.longestCommonSubsequence("a", "aaa"));
     }
 }

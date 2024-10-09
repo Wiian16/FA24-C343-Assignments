@@ -5,7 +5,7 @@ import java.util.function.BinaryOperator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DPTest { //todo: write more test cases
+class DPTest {
 
     long timeIt (Runnable r) {
         long start = System.currentTimeMillis();
@@ -383,6 +383,124 @@ class DPTest { //todo: write more test cases
         assertEquals(3, rec.minEditDistance(s1, s2));
         assertEquals(3, td.minEditDistance(s1, s2));
         assertEquals(3, bu.minEditDistance(s1, s2));
+
+    }
+
+    @Test
+    void testMED2(){
+        String s1, s2;
+
+        Rec rec = new Rec();
+        TopDown td = new TopDown();
+        BottomUp bu = new BottomUp();
+
+        s1 = "";
+        s2 = "";
+
+        td.clearHashes();
+
+        assertEquals("", rec.longestCommonSubsequence(s1, s2));
+        assertEquals("", td.longestCommonSubsequence(s1, s2));
+        assertEquals("", bu.longestCommonSubsequence(s1, s2));
+
+        s1 = "abc";
+        s2 = "";
+
+        td.clearHashes();
+
+        assertEquals("", rec.longestCommonSubsequence(s1, s2));
+        assertEquals("", td.longestCommonSubsequence(s1, s2));
+        assertEquals("", bu.longestCommonSubsequence(s1, s2));
+
+        s1 = "abc";
+        s2 = "def";
+
+        td.clearHashes();
+
+        assertEquals("", rec.longestCommonSubsequence(s1, s2));
+        assertEquals("", td.longestCommonSubsequence(s1, s2));
+        assertEquals("", bu.longestCommonSubsequence(s1, s2));
+
+        s1 = "abc";
+        s2 = "abc";
+
+        td.clearHashes();
+
+        assertEquals("abc", rec.longestCommonSubsequence(s1, s2));
+        assertEquals("abc", td.longestCommonSubsequence(s1, s2));
+        assertEquals("abc", bu.longestCommonSubsequence(s1, s2));
+
+        s1 = "abc";
+        s2 = "abcd";
+
+        td.clearHashes();
+
+        assertEquals("abc", rec.longestCommonSubsequence(s1, s2));
+        assertEquals("abc", td.longestCommonSubsequence(s1, s2));
+        assertEquals("abc", bu.longestCommonSubsequence(s1, s2));
+
+        s1 = "abc";
+        s2 = "cba";
+
+        td.clearHashes();
+
+        assertEquals(1, rec.longestCommonSubsequence(s1, s2).length());
+        assertEquals(1, td.longestCommonSubsequence(s1, s2).length());
+        assertEquals(1, bu.longestCommonSubsequence(s1, s2).length());
+
+        s1 = "aebdc";
+        s2 = "abc";
+
+        td.clearHashes();
+
+        assertEquals("abc", rec.longestCommonSubsequence(s1, s2));
+        assertEquals("abc", td.longestCommonSubsequence(s1, s2));
+        assertEquals("abc", bu.longestCommonSubsequence(s1, s2));
+
+        s1 = "aaa";
+        s2 = "a";
+
+        td.clearHashes();
+
+        assertEquals("a", rec.longestCommonSubsequence(s1, s2));
+        assertEquals("a", td.longestCommonSubsequence(s1, s2));
+        assertEquals("a", bu.longestCommonSubsequence(s1, s2));
+
+        s1 = "ABC";
+        s2 = "abc";
+
+        td.clearHashes();
+
+        assertEquals("", rec.longestCommonSubsequence(s1, s2));
+        assertEquals("", td.longestCommonSubsequence(s1, s2));
+        assertEquals("", bu.longestCommonSubsequence(s1, s2));
+
+        s1 = "a";
+        s2 = "a";
+
+        td.clearHashes();
+
+        assertEquals("a", rec.longestCommonSubsequence(s1, s2));
+        assertEquals("a", td.longestCommonSubsequence(s1, s2));
+        assertEquals("a", bu.longestCommonSubsequence(s1, s2));
+
+        s1 = "abc";
+        s2 = "xyz";
+
+        td.clearHashes();
+
+        assertEquals("", rec.longestCommonSubsequence(s1, s2));
+        assertEquals("", td.longestCommonSubsequence(s1, s2));
+        assertEquals("", bu.longestCommonSubsequence(s1, s2));
+
+        s1 = "abc123";
+        s2 = "xyz123";
+
+        td.clearHashes();
+
+        assertEquals("123", rec.longestCommonSubsequence(s1, s2));
+        assertEquals("123", td.longestCommonSubsequence(s1, s2));
+        assertEquals("123", bu.longestCommonSubsequence(s1, s2));
 
     }
 }
