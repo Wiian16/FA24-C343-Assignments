@@ -1,8 +1,6 @@
 import java.util.Arrays;
 
 public class BottomUp extends Rec {
-    private int[][][] treasureSolutions;
-
     public int minEditDistance(String s1, String s2) {
         // TODO: Implement this method
         int[][] results = new int[s1.length() + 1][s2.length() + 1];
@@ -43,9 +41,7 @@ public class BottomUp extends Rec {
     // -----------------------------------------------------------------------------------
 
     public int treasureCollector (Pair<Integer,Integer>[][] grid, int row, int col, int availableWeight) {
-        if(treasureSolutions == null){
-            treasureSolutions = new int[grid.length + 1][grid[0].length][availableWeight + 1];
-        }
+        int[][][] treasureSolutions = new int[grid.length + 1][grid[0].length][availableWeight + 1];
 
         for(int r = treasureSolutions.length - 2; r >= 0; r--){
             for(int c = treasureSolutions[r].length - 1; c >= 0; c--){
