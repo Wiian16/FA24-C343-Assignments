@@ -2,7 +2,6 @@ import java.util.Arrays;
 
 public class BottomUp extends Rec {
     public int minEditDistance(String s1, String s2) {
-        // TODO: Implement this method
         int[][] results = new int[s1.length() + 1][s2.length() + 1];
         //adding known solutions
         //if one string is empty, the min distance is the length of the other (all inserts)
@@ -35,7 +34,36 @@ public class BottomUp extends Rec {
 
     public String longestCommonSubsequence(String s1, String s2) {
         // TODO: Implement this method
-        return "";
+        String[][] solutions = new String[s1.length() + 1][s2.length() + 1];
+
+        for(String[] solutionsRow : solutions) {
+            Arrays.fill(solutionsRow, "");
+        }
+
+        //base case: s1 or s2 are empty, LCS is "", leave first row and col as empty strings
+        for(int i = 1; i < solutions.length; i++){
+            for(int j = 1; j < solutions[i].length; j++){
+                String max = "";
+                //Check pre-computed neighbors for best previous solution
+                if(solutions[i - 1][j - 1].length() > max.length()){
+                    max = solutions[i -1][j - 1];
+                }
+                if(solutions[i - 1][j].length() > max.length()){
+                    max = solutions[i - 1][j];
+                }
+                if(solutions[i][j - 1].length() > max.length()){
+                    max = solutions[i][j - 1];
+                }
+                //if current characters match, add to current LCS
+                if(s1.charAt(i - 1) == s2.charAt(j - 1)){
+                    max += s1.charAt(i - 1);
+                }
+                //store current LCS
+                solutions[i][j] = max;
+            }
+        }
+
+        return solutions[s1.length()][s2.length()];
     }
 
     // -----------------------------------------------------------------------------------
