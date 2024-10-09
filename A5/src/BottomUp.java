@@ -1,7 +1,8 @@
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class BottomUp extends Rec {
+    private int[][][] treasureSolutions;
+
     public int minEditDistance(String s1, String s2) {
         // TODO: Implement this method
         int[][] results = new int[s1.length() + 1][s2.length() + 1];
@@ -42,27 +43,42 @@ public class BottomUp extends Rec {
     // -----------------------------------------------------------------------------------
 
     public int treasureCollector (Pair<Integer,Integer>[][] grid, int row, int col, int availableWeight) {
-        //todo: add weight constraint
-        int rows = grid.length;
-        int cols = grid[0].length;
-        int[][] results = new int[rows][cols];
-
-        for(int i = rows - 1; i >= 0; i--){
-            for(int j = 0; j < cols; j++){
-                Pair<Integer, Integer> current = grid[i][j];
-                int[] options = new int[6]; //left, down, right w/ treasure, left, down, right w/o treasure
-
-                options[0] = current.second() + ((i == rows - 1 || j == 0) ? 0 : results[i + 1][j - 1]);
-                options[1] = current.second() + (i == rows - 1 ? 0 : results[i + 1][j]);
-                options[2] = current.second() + ((i == rows - 1 || j == cols - 1) ? 0 : results[i + 1][j + 1]);
-                options[3] = ((i == rows - 1 || j == 0) ? 0 : results[i + 1][j - 1]);
-                options[4] = i == rows - 1 ? 0 : results[i + 1][j];
-                options[5] = ((i == rows - 1 || j == cols - 1) ? 0 : results[i + 1][j + 1]);
-
-                results[i][j] = Arrays.stream(options).max().getAsInt();
-            }
+        if(treasureSolutions == null){
+            treasureSolutions = new int[grid.length + 1][grid[0].length][availableWeight + 1];
         }
 
-        return results[row][col];
+        for(int r = treasureSolutions.length - 2; r >= 0; r--){
+            for(int c = treasureSolutions[r].length - 1; c >= 0; c--){
+                for(int w = treasureSolutions[r][c].length - 1; w >= 1; w--){
+                    int currentValue = grid[r][c].second();
+                    int currentWeight = grid[r][c].first();
+
+                    int[] options = new int[6];
+
+                    if(w >= currentWeight) {
+                        //bottom left taking current
+                        options[0] = c - 1 >= 0 ? currentValue + treasureSolutions[r + 1][c - 1][w - currentWeight] : -1;
+                        //bottom taking current
+                        options[1] = currentValue + treasureSolutions[r + 1][c][w - currentWeight];
+                        //bottom right taking current
+                        options[2] = c + 1 < grid[r].length ? currentValue + treasureSolutions[r + 1][c + 1][w - currentWeight] : -1;
+                    }
+                    else{
+                        options[0] = -1;
+                        options[1] = -1;
+                        options[2] = -1;
+                    }
+
+                    //bottom left leaving current
+                    options[3] = c - 1 >= 0 ? treasureSolutions[r + 1][c - 1][w] : -1;
+                    //bottom leaving current
+                    options[4] = treasureSolutions[r + 1][c][w];
+                    options[5] = c + 1 < treasureSolutions[r].length ? treasureSolutions[r + 1][c + 1][w] : -1;
+
+                    treasureSolutions[r][c][w] = Arrays.stream(options).max().getAsInt();
+                }
+            }
+        }
+        return treasureSolutions[row][col][availableWeight];
     }
 }
