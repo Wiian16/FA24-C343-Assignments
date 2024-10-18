@@ -35,20 +35,25 @@ public class BST {
     private List<Integer> inorderTraversal(Node node) {
         List<Integer> result = new ArrayList<>();
         if (node != null) {
-            // TODO: Traverse the left subtree first, add the current node's value to the result list,
-            //       then traverse the right subtree. This will give a sorted list of values for a BST.
+            result.addAll(inorderTraversal(node.left));
+            result.add(node.value);
+            result.addAll(inorderTraversal(node.right));
         }
         return result;
     }
 
     private Node buildBalancedTree(List<Integer> sortedList, int start, int end) {
-        // TODO: Recursively build a balanced binary search tree from a sorted list of integers.
-        //       - Find the middle element of the current sublist (from `start` to `end`) to be the root.
-        //       - Create the root node using this middle element.
-        //       - Recursively build the left subtree with elements left of the middle element.
-        //       - Recursively build the right subtree with elements right of the middle element.
-        //       This will ensure the tree remains balanced as each level has an even distribution of nodes.
-        return null;
+        if(start == end){
+            return new Node(sortedList.get(start));
+        }
+
+        int mid = (start + end) / 2;
+
+        Node root = new Node(sortedList.get(mid));
+        root.left = buildBalancedTree(sortedList, start, mid - 1);
+        root.right = buildBalancedTree(sortedList, mid + 1, end);
+
+        return root;
     }
 
     public void printTree() {
