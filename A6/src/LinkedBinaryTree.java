@@ -68,7 +68,6 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> implements TreePr
      * The idea is to use a queue to keep track of the nodes at the current level.
      */
     public @NotNull List<E> levelOrder() {
-        // TODO: Implement this method
         List<E> result = new ArrayList<>();
 
         if(root.isEmpty()){
@@ -93,7 +92,7 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> implements TreePr
                 }
             }
             catch(NodeNotFoundE e) {
-                throw new RuntimeException(e); //todo: handle
+                throw new RuntimeException(e);
             }
         }
 
