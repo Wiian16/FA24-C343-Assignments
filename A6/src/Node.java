@@ -36,8 +36,7 @@ public abstract class Node<E> implements TreePrinter.PrintableNode {
        * Returns the depth of the node in the tree. The depth of the root node is 0.
        */
     public int depth() {
-        // TODO: Implement this method
-        return 0; // This is a placeholder
+        return parent.isEmpty() ? 0 : parent.get().depth() + 1;
     }
 
     public abstract boolean isEmpty ();

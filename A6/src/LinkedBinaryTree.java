@@ -69,7 +69,36 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> implements TreePr
      */
     public @NotNull List<E> levelOrder() {
         // TODO: Implement this method
-        return null; // Placeholder
+        List<E> result = new ArrayList<>();
+
+        if(root.isEmpty()){
+            return result;
+        }
+
+        Queue<Node<E>> queue = new LinkedList<>();
+        queue.add(root);
+
+        while(!queue.isEmpty()){
+            Node<E> current = queue.remove();
+            try {
+                result.add(current.element());
+
+
+                if(!current.leftNode().isEmpty()){
+                    queue.add(current.leftNode());
+                }
+
+                if(!current.rightNode().isEmpty()){
+                    queue.add(current.rightNode());
+                }
+            }
+            catch(NodeNotFoundE e) {
+                throw new RuntimeException(e); //todo: handle
+            }
+        }
+
+
+        return result;
     }
 
     // Printable interface

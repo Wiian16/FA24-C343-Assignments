@@ -49,18 +49,31 @@ public class NonEmptyNode<E> extends Node<E>{
      */
 
     public @NotNull List<E> preOrder() {
-        // TODO: Implement this method
-        return null; // This is a placeholder
+        List<E> result = new ArrayList<>();
+
+        result.add(element);
+        result.addAll(left.preOrder());
+        result.addAll(right.preOrder());
+
+        return result;
     }
 
     public @NotNull List<E> inOrder() {
-        // TODO: Implement this method
-        return null; // This is a placeholder
+        List<E> result = new ArrayList<>(left.inOrder());
+
+        result.add(element);
+        result.addAll(right.inOrder());
+
+        return result;
     }
 
     public @NotNull List<E> postOrder() {
-        // TODO: Implement this method
-        return null; // This is a placeholder
+        List<E> result = new ArrayList<>(left.postOrder());
+
+        result.addAll(right.postOrder());
+        result.add(element);
+
+        return result;
     }
 
     // Printable interface

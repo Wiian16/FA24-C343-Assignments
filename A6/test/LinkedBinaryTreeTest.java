@@ -1,4 +1,3 @@
-import com.sun.source.tree.Tree;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -77,7 +76,7 @@ class LinkedBinaryTreeTest {
     }
 
     @Test
-    void testLinkedBinaryTree() throws NodeNotFoundE {
+    void testLinkedBinaryTree() {
         makeTree();
         TreePrinter.print(tr);
 
@@ -102,4 +101,105 @@ class LinkedBinaryTreeTest {
 
     }
 
+    @Test
+    void testEmptyTreeBehavior() {
+        LinkedBinaryTree<Integer> emptyTree = new LinkedBinaryTree<>();
+
+        // Ensure the tree is empty
+        assertTrue(emptyTree.isEmpty());
+        assertEquals(0, emptyTree.size());
+
+        // Root node should be empty
+        assertTrue(emptyTree.root().isEmpty());
+
+        // Depth and height should be 0 for an empty tree
+        assertEquals(0, emptyTree.root().depth());
+        assertEquals(0, emptyTree.root().height());
+    }
+
+    @Test
+    void testSingleNodeTree() {
+        LinkedBinaryTree<Integer> singleNodeTree = new LinkedBinaryTree<>(100);
+
+        // Tree should not be empty
+        assertFalse(singleNodeTree.isEmpty());
+        assertEquals(1, singleNodeTree.size());
+
+        // Root node should not be empty
+        assertFalse(singleNodeTree.root().isEmpty());
+
+        // Depth and height should be 0 for a single node
+        assertEquals(0, singleNodeTree.root().depth());
+
+        // PreOrder, InOrder, PostOrder should all have only the single element
+        assertEquals(List.of(100), singleNodeTree.preOrder());
+        assertEquals(List.of(100), singleNodeTree.inOrder());
+        assertEquals(List.of(100), singleNodeTree.postOrder());
+    }
+
+    void makeLeftHeavyTree() {
+        tr1 = new LinkedBinaryTree<>(40);
+        tr2 = new LinkedBinaryTree<>(30, tr1, new LinkedBinaryTree<>());
+        tr3 = new LinkedBinaryTree<>(20, tr2, new LinkedBinaryTree<>());
+        tr = new LinkedBinaryTree<>(10, tr3, new LinkedBinaryTree<>());
+    }
+
+    @Test
+    void testLeftHeavyTree() {
+        makeLeftHeavyTree();
+
+        // Validate properties
+        assertFalse(tr.isEmpty());
+
+        // Check the traversal orders
+        assertEquals(List.of(10, 20, 30, 40), tr.preOrder());
+        assertEquals(List.of(40, 30, 20, 10), tr.inOrder());
+        assertEquals(List.of(40, 30, 20, 10), tr.postOrder());
+        assertEquals(List.of(10, 20, 30, 40), tr.levelOrder());
+
+        // Check heights and depths
+        assertEquals(0, tr.root().depth());
+    }
+
+    void makeRightHeavyTree() {
+        tr1 = new LinkedBinaryTree<>(40);
+        tr2 = new LinkedBinaryTree<>(30, new LinkedBinaryTree<>(), tr1);
+        tr3 = new LinkedBinaryTree<>(20, new LinkedBinaryTree<>(), tr2);
+        tr = new LinkedBinaryTree<>(10, new LinkedBinaryTree<>(), tr3);
+    }
+
+    @Test
+    void testRightHeavyTree() {
+        makeRightHeavyTree();
+
+        // Validate properties
+        assertFalse(tr.isEmpty());
+        assertEquals(4, tr.size());
+
+        // Check the traversal orders
+        assertEquals(List.of(10, 20, 30, 40), tr.preOrder());
+        assertEquals(List.of(10, 20, 30, 40), tr.inOrder());
+        assertEquals(List.of(40, 30, 20, 10), tr.postOrder());
+        assertEquals(List.of(10, 20, 30, 40), tr.levelOrder());
+
+        // Check heights and depths
+        assertEquals(0, tr.root().depth());
+    }
+
+    @Test
+    void testBalancedTree() {
+        makeNode(); // Create complex nodes using makeNode()
+
+        LinkedBinaryTree<Integer> balancedTree = new LinkedBinaryTree<>(node);
+
+        // Validate size and height
+        assertEquals(9, balancedTree.size());
+        assertEquals(4, balancedTree.root().height());
+
+        // Check the traversal orders
+        assertEquals(List.of(40, 30, 10, 1, 2, 20, 3, 4, 50), balancedTree.preOrder());
+        assertEquals(List.of(1, 10, 2, 30, 3, 20, 4, 40, 50), balancedTree.inOrder());
+        assertEquals(List.of(1, 2, 10, 3, 4, 20, 30, 50, 40), balancedTree.postOrder());
+        assertEquals(List.of(40, 30, 50, 10, 20, 1, 2, 3, 4), balancedTree.levelOrder());
+    }
 }
