@@ -337,8 +337,6 @@ should print:
 
 
     }
-
-
     private BinTree<Integer> root;
 
     @BeforeEach
@@ -348,85 +346,193 @@ should print:
 
     @Test
     void testInsert() {
+        // Simple insertion
         BinTree<Integer> tree = root.insert(5).insert(15).insert(3).insert(7);
         assertTrue(tree.find(10));
         assertTrue(tree.find(5));
         assertTrue(tree.find(15));
         assertTrue(tree.find(3));
         assertTrue(tree.find(7));
+
+        // Edge cases: inserting duplicates
+        tree = tree.insert(5);
+        assertTrue(tree.find(5));  // Check duplicate handling
+
+        // Edge case: inserting into an empty tree
+        BinTree<Integer> emptyTree = new Empty<Integer>().insert(10);
+        assertTrue(emptyTree.find(10));
     }
 
     @Test
     void testDelete() throws EmptyTreeE {
+        // Deleting from a populated tree
         BinTree<Integer> tree = root.insert(5).insert(15).insert(3).insert(7).delete(5);
         assertFalse(tree.find(5));
+
+        // Edge case: deleting the root node
+        tree = root.insert(5).insert(15).delete(10);
+        assertFalse(tree.find(10));
+
+        // Edge case: deleting from a single-node tree
+        BinTree<Integer> singleNodeTree = new Node<>(20, new Empty<>(), new Empty<>()).delete(20);
+        assertTrue(singleNodeTree.isEmpty());
+
+        // Edge case: deleting a non-existent element
+        assertEquals(tree, tree.delete(100));
     }
 
     @Test
     void testIsBalanced() {
+        // Simple balanced case
         assertTrue(root.isBalanced());
         root = root.insert(5).insert(15).insert(3).insert(7);
         assertTrue(root.isBalanced());
+
+        // Left-heavy unbalanced case
+        BinTree<Integer> leftHeavyTree = root.insert(5).insert(3).insert(2);
+        assertFalse(leftHeavyTree.isBalanced());
+
+        // Right-heavy unbalanced case
+        BinTree<Integer> rightHeavyTree = root.insert(15).insert(20).insert(25);
+        assertFalse(rightHeavyTree.isBalanced());
+
+        // Edge case: single-node tree is balanced
+        BinTree<Integer> singleNodeTree = new Node<>(10, new Empty<>(), new Empty<>());
+        assertTrue(singleNodeTree.isBalanced());
     }
 
     @Test
     void testUnbalancedTree() {
-        BinTree<Integer> tree = root.insert(5).insert(15).insert(20).insert(25);
-        assertFalse(tree.isBalanced());
+        // Check right-heavy tree
+        BinTree<Integer> rightHeavyTree = root.insert(12).insert(14).insert(16).insert(18);
+        assertFalse(rightHeavyTree.isBalanced());
+
+        // Check left-heavy tree
+        BinTree<Integer> leftHeavyTree = root.insert(8).insert(6).insert(4).insert(2);
+        assertFalse(leftHeavyTree.isBalanced());
     }
 
     @Test
     void testInsertBWithBalancing() {
+        // Insert with balancing
         BinTree<Integer> balancedTree = root.insertB(5).insertB(15).insertB(3).insertB(7).insertB(13);
         assertTrue(balancedTree.isBalanced());
+
+        // Edge case: balancing with duplicate values
+        balancedTree = balancedTree.insertB(5).insertB(10);
+        assertTrue(balancedTree.isBalanced());
+
+        // Complex balancing case (requires rotations)
+        BinTree<Integer> complexTree = new Node<>(10, new Empty<>(), new Empty<>())
+                .insertB(20).insertB(5).insertB(4).insertB(3).insertB(7);
+        assertTrue(complexTree.isBalanced());
     }
 
     @Test
     void testDeleteBWithBalancing() throws EmptyTreeE {
+        // Delete with balancing
         BinTree<Integer> balancedTree = root.insertB(5).insertB(15).insertB(3).insertB(7).insertB(13).deleteB(15);
         assertTrue(balancedTree.isBalanced());
         assertFalse(balancedTree.find(15));
+
+        // Edge case: delete root with balancing
+        BinTree<Integer> treeAfterRootDelete = balancedTree.deleteB(10);
+        assertTrue(treeAfterRootDelete.isBalanced());
+        assertFalse(treeAfterRootDelete.find(10));
+
+        // Complex delete case (triggers rotations)
+        BinTree<Integer> complexTree = balancedTree.insertB(1).insertB(2).deleteB(7);
+        assertTrue(complexTree.isBalanced());
     }
 
     @Test
     void testLeftRotation() {
+        // Test simple left rotation
         Node<Integer> unbalancedTree = new Node<>(10, new Empty<>(), new Node<>(20, new Empty<>(), new Node<>(30, new Empty<>(), new Empty<>())));
         BinTree<Integer> rotatedTree = unbalancedTree.easyLeft();
         assertTrue(rotatedTree.isBalanced());
+
+        try {
+            // Edge case: left rotation on single-node tree
+            BinTree<Integer> singleNodeTree = new Node<>(10, new Empty<>(), new Empty<>()).easyLeft();
+            assertEquals(singleNodeTree.getData(), 10);
+        }
+        catch(EmptyTreeE e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     void testRightRotation() {
+        // Test simple right rotation
         Node<Integer> unbalancedTree = new Node<>(30, new Node<>(20, new Node<>(10, new Empty<>(), new Empty<>()), new Empty<>()), new Empty<>());
         BinTree<Integer> rotatedTree = unbalancedTree.easyRight();
         assertTrue(rotatedTree.isBalanced());
+
+        try {
+            // Edge case: right rotation on single-node tree
+            BinTree<Integer> singleNodeTree = new Node<>(10, new Empty<>(), new Empty<>()).easyRight();
+            assertEquals(singleNodeTree.getData(), 10);
+        }
+        catch(EmptyTreeE e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     void testLeftRightRotation() {
+        // Test left-right rotation
         Node<Integer> unbalancedTree = new Node<>(30, new Node<>(10, new Empty<>(), new Node<>(20, new Empty<>(), new Empty<>())), new Empty<>());
         BinTree<Integer> rotatedTree = unbalancedTree.rotateRight();
         assertTrue(rotatedTree.isBalanced());
+
+        // Edge case: left-right rotation with duplicates
+        BinTree<Integer> duplicateTree = unbalancedTree.insertB(10).rotateRight();
+        assertTrue(duplicateTree.isBalanced());
     }
 
     @Test
     void testRightLeftRotation() {
+        // Test right-left rotation
         Node<Integer> unbalancedTree = new Node<>(10, new Empty<>(), new Node<>(30, new Node<>(20, new Empty<>(), new Empty<>()), new Empty<>()));
         BinTree<Integer> rotatedTree = unbalancedTree.rotateLeft();
         assertTrue(rotatedTree.isBalanced());
+
+        // Edge case: right-left rotation with duplicates
+        BinTree<Integer> duplicateTree = unbalancedTree.insertB(30).rotateLeft();
+        assertTrue(duplicateTree.isBalanced());
     }
 
     @Test
     void testDeleteLeftMostLeaf() throws EmptyTreeE {
+        // Delete leftmost leaf in a populated tree
         BinTree<Integer> tree = root.insert(5).insert(15).insert(3);
         Pair<Integer, BinTree<Integer>> result = tree.deleteLeftMostLeaf();
         assertEquals(3, result.first());
+
+        // Edge case: delete leftmost leaf in a single-node tree
+        BinTree<Integer> singleNodeTree = new Node<>(20, new Empty<>(), new Empty<>());
+        result = singleNodeTree.deleteLeftMostLeaf();
+        assertTrue(result.second().isEmpty());
     }
 
     @Test
-    void testDeleteRightMostLeafB() throws EmptyTreeE {
-        BinTree<Integer> tree = root.insertB(5).insertB(15).insertB(3).insertB(7);
-        Pair<Integer, BinTree<Integer>> result = tree.deleteRightMostLeafB();
-        assertNotNull(result);
+    void testDeleteRightMostLeafB() {
+        // Delete rightmost leaf in a balanced tree
+        try {
+            BinTree<Integer> tree = root.insertB(5).insertB(15).insertB(3).insertB(7);
+            Pair<Integer, BinTree<Integer>> result = tree.getLeftT().deleteRightMostLeafB();
+            assertNotNull(result);
+            assertEquals(7, result.first());
+
+            // Edge case: delete rightmost leaf in a single-node tree
+            BinTree<Integer> singleNodeTree = new Node<>(20, new Empty<>(), new Empty<>());
+            result = singleNodeTree.deleteRightMostLeafB();
+            assertTrue(result.second().isEmpty());
+        }
+        catch(EmptyTreeE e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }
