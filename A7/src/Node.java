@@ -244,8 +244,9 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
     // Rotate right
     @NotNull BinTree<E> easyRight() {
         try {
-            if(left.getHeight() - right.getHeight() > 1) {
+            if(left.getHeight() - right.getHeight() > 1 && left.getLeftT().getHeight() >= left.getRightT().getHeight()) {
                 BinTree<E> newRight = new Node<>(data, left.getRightT(), right);
+                System.out.println("Easy Right");
                 return new Node<>(left.getData(), left.getLeftT(), newRight);
             }
         }
@@ -258,8 +259,9 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
     // Rotate left
     @NotNull BinTree<E> easyLeft() {
         try {
-            if(right.getHeight() - left.getHeight() > 1) {
+            if(right.getHeight() - left.getHeight() > 1 && right.getRightT().getHeight() > right.getLeftT().getHeight()) {
                 BinTree<E> newLeft = new Node<>(data, left, right.getLeftT());
+                System.out.println("Easy Left");
                 return new Node<>(right.getData(), newLeft, right.getRightT());
             }
         }
@@ -276,6 +278,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
                 BinTree<E> A = new Node<>(left.getData(), left.getLeftT(), left.getRightT().getLeftT());
                 BinTree<E> B = new Node<>(left.getRightT().getData(), A, left.getRightT().getRightT());
 
+                System.out.println("Rotate Right");
                 return new Node<>(data, B, right).easyRight();
             }
         }
@@ -292,6 +295,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
                 BinTree<E> C = new Node<>(right.getData(), right.getLeftT().getRightT(), right.getRightT());
                 BinTree<E> B = new Node<>(right.getLeftT().getData(), right.getLeftT().getLeftT(), C);
 
+                System.out.println("Rotate Left");
                 return new Node<>(data, left, B).easyLeft();
             }
         }
@@ -299,6 +303,15 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             throw new RuntimeException(e);
         }
         return this;
+    }
+
+    public static void main(String[] args) {
+        BinTree<Integer> tr = makeLeaf(40).insertB(20).insertB(50).insertB(10).insertB(30);
+        TreePrinter.print(tr);
+
+        tr = tr.insertB(25);
+
+        TreePrinter.print(tr);
     }
 
 }
