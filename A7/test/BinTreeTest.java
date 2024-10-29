@@ -132,10 +132,8 @@ class BinTreeTest {
          */
 
         tr = BinTree.makeLeaf(0);
-        System.out.println("Balanced Tree");
         for (int i = 1; i < 100; i++) {
             tr = tr.insertB(i);
-            TreePrinter.print(tr);
             assertTrue(tr.isBalanced());
         }
 

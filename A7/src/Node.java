@@ -112,9 +112,19 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
         }
 
         if(key.equals(data)){
-            Pair<E, BinTree<E>> deleted = right.deleteLeftMostLeaf();
+            if(left.isEmpty() && right.isEmpty()){
+                return new Empty<>();
+            }
 
-            return new Node<>(deleted.first(), left, deleted.second());
+            if(left.isEmpty() || right.isEmpty()){
+                return left.isEmpty() ? right : left;
+            }
+
+            else{
+                Pair<E, BinTree<E>> deleted = right.deleteLeftMostLeaf();
+
+                return new Node<>(deleted.first(), left, deleted.second());
+            }
         }
 
         if(key.compareTo(data) < 0){
@@ -159,10 +169,10 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
     @NotNull BinTree<E> insertB(@NotNull E key) {
         // TODO: implement this method
         if(key.compareTo(data) < 0){
-            return new Node<>(data, left.insertB(key), right).rotateLeft().rotateRight().easyLeft().easyRight();
+            return new Node<>(data, left.insertB(key), right).easyRight().easyLeft().rotateRight().rotateLeft();
         }
 
-        return new Node<>(data, left, right.insertB(key)).rotateLeft().rotateRight().easyLeft().easyRight();
+        return new Node<>(data, left, right.insertB(key)).easyRight().easyLeft().rotateRight().rotateLeft();
     }
 
     /**
@@ -179,17 +189,35 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             return this;
         }
 
+        BinTree<E> result;
+
         if(key.equals(data)){
-            Pair<E, BinTree<E>> deleted = right.deleteRightMostLeafB();
+            if(left.isEmpty() && right.isEmpty()){
+                //Node is a leaf node, just delete
+                return new Empty<>();
+            }
 
-            return new Node<>(deleted.first(), deleted.second(), right.getRightT()).easyRight().easyLeft().rotateRight().rotateLeft();
+            if(left.isEmpty() || right.isEmpty()){
+                //Node only has one child, replace with child
+                return left.isEmpty() ? right : left;
+            }
+
+            //Node has two children, replace with the right most node in left tree
+            Pair<E, BinTree<E>> deleted = left.deleteRightMostLeafB();
+            result = new Node<>(deleted.first(), deleted.second(), right);
+        }
+        else if(key.compareTo(data) < 0){
+            result =  new Node<>(data, left.deleteB(key), right);
+        }
+        else{
+            result = new Node<>(data, left, right.deleteB(key));
         }
 
-        if(key.compareTo(data) < 0){
-            return new Node<>(data, left.delete(key), right).easyRight().easyLeft().rotateRight().rotateLeft();
+        if(result.isBalanced()){
+            return result;
         }
 
-        return new Node<>(data, left, right.deleteB(key)).easyRight().easyLeft().rotateRight().rotateLeft();
+        return result.easyRight().easyLeft().rotateRight().rotateLeft();
     }
 
     /**
@@ -199,109 +227,81 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
      */
     @NotNull Pair<E, BinTree<E>> deleteRightMostLeafB() {
         // TODO: implement this method
-
         if(right.isEmpty()) {
-            return new Pair<>(data, left.easyRight().easyLeft().rotateRight().rotateLeft());
+            return new Pair<>(data, left);
         }
-        try{
-            if(right.getLeftT().isEmpty()){
-                return new Pair<>(right.getData(), new Node<>(data, left, right.getRightT()).easyRight().easyLeft().rotateRight().rotateLeft());
-            }
 
-            Pair<E, BinTree<E>> pair = left.deleteRightMostLeafB();
-            return new Pair<>(pair.first(), new Node<>(data, right, pair.second()).easyRight().easyLeft().rotateRight().rotateLeft());
+        try {
+            Pair<E, BinTree<E>> deleted = right.deleteRightMostLeafB();
+            return new Pair<>(deleted.first(), new Node<>(data, left, deleted.second()).easyRight().easyLeft().rotateRight().rotateLeft());
         }
-        catch(EmptyTreeE e){
+        catch(EmptyTreeE e) {
             throw new RuntimeException(e);
         }
-
     }
 
 
     /**
      * The next four methods are the AVL rotations.
      */
-
-    //Rotate right
+    // Rotate right
     @NotNull BinTree<E> easyRight() {
-        try{
-            if(left.getHeight() - right.getHeight() == 2 && !left.getLeftT().isEmpty()){
-                BinTree<E> A = this;
-                BinTree<E> B = left;
-                BinTree<E> C = left.getLeftT();
-
-                BinTree<E> left = C;
-                BinTree<E> right = new Node<>(A.getData(), B.getRightT(), A.getRightT());
-
-                return new Node<>(B.getData(), left, right);
+        try {
+            if(left.getHeight() - right.getHeight() > 1) {
+                BinTree<E> newRight = new Node<>(data, left.getRightT(), right);
+                return new Node<>(left.getData(), left.getLeftT(), newRight);
             }
         }
-        catch(EmptyTreeE e){
+        catch(EmptyTreeE e) {
             throw new RuntimeException(e);
         }
-
         return this;
     }
 
-    //Rotate left-right
-    @NotNull BinTree<E> rotateRight() {
-        try{
-            if(left.getHeight() - right.getHeight() == 2 && !left.getRightT().isEmpty()){
-                BinTree<E> C = this;
-                BinTree<E> A = C.getLeftT();
-                BinTree<E> B = A.getRightT();
-
-                BinTree<E> right = new Node<>(C.getData(), B.getRightT(), C.getRightT());
-                BinTree<E> left = new Node<>(A.getData(), A.getLeftT(), B.getLeftT());
-
-                return new Node<>(B.getData(), left, right);
-            }
-        }
-        catch(EmptyTreeE e){
-            throw new RuntimeException(e);
-        }
-
-        return this;
-    }
-
-    //Rotate left
+    // Rotate left
     @NotNull BinTree<E> easyLeft() {
         try {
-            if(right.getHeight() - left.getHeight() == 2 && !right.getRightT().isEmpty()) {
-                BinTree<E> A = this;
-                BinTree<E> B = right;
-                BinTree<E> C = right.getRightT();
-
-                BinTree<E> left = new Node<>(A.getData(), A.getLeftT(), B.getLeftT());
-                BinTree<E> right = C;
-
-                return new Node<>(B.getData(), left, right);
+            if(right.getHeight() - left.getHeight() > 1) {
+                BinTree<E> newLeft = new Node<>(data, left, right.getLeftT());
+                return new Node<>(right.getData(), newLeft, right.getRightT());
             }
         }
-        catch(EmptyTreeE e){
+        catch(EmptyTreeE e) {
             throw new RuntimeException(e);
         }
-
         return this;
     }
 
-    //Rotate right-left
+    // Rotate left-right
+    @NotNull BinTree<E> rotateRight() {
+        try {
+            if(left.getHeight() - right.getHeight() > 1 && !left.getRightT().isEmpty()) {
+                BinTree<E> A = new Node<>(left.getData(), left.getLeftT(), left.getRightT().getLeftT());
+                BinTree<E> B = new Node<>(left.getRightT().getData(), A, left.getRightT().getRightT());
+
+                return new Node<>(data, B, right).easyRight();
+            }
+        }
+        catch(EmptyTreeE e) {
+            throw new RuntimeException(e);
+        }
+        return this;
+    }
+
+    // Rotate right-left
     @NotNull BinTree<E> rotateLeft() {
-        try{
-            if(right.getHeight() - left.getHeight() == 2 && !right.getLeftT().isEmpty()){
-                BinTree<E> A = this;
-                BinTree<E> C = A.getRightT();
-                BinTree<E> B = C.getLeftT();
+        try {
+            if(right.getHeight() - left.getHeight() > 1 && !right.getLeftT().isEmpty()) {
+                BinTree<E> C = new Node<>(right.getData(), right.getLeftT().getRightT(), right.getRightT());
+                BinTree<E> B = new Node<>(right.getLeftT().getData(), right.getLeftT().getLeftT(), C);
 
-                BinTree<E> right = new Node<>(C.getData(), B.getRightT(), C.getRightT());
-                BinTree<E> left = new Node<>(A.getData(), A.getLeftT(), B.getLeftT());
-
-                return new Node<>(B.getData(), left, right);
+                return new Node<>(data, left, B).easyLeft();
             }
         }
-        catch(EmptyTreeE e){
+        catch(EmptyTreeE e) {
             throw new RuntimeException(e);
         }
         return this;
     }
+
 }
