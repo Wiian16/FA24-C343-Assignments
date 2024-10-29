@@ -167,7 +167,6 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
      * necessary AVL rotations.
      */
     @NotNull BinTree<E> insertB(@NotNull E key) {
-        // TODO: implement this method
         if(key.compareTo(data) < 0){
             return new Node<>(data, left.insertB(key), right).easyRight().easyLeft().rotateRight().rotateLeft();
         }
@@ -184,7 +183,6 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
      * </ul>
      */
     @NotNull BinTree<E> deleteB(@NotNull E key) throws EmptyTreeE {
-        // TODO: implement this method
         if(!find(key)){
             return this;
         }
@@ -226,7 +224,6 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
      * necessary AVL rotations.
      */
     @NotNull Pair<E, BinTree<E>> deleteRightMostLeafB() {
-        // TODO: implement this method
         if(right.isEmpty()) {
             return new Pair<>(data, left);
         }
