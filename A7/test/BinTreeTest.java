@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.tree.TreeCellRenderer;
@@ -131,8 +132,10 @@ class BinTreeTest {
          */
 
         tr = BinTree.makeLeaf(0);
+        System.out.println("Balanced Tree");
         for (int i = 1; i < 100; i++) {
             tr = tr.insertB(i);
+            TreePrinter.print(tr);
             assertTrue(tr.isBalanced());
         }
 
@@ -337,4 +340,95 @@ should print:
 
     }
 
+
+    private BinTree<Integer> root;
+
+    @BeforeEach
+    void setUp() {
+        root = new Node<>(10, new Empty<>(), new Empty<>());
+    }
+
+    @Test
+    void testInsert() {
+        BinTree<Integer> tree = root.insert(5).insert(15).insert(3).insert(7);
+        assertTrue(tree.find(10));
+        assertTrue(tree.find(5));
+        assertTrue(tree.find(15));
+        assertTrue(tree.find(3));
+        assertTrue(tree.find(7));
+    }
+
+    @Test
+    void testDelete() throws EmptyTreeE {
+        BinTree<Integer> tree = root.insert(5).insert(15).insert(3).insert(7).delete(5);
+        assertFalse(tree.find(5));
+    }
+
+    @Test
+    void testIsBalanced() {
+        assertTrue(root.isBalanced());
+        root = root.insert(5).insert(15).insert(3).insert(7);
+        assertTrue(root.isBalanced());
+    }
+
+    @Test
+    void testUnbalancedTree() {
+        BinTree<Integer> tree = root.insert(5).insert(15).insert(20).insert(25);
+        assertFalse(tree.isBalanced());
+    }
+
+    @Test
+    void testInsertBWithBalancing() {
+        BinTree<Integer> balancedTree = root.insertB(5).insertB(15).insertB(3).insertB(7).insertB(13);
+        assertTrue(balancedTree.isBalanced());
+    }
+
+    @Test
+    void testDeleteBWithBalancing() throws EmptyTreeE {
+        BinTree<Integer> balancedTree = root.insertB(5).insertB(15).insertB(3).insertB(7).insertB(13).deleteB(15);
+        assertTrue(balancedTree.isBalanced());
+        assertFalse(balancedTree.find(15));
+    }
+
+    @Test
+    void testLeftRotation() {
+        Node<Integer> unbalancedTree = new Node<>(10, new Empty<>(), new Node<>(20, new Empty<>(), new Node<>(30, new Empty<>(), new Empty<>())));
+        BinTree<Integer> rotatedTree = unbalancedTree.easyLeft();
+        assertTrue(rotatedTree.isBalanced());
+    }
+
+    @Test
+    void testRightRotation() {
+        Node<Integer> unbalancedTree = new Node<>(30, new Node<>(20, new Node<>(10, new Empty<>(), new Empty<>()), new Empty<>()), new Empty<>());
+        BinTree<Integer> rotatedTree = unbalancedTree.easyRight();
+        assertTrue(rotatedTree.isBalanced());
+    }
+
+    @Test
+    void testLeftRightRotation() {
+        Node<Integer> unbalancedTree = new Node<>(30, new Node<>(10, new Empty<>(), new Node<>(20, new Empty<>(), new Empty<>())), new Empty<>());
+        BinTree<Integer> rotatedTree = unbalancedTree.rotateRight();
+        assertTrue(rotatedTree.isBalanced());
+    }
+
+    @Test
+    void testRightLeftRotation() {
+        Node<Integer> unbalancedTree = new Node<>(10, new Empty<>(), new Node<>(30, new Node<>(20, new Empty<>(), new Empty<>()), new Empty<>()));
+        BinTree<Integer> rotatedTree = unbalancedTree.rotateLeft();
+        assertTrue(rotatedTree.isBalanced());
+    }
+
+    @Test
+    void testDeleteLeftMostLeaf() throws EmptyTreeE {
+        BinTree<Integer> tree = root.insert(5).insert(15).insert(3);
+        Pair<Integer, BinTree<Integer>> result = tree.deleteLeftMostLeaf();
+        assertEquals(3, result.first());
+    }
+
+    @Test
+    void testDeleteRightMostLeafB() throws EmptyTreeE {
+        BinTree<Integer> tree = root.insertB(5).insertB(15).insertB(3).insertB(7);
+        Pair<Integer, BinTree<Integer>> result = tree.deleteRightMostLeafB();
+        assertNotNull(result);
+    }
 }
