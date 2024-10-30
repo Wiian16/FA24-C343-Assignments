@@ -192,8 +192,8 @@ class BinTreeTest {
         System.out.println();
 
         tr = tr.deleteB(2);
-        assertTrue(tr.isBalanced());
         TreePrinter.print(tr);
+        assertTrue(tr.isBalanced());
         System.out.println();
 
         tr = tr.deleteB(11);
