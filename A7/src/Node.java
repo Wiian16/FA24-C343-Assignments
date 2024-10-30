@@ -247,7 +247,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             int balanceFactor = left.getHeight() - right.getHeight();
             int leftBalanceFactor = left.isEmpty() ? -1 : left.getLeftT().getHeight() - left.getRightT().getHeight();
 
-            if(balanceFactor == 2 && (leftBalanceFactor == 0 || leftBalanceFactor == 1)){
+            if(balanceFactor > 1 && leftBalanceFactor >= 0){
                 BinTree<E> newRight = new Node<>(data, left.getRightT(), right);
 
                 return new Node<>(left.getData(), left.getLeftT(), newRight);
@@ -265,7 +265,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             int balanceFactor = left.getHeight() - right.getHeight();
             int rightBalanceFactor = right.isEmpty() ? 1 : right.getLeftT().getHeight() - right.getRightT().getHeight();
 
-            if(balanceFactor == -2 && (rightBalanceFactor == 0 || rightBalanceFactor == -1)){
+            if(balanceFactor < -1 && rightBalanceFactor <= 0){
                 BinTree<E> newLeft = new Node<>(data, left, right.getLeftT());
 
                 return new Node<>(right.getData(), newLeft, right.getRightT());
@@ -283,7 +283,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             int balanceFactor = left.getHeight() - right.getHeight();
             int leftBalanceFactor = left.isEmpty() ? 0 : left.getLeftT().getHeight() - left.getRightT().getHeight();
 
-            if(balanceFactor == 2 && leftBalanceFactor == -1){
+            if(balanceFactor > 1 && leftBalanceFactor < 0){
                 Node<E> leftChild = new Node<>(left.getData(), left.getLeftT(), left.getRightT().getLeftT());
                 Node<E> newLeft = new Node<>(left.getRightT().getData(), leftChild, left.getRightT().getRightT());
                 Node<E> temp = new Node<>(data, newLeft, right);
@@ -303,7 +303,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             int balanceFactor = left.getHeight() - right.getHeight();
             int rightBalanceFactor = right.isEmpty() ? 0 : right.getLeftT().getHeight() - right.getRightT().getHeight();
 
-            if(balanceFactor == -2 && rightBalanceFactor == 1){
+            if(balanceFactor < -1 && rightBalanceFactor > 0){
                 Node<E> rightChild = new Node<>(right.getData(), right.getLeftT().getRightT(), right.getRightT());
                 Node<E> newRight = new Node<>(right.getLeftT().getData(), right.getLeftT().getLeftT(), rightChild);
                 Node<E> temp = new Node<>(data, left, newRight);
