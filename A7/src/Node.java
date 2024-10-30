@@ -244,9 +244,12 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
     // Rotate right
     @NotNull BinTree<E> easyRight() {
         try {
-            if(left.getHeight() - right.getHeight() > 1 && left.getLeftT().getHeight() >= left.getRightT().getHeight()) {
+            int balanceFactor = left.getHeight() - right.getHeight();
+            int leftBalanceFactor = left.isEmpty() ? -1 : left.getLeftT().getHeight() - left.getRightT().getHeight();
+
+            if(balanceFactor == 2 && (leftBalanceFactor == 0 || leftBalanceFactor == 1)){
                 BinTree<E> newRight = new Node<>(data, left.getRightT(), right);
-                System.out.println("Easy Right");
+
                 return new Node<>(left.getData(), left.getLeftT(), newRight);
             }
         }
@@ -259,9 +262,12 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
     // Rotate left
     @NotNull BinTree<E> easyLeft() {
         try {
-            if(right.getHeight() - left.getHeight() > 1 && right.getRightT().getHeight() > right.getLeftT().getHeight()) {
+            int balanceFactor = left.getHeight() - right.getHeight();
+            int rightBalanceFactor = right.isEmpty() ? 1 : right.getLeftT().getHeight() - right.getRightT().getHeight();
+
+            if(balanceFactor == -2 && (rightBalanceFactor == 0 || rightBalanceFactor == -1)){
                 BinTree<E> newLeft = new Node<>(data, left, right.getLeftT());
-                System.out.println("Easy Left");
+
                 return new Node<>(right.getData(), newLeft, right.getRightT());
             }
         }
@@ -274,12 +280,15 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
     // Rotate left-right
     @NotNull BinTree<E> rotateRight() {
         try {
-            if(left.getHeight() - right.getHeight() > 1 && !left.getRightT().isEmpty()) {
-                BinTree<E> A = new Node<>(left.getData(), left.getLeftT(), left.getRightT().getLeftT());
-                BinTree<E> B = new Node<>(left.getRightT().getData(), A, left.getRightT().getRightT());
+            int balanceFactor = left.getHeight() - right.getHeight();
+            int leftBalanceFactor = left.isEmpty() ? 0 : left.getLeftT().getHeight() - left.getRightT().getHeight();
 
-                System.out.println("Rotate Right");
-                return new Node<>(data, B, right).easyRight();
+            if(balanceFactor == 2 && leftBalanceFactor == -1){
+                Node<E> leftChild = new Node<>(left.getData(), left.getLeftT(), left.getRightT().getLeftT());
+                Node<E> newLeft = new Node<>(left.getRightT().getData(), leftChild, left.getRightT().getRightT());
+                Node<E> temp = new Node<>(data, newLeft, right);
+
+                return temp.easyRight();
             }
         }
         catch(EmptyTreeE e) {
@@ -291,12 +300,15 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
     // Rotate right-left
     @NotNull BinTree<E> rotateLeft() {
         try {
-            if(right.getHeight() - left.getHeight() > 1 && !right.getLeftT().isEmpty()) {
-                BinTree<E> C = new Node<>(right.getData(), right.getLeftT().getRightT(), right.getRightT());
-                BinTree<E> B = new Node<>(right.getLeftT().getData(), right.getLeftT().getLeftT(), C);
+            int balanceFactor = left.getHeight() - right.getHeight();
+            int rightBalanceFactor = right.isEmpty() ? 0 : right.getLeftT().getHeight() - right.getRightT().getHeight();
 
-                System.out.println("Rotate Left");
-                return new Node<>(data, left, B).easyLeft();
+            if(balanceFactor == -2 && rightBalanceFactor == 1){
+                Node<E> rightChild = new Node<>(right.getData(), right.getLeftT().getRightT(), right.getRightT());
+                Node<E> newRight = new Node<>(right.getLeftT().getData(), right.getLeftT().getLeftT(), rightChild);
+                Node<E> temp = new Node<>(data, left, newRight);
+
+                return temp.easyLeft();
             }
         }
         catch(EmptyTreeE e) {
