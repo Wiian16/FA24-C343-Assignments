@@ -184,7 +184,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
                 int balanceFactor = tr.getLeftT().getHeight() - tr.getRightT().getHeight();
 
                 if(balanceFactor == 2) { //left heavy
-                    int leftBalanceFactor = left.getLeftT().getHeight() - left.getRightT().getHeight();
+                    int leftBalanceFactor = tr.getLeftT().getLeftT().getHeight() - tr.getLeftT().getRightT().getHeight();
 
                     if(leftBalanceFactor >= 0) {
                         tr = tr.easyRight();
@@ -193,13 +193,13 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
                         tr = tr.rotateRight();
                     }
                 } else if(balanceFactor == -2) { //right heavy
-                    int rightBalanceFactor = right.getLeftT().getHeight() - right.getRightT().getHeight();
+                    int rightBalanceFactor = tr.getRightT().getLeftT().getHeight() - tr.getRightT().getRightT().getHeight();
 
                     if(rightBalanceFactor <= 0){
                         tr = tr.easyLeft();
                     }
                     else if (rightBalanceFactor == 1){
-                        tr = tr.rotateRight();
+                        tr = tr.rotateLeft();
                     }
                 }
             }

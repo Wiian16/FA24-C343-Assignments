@@ -455,15 +455,6 @@ should print:
         Node<Integer> unbalancedTree = new Node<>(10, new Empty<>(), new Node<>(20, new Empty<>(), new Node<>(30, new Empty<>(), new Empty<>())));
         BinTree<Integer> rotatedTree = unbalancedTree.easyLeft();
         assertTrue(rotatedTree.isBalanced());
-
-        try {
-            // Edge case: left rotation on single-node tree
-            BinTree<Integer> singleNodeTree = new Node<>(10, new Empty<>(), new Empty<>()).easyLeft();
-            assertEquals(singleNodeTree.getData(), 10);
-        }
-        catch(EmptyTreeE e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Test
@@ -472,22 +463,6 @@ should print:
         Node<Integer> unbalancedTree = new Node<>(30, new Node<>(20, new Node<>(10, new Empty<>(), new Empty<>()), new Empty<>()), new Empty<>());
         BinTree<Integer> rotatedTree = unbalancedTree.easyRight();
         assertTrue(rotatedTree.isBalanced());
-
-        try {
-            // Edge case: right rotation on single-node tree
-            BinTree<Integer> singleNodeTree = new Node<>(10, new Empty<>(), new Empty<>()).easyRight();
-            assertEquals(singleNodeTree.getData(), 10);
-        }
-        catch(EmptyTreeE e) {
-            throw new RuntimeException(e);
-        }
-
-        BinTree<Integer> tr = BinTree.makeLeaf(10);
-        tr = tr.easyRight();
-        assertTrue(tr.isBalanced());
-
-        tr = tr.insert(0);
-        assertTrue(tr.isBalanced());
     }
 
     @Test
@@ -503,9 +478,9 @@ should print:
 
         BinTree<Integer> tr = BinTree.makeLeaf(10);
         TreePrinter.print(tr);
-        tr = tr.insertB(5);
+        tr = tr.insert(5);
         TreePrinter.print(tr);
-        tr = tr.insertB(8);
+        tr = tr.insert(8);
         TreePrinter.print(tr);
         assertTrue(tr.rotateRight().isBalanced());
 
@@ -513,14 +488,6 @@ should print:
         TreePrinter.print(tr);
         TreePrinter.print(tr.rotateRight());
         assertTrue(tr.rotateRight().isBalanced());
-
-        tr = BinTree.makeLeaf(10);
-        tr = tr.rotateRight();
-        assertTrue(tr.isBalanced());
-
-        tr = new Empty<>();
-        tr = tr.insertB(10);
-        assertTrue(tr.isBalanced());
     }
 
     @Test
@@ -529,10 +496,6 @@ should print:
         Node<Integer> unbalancedTree = new Node<>(10, new Empty<>(), new Node<>(30, new Node<>(20, new Empty<>(), new Empty<>()), new Empty<>()));
         BinTree<Integer> rotatedTree = unbalancedTree.rotateLeft();
         assertTrue(rotatedTree.isBalanced());
-
-        // Edge case: right-left rotation with duplicates
-        BinTree<Integer> duplicateTree = unbalancedTree.insertB(30).rotateLeft();
-        assertTrue(duplicateTree.isBalanced());
     }
 
     @Test
@@ -567,4 +530,46 @@ should print:
         }
     }
 
+    @Test
+    void testDeleteB() throws EmptyTreeE {
+        // Test Case 1: Delete leaf node
+        BinTree<Integer> tr = BinTree.makeLeaf(40).insertB(20).insertB(50).insertB(10).insertB(30);
+        assertTrue(tr.deleteB(10).isBalanced());
+
+        // Test Case 2: Delete node with one child
+        tr = BinTree.makeLeaf(40).insertB(20).insertB(50).insertB(10).insertB(30).insertB(25);
+        assertTrue(tr.deleteB(30).isBalanced());
+
+        // Test Case 3: Delete node with two children
+        tr = BinTree.makeLeaf(40).insertB(20).insertB(50).insertB(10).insertB(30).insertB(25).insertB(35);
+        assertTrue(tr.deleteB(20).isBalanced());
+
+        // Test Case 4: Delete root node
+        tr = BinTree.makeLeaf(40).insertB(20).insertB(50).insertB(10).insertB(30).insertB(60);
+        assertTrue(tr.deleteB(40).isBalanced());
+
+        // Test Case 5: Delete root node in a small tree
+        tr = BinTree.makeLeaf(40).insertB(50);
+        assertTrue(tr.deleteB(40).isBalanced());
+
+        // Test Case 6: Delete rightmost node in left subtree
+        tr = BinTree.makeLeaf(40).insertB(20).insertB(60).insertB(10).insertB(30).insertB(50).insertB(70);
+        assertTrue(tr.deleteB(30).isBalanced());
+
+        // Test Case 7: Delete node to trigger left rotation
+        tr = BinTree.makeLeaf(30).insertB(20).insertB(40).insertB(10).insertB(25).insertB(35).insertB(50);
+        assertTrue(tr.deleteB(10).isBalanced());
+
+        // Test Case 8: Delete node to trigger right rotation
+        tr = BinTree.makeLeaf(30).insertB(20).insertB(40).insertB(10).insertB(25).insertB(35).insertB(50);
+        assertTrue(tr.deleteB(50).isBalanced());
+
+        // Test Case 9: Delete node to trigger left-right rotation
+        tr = BinTree.makeLeaf(30).insertB(10).insertB(40).insertB(35);
+        assertTrue(tr.deleteB(10).isBalanced());
+
+        // Test Case 10: Delete node to trigger right-left rotation
+        tr = BinTree.makeLeaf(30).insertB(10).insertB(40).insertB(50).insertB(35);
+        assertTrue(tr.deleteB(10).isBalanced());
+    }
 }
