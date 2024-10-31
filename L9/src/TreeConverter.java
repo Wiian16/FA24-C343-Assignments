@@ -8,26 +8,11 @@ public class TreeConverter {
     }
 
     private static void convertHelper(TernaryTree.TernaryTreeNode node, Trie trie, StringBuilder prefix) {
-        if (node == null) return; // Base case
-
-
-        convertHelper(node.left, trie, prefix);
-
-
-        prefix.append(node.value);
-
-
-        if (node.isEndOfWord) {
-            trie.insert(prefix.toString()); // Insert the current word
-        }
-
-
-        convertHelper(node.middle, trie, prefix);
-
-
-        prefix.deleteCharAt(prefix.length() - 1);
-
-
-        convertHelper(node.right, trie, prefix);
+        //TODO:Fill out the rest of the convertHelper method to complete the conversion from a ternary tree to a trie.
+        // If the current node marks the end of a word, insert the current prefix into the Trie.
+        // Recursively call convertHelper on the left child without modifying the prefix.
+        // For the middle child, append the current node’s value to the prefix before the recursive call.
+        // After visiting the middle child, backtrack by removing the last character from the prefix to maintain the correct structure.
+        // Finally, call convertHelper on the right child without modifying the prefix. Mind the base case too
     }
 }
