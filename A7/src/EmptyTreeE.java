@@ -1,0 +1,1 @@
+class EmptyTreeE extends Exception {}
