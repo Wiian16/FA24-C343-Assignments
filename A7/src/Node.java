@@ -53,8 +53,8 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
     }
 
     /**
-      A tree is balanced if the difference in height between the left and right subtrees is at most 1,
-      and both subtrees are balanced.
+     * A tree is balanced if the difference in height between the left and right subtrees is at most 1,
+     * and both subtrees are balanced.
      */
     boolean isBalanced() {
         return Math.abs(left.getHeight() - right.getHeight()) <= 1 && left.isBalanced() && right.isBalanced();
@@ -68,15 +68,15 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
      * Find a key in the tree assuming it respects the BST order.
      */
     boolean find(@NotNull E key) {
-        if(key.equals(data)){
+        if(key.equals(data)) {
             return true;
         }
 
-        if(height == 0){
+        if(height == 0) {
             return false;
         }
 
-        if(key.compareTo(data) < 0){
+        if(key.compareTo(data) < 0) {
             return left.find(key);
         }
 
@@ -94,7 +94,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
      * if it is equal to the current node's data.
      */
     @NotNull BinTree<E> insert(@NotNull E key) {
-        if(key.compareTo(data) < 0){
+        if(key.compareTo(data) < 0) {
             return new Node<>(data, left.insert(key), right);
         }
 
@@ -107,27 +107,25 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
      * the current node's data with the leftmost leaf of the right subtree.
      */
     @NotNull BinTree<E> delete(@NotNull E key) throws EmptyTreeE {
-        if(!find(key)){
+        if(!find(key)) {
             return this;
         }
 
-        if(key.equals(data)){
-            if(left.isEmpty() && right.isEmpty()){
+        if(key.equals(data)) {
+            if(left.isEmpty() && right.isEmpty()) {
                 return new Empty<>();
             }
 
-            if(left.isEmpty() || right.isEmpty()){
+            if(left.isEmpty() || right.isEmpty()) {
                 return left.isEmpty() ? right : left;
-            }
-
-            else{
+            } else {
                 Pair<E, BinTree<E>> deleted = right.deleteLeftMostLeaf();
 
                 return new Node<>(deleted.first(), left, deleted.second());
             }
         }
 
-        if(key.compareTo(data) < 0){
+        if(key.compareTo(data) < 0) {
             return new Node<>(data, left.delete(key), right);
         }
 
@@ -140,7 +138,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
      * leaf removed.
      */
     @NotNull Pair<E, BinTree<E>> deleteLeftMostLeaf() {
-        if(left.isEmpty()){
+        if(left.isEmpty()) {
             return new Pair<>(data, right);
         }
 
@@ -152,7 +150,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             Pair<E, BinTree<E>> pair = left.deleteLeftMostLeaf();
             return new Pair<>(pair.first(), new Node<>(data, pair.second(), right));
         }
-        catch(EmptyTreeE e){
+        catch(EmptyTreeE e) {
             throw new RuntimeException(e);
         }
     }
@@ -169,9 +167,9 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
     @NotNull BinTree<E> insertB(@NotNull E key) {
         BinTree<E> result;
 
-        if(key.compareTo(data) < 0){
-            result =  new Node<>(data, left.insertB(key), right);
-        }else {
+        if(key.compareTo(data) < 0) {
+            result = new Node<>(data, left.insertB(key), right);
+        } else {
             result = new Node<>(data, left, right.insertB(key));
         }
 
@@ -188,17 +186,15 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
 
                     if(leftBalanceFactor >= 0) {
                         tr = tr.easyRight();
-                    }
-                    else if (leftBalanceFactor == -1){
+                    } else if(leftBalanceFactor == -1) {
                         tr = tr.rotateRight();
                     }
                 } else if(balanceFactor == -2) { //right heavy
                     int rightBalanceFactor = tr.getRightT().getLeftT().getHeight() - tr.getRightT().getRightT().getHeight();
 
-                    if(rightBalanceFactor <= 0){
+                    if(rightBalanceFactor <= 0) {
                         tr = tr.easyLeft();
-                    }
-                    else if (rightBalanceFactor == 1){
+                    } else if(rightBalanceFactor == 1) {
                         tr = tr.rotateLeft();
                     }
                 }
@@ -220,31 +216,27 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
      * </ul>
      */
     @NotNull BinTree<E> deleteB(@NotNull E key) throws EmptyTreeE {
-        if(!find(key)){
+        if(!find(key)) {
             return this;
         }
 
         BinTree<E> result;
 
-        if(key.equals(data)){
-            if(left.isEmpty() && right.isEmpty()){
+        if(key.equals(data)) {
+            if(left.isEmpty() && right.isEmpty()) {
                 //Node is a leaf node, just delete
                 result = new Empty<>();
-            }
-            else if(left.isEmpty() || right.isEmpty()){
+            } else if(left.isEmpty() || right.isEmpty()) {
                 //Node only has one child, replace with child
                 result = left.isEmpty() ? right : left;
-            }
-            else {
+            } else {
                 //Node has two children, replace with the right most node in left tree
                 Pair<E, BinTree<E>> deleted = left.deleteRightMostLeafB();
                 result = new Node<>(deleted.first(), deleted.second(), right);
             }
-        }
-        else if(key.compareTo(data) < 0){
-            result =  new Node<>(data, left.deleteB(key), right);
-        }
-        else{
+        } else if(key.compareTo(data) < 0) {
+            result = new Node<>(data, left.deleteB(key), right);
+        } else {
             result = new Node<>(data, left, right.deleteB(key));
         }
 

@@ -1,9 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.tree.TreeCellRenderer;
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class BinTreeTest {
@@ -466,15 +463,11 @@ should print:
     }
 
     @Test
-    void testLeftRightRotation() throws EmptyTreeE {
+    void testLeftRightRotation() {
         // Test left-right rotation
         Node<Integer> unbalancedTree = new Node<>(30, new Node<>(10, new Empty<>(), new Node<>(20, new Empty<>(), new Empty<>())), new Empty<>());
         BinTree<Integer> rotatedTree = unbalancedTree.rotateRight();
         assertTrue(rotatedTree.isBalanced());
-
-        // Edge case: left-right rotation with duplicates
-//        BinTree<Integer> duplicateTree = unbalancedTree.insertB(10).rotateRight();
-//        assertTrue(duplicateTree.isBalanced());
 
         BinTree<Integer> tr = BinTree.makeLeaf(10);
         TreePrinter.print(tr);
