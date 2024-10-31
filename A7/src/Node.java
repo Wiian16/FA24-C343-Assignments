@@ -151,7 +151,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             return new Pair<>(pair.first(), new Node<>(data, pair.second(), right));
         }
         catch(EmptyTreeE e) {
-            throw new RuntimeException(e);
+            throw new Error("Delete left most leaf was called incorrectly!");
         }
     }
 
@@ -203,7 +203,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             return tr;
         }
         catch(EmptyTreeE e) {
-            throw new RuntimeException(e);
+            throw new Error("Balance was called incorrectly!");
         }
     }
 
@@ -259,7 +259,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             return new Pair<>(deleted.first(), newNode);
         }
         catch(EmptyTreeE e) {
-            throw new RuntimeException(e);
+            throw new Error("Delete right most leaf was called incorrectly!");
         }
     }
 
@@ -275,7 +275,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             return new Node<>(left.getData(), left.getLeftT(), newRight);
         }
         catch(EmptyTreeE e) {
-            throw new RuntimeException(e);
+            throw new Error("Easy right was called incorrectly!");
         }
     }
 
@@ -287,7 +287,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             return new Node<>(right.getData(), newLeft, right.getRightT());
         }
         catch(EmptyTreeE e) {
-            throw new RuntimeException(e);
+            throw new Error("Easy left was called incorrectly!");
         }
     }
 
@@ -301,7 +301,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             return temp.easyRight();
         }
         catch(EmptyTreeE e) {
-            throw new RuntimeException(e);
+            throw new Error("Rotate right was called incorrectly!");
         }
     }
 
@@ -315,7 +315,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
             return temp.easyLeft();
         }
         catch(EmptyTreeE e) {
-            throw new RuntimeException(e);
+            throw new Error("Rotate left was called incorrectly!");
         }
     }
 
