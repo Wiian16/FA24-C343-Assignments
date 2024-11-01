@@ -178,7 +178,7 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
 
     private @NotNull BinTree<E> balance(BinTree<E> tr) {
         try {
-            if(!tr.isBalanced()) {
+            if(!tr.isEmpty()) {
                 int balanceFactor = tr.getLeftT().getHeight() - tr.getRightT().getHeight();
 
                 if(balanceFactor == 2) { //left heavy
@@ -293,39 +293,41 @@ class Node<E extends Comparable<E>> extends BinTree<E> {
 
     // Rotate left-right
     @NotNull BinTree<E> rotateRight() {
-        try {
-            Node<E> leftChild = new Node<>(left.getData(), left.getLeftT(), left.getRightT().getLeftT());
-            Node<E> newLeft = new Node<>(left.getRightT().getData(), leftChild, left.getRightT().getRightT());
-            Node<E> temp = new Node<>(data, newLeft, right);
+            Node<E> temp = new Node<>(data, left.easyLeft(), right);
 
             return temp.easyRight();
-        }
-        catch(EmptyTreeE e) {
-            throw new Error("Rotate right was called incorrectly!");
-        }
     }
 
     // Rotate right-left
     @NotNull BinTree<E> rotateLeft() {
-        try {
-            Node<E> rightChild = new Node<>(right.getData(), right.getLeftT().getRightT(), right.getRightT());
-            Node<E> newRight = new Node<>(right.getLeftT().getData(), right.getLeftT().getLeftT(), rightChild);
-            Node<E> temp = new Node<>(data, left, newRight);
+            Node<E> temp = new Node<>(data, left, right.easyRight());
 
             return temp.easyLeft();
-        }
-        catch(EmptyTreeE e) {
-            throw new Error("Rotate left was called incorrectly!");
-        }
     }
 
     public static void main(String[] args) {
-        BinTree<Integer> tr = makeLeaf(40).insertB(20).insertB(50).insertB(10).insertB(30);
-        TreePrinter.print(tr);
+        BinTree<Integer> empty = new Empty<>();
 
-        tr = tr.insertB(25);
+        long t1 = System.nanoTime();
+        try{
+            empty.deleteRightMostLeafB();
+        }
+        catch(EmptyTreeE e) {
+        }
+        long t2 = System.nanoTime();
+        System.out.println(t2 - t1);
 
-        TreePrinter.print(tr);
+        t1 = System.nanoTime();
+        try {
+            if(!empty.isEmpty()) {
+                empty.deleteRightMostLeafB();
+            }
+        }
+        catch(EmptyTreeE e) {
+            throw new Error("Fatal bug encountered");
+        }
+        t2 = System.nanoTime();
+        System.out.println(t2 - t1);
     }
 
 }
