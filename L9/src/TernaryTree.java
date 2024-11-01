@@ -49,9 +49,26 @@ public class TernaryTree {
          //  If the character is smaller, move to the left child; if greater, move to the right child.
          //  If the character matches, proceed to the middle child. C
          //  Continue this process until the entire word is traversed.
-         //  If the final node marks the end of a word, return true; otherwise, return false. Handle edge cases where nodes or paths do not exist.
+         //  If the final node marks the end of a word, return true; otherwise, return false. Handle edge cases where
+         //  nodes or paths do not exist.
 
-        return true; //Replace this line
+        char c = word.charAt(index);
+
+        boolean result;
+
+        if (c < node.value) {
+            result =  searchRecursive(node.left, word, index);
+        } else if (c > node.value) {
+            result = searchRecursive(node.right, word, index);
+        } else {
+            if (node.isEndOfWord){
+                result = true;
+            }
+            else {
+                result = searchRecursive(node.middle, word, index + 1);
+            }
+        }
+        return result;
     }
 
 

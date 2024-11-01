@@ -12,6 +12,21 @@ public class Trie {
         // For each character in the word, create a new child node if it doesn't already exist.
         // Traverse down the path dictated by the characters, and once all characters are inserted, mark the final node as the end of the word.
         // This method ensures that words are efficiently stored for quick lookups.
+        TrieNode current = root;
+
+        for(char c : word.toCharArray()){
+            int index = c - 'a';
+
+            if(current.children[index] == null){
+                current.children[index] = new TrieNode();
+                current = current.children[index];
+            }
+            else{
+                current = current.children[index];
+            }
+        }
+
+        current.isEndOfWord = true;
     }
 
     // Search for a word in the trie
