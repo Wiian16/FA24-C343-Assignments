@@ -79,7 +79,6 @@ public class Boggle {
      * </ul>
      */
     public void findWordsFromPos(@NotNull Tile<Character> tile, @NotNull String s) {
-        System.out.println("s = " + s);
         s += tile.toString();
 
         if(dict.contains(s)){

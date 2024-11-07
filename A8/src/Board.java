@@ -91,18 +91,19 @@ public class Board<E> implements Iterable<Tile<E>> {
             int c = 0;
 
             public boolean hasNext() {
-                return r != boardSize - 1 && c != boardSize - 1;
+                return r != boardSize && c != boardSize;
             }
 
             public Tile<E> next() {
-                if(c == boardSize) {
+                Tile<E> next = get(r, c).orElseThrow(() -> new Error("Iterator.next() called at end of board!"));
+                if(c == boardSize - 1) {
                     r++;
                     c = 0;
                 }
                 else{
                     c++;
                 }
-                return get(r, c).orElseThrow(() -> new Error("Iterator.next() called at end of board!"));
+                return next;
             }
         };
     }
