@@ -48,7 +48,12 @@ public class WordList implements WordCollection {
      * (O(N)) for large collections.
      */
     public boolean contains (@NotNull String w) {
-        // TODO: Implement this method
+        for(String s : words){
+            if(w.equals(s)){
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -57,7 +62,12 @@ public class WordList implements WordCollection {
      * This will be inefficient (O(N)) for large collections.
      */
     public boolean possiblePrefix (@NotNull String w) {
-        // TODO: Implement this method
+        for(String s : words){
+            if(s.startsWith(w)){
+                return true;
+            }
+        }
+
         return false;
     }
 }

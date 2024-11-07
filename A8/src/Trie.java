@@ -93,7 +93,16 @@ public class Trie implements WordCollection {
      * the rest of the word.
      */
     void insert (@NotNull String s) {
-        // TODO: Implement this method
+        if(s.isEmpty()){
+            this.endsHere = true;
+            return;
+        }
+
+        if(!children.containsKey(s.charAt(0))){
+            children.put(s.charAt(0), new Trie());
+        }
+
+        children.get(s.charAt(0)).insert(s.substring(1));
     }
 
     /**
@@ -107,7 +116,14 @@ public class Trie implements WordCollection {
      * method returns false. Otherwise, the method is called recursively with the
      */
     boolean search (@NotNull String s, boolean fullWord) {
-        // TODO: Implement this method
+        if(s.isEmpty()){
+            return !fullWord || endsHere;
+        }
+
+        if(children.containsKey(s.charAt(0))){
+            return children.get(s.charAt(0)).search(s.substring(1), fullWord);
+        }
+
         return false;
     }
 

@@ -3,7 +3,6 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
-import java.util.List;
 import java.util.stream.Stream;
 
 /*
@@ -38,8 +37,11 @@ public class Board<E> implements Iterable<Tile<E>> {
      * the method returns an empty Optional.
      */
     public @NotNull Optional<Tile<E>> get(int r, int c) {
-        // TODO: Implement this method
-        return null;
+        if(r >= boardSize || c >= boardSize || r < 0 || c < 0){
+            return Optional.empty();
+        }
+
+        return Optional.of(tiles[r][c]);
     }
 
     /**
@@ -50,8 +52,20 @@ public class Board<E> implements Iterable<Tile<E>> {
      * You can use an ArrayList to collect the neighbors and then return a stream of the list.
      */
     public @NotNull Stream<Tile<E>> getNeighbors(int r, int c) {
-        // TODO: Implement this method
-        return null;
+        ArrayList<Tile<E>> neighbors = new ArrayList<>(8);
+
+        for(int i = r - 1; i < r + 2; i++){
+            for(int j = c - 1; j < c + 2; j++){
+                if(i == r && j == c){
+                    continue;
+                }
+
+                Optional<Tile<E>> tile = get(i, j);
+                tile.ifPresent(neighbors::add);
+            }
+        }
+
+        return neighbors.stream();
     }
 
     public @NotNull Stream<Tile<E>> getFreshNeighbors(@NotNull Tile<E> tile) {
@@ -65,8 +79,7 @@ public class Board<E> implements Iterable<Tile<E>> {
      * (This is the power of streams!)
      */
     public @NotNull Stream<Tile<E>> getFreshNeighbors(int r, int c) {
-        // TODO: Implement this method
-        return null;
+        return getNeighbors(r, c).filter(Tile::isFresh);
     }
 
     /**
@@ -74,14 +87,22 @@ public class Board<E> implements Iterable<Tile<E>> {
      */
     public @NotNull Iterator<Tile<E>> iterator() {
         return new Iterator<>() {
+            int r = 0;
+            int c = 0;
+
             public boolean hasNext() {
-                // TODO: Implement this method
-                return false;
+                return r != boardSize - 1 && c != boardSize - 1;
             }
 
             public Tile<E> next() {
-                // TODO: Implement this method
-                return null;
+                if(c == boardSize) {
+                    r++;
+                    c = 0;
+                }
+                else{
+                    c++;
+                }
+                return get(r, c).orElseThrow(() -> new Error("Iterator.next() called at end of board!"));
             }
         };
     }
