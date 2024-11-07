@@ -44,6 +44,15 @@ public class TernaryTree {
     private boolean searchRecursive(TernaryTreeNode node, String word, int index) {
         if (node == null) return false;
 
+<<<<<<< HEAD
+        char c = word.charAt(index);
+
+        if (c < node.value) {
+            return searchRecursive(node.left, word, index);
+        } else if (c > node.value) {
+            return searchRecursive(node.right, word, index);
+        } else {
+            if (index == wo
          // TODO: Implement the search method to check if a word exists in the Ternary Tree.
          //  For each character in the word, traverse the tree by comparing it with the current node's value.
          //  If the character is smaller, move to the left child; if greater, move to the right child.
