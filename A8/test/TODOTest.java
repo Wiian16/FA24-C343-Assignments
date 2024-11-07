@@ -1,6 +1,9 @@
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TODOTest {
@@ -103,20 +106,20 @@ public class TODOTest {
         Board<Integer> board3 = new Board<>(tiles);
 
 
-        assertEquals(0, board2.getFreshNeighbors(1, 1).count());
-        assertEquals(0, board2.getFreshNeighbors(0, 0).count());
-        assertEquals(0, board2.getFreshNeighbors(0, 2).count());
-        assertEquals(0, board2.getFreshNeighbors(2, 0).count());
-        assertEquals(0, board2.getFreshNeighbors(2, 2).count());
-        assertEquals(0, board2.getFreshNeighbors(0, 1).count());
-        assertEquals(0, board2.getFreshNeighbors(1, 0).count());
-        assertEquals(0, board2.getFreshNeighbors(2, 1).count());
-        assertEquals(0, board2.getFreshNeighbors(1, 2).count());
+        assertEquals(0, board3.getFreshNeighbors(1, 1).count());
+        assertEquals(0, board3.getFreshNeighbors(0, 0).count());
+        assertEquals(0, board3.getFreshNeighbors(0, 2).count());
+        assertEquals(0, board3.getFreshNeighbors(2, 0).count());
+        assertEquals(0, board3.getFreshNeighbors(2, 2).count());
+        assertEquals(0, board3.getFreshNeighbors(0, 1).count());
+        assertEquals(0, board3.getFreshNeighbors(1, 0).count());
+        assertEquals(0, board3.getFreshNeighbors(2, 1).count());
+        assertEquals(0, board3.getFreshNeighbors(1, 2).count());
 
-        assertEquals(0, board2.getFreshNeighbors(-1, -1).count());
-        assertEquals(0, board2.getFreshNeighbors(3, 3).count());
+        assertEquals(0, board3.getFreshNeighbors(-1, -1).count());
+        assertEquals(0, board3.getFreshNeighbors(3, 3).count());
 
-        assertEquals(0, board2.getFreshNeighbors(-2, -2).count());
+        assertEquals(0, board3.getFreshNeighbors(-2, -2).count());
 
 
         for(int i = 0; i < tiles.length; i++){
@@ -206,17 +209,6 @@ public class TODOTest {
         assertTrue(trie.contains("door"));
         assertTrue(trie.contains("hinge"));
 
-        assertTrue(trie.possiblePrefix("tab"));
-        assertTrue(trie.possiblePrefix("tabl"));
-        assertTrue(trie.possiblePrefix("table"));
-        assertTrue(trie.possiblePrefix("c"));
-        assertTrue(trie.possiblePrefix("chai"));
-        assertTrue(trie.possiblePrefix("do"));
-        assertTrue(trie.possiblePrefix("hin"));
-        assertTrue(trie.possiblePrefix(""));
-        assertFalse(trie.possiblePrefix("able"));
-        assertFalse(trie.possiblePrefix("oor"));
-        assertFalse(trie.possiblePrefix("nope"));
     }
 
 
@@ -229,10 +221,31 @@ public class TODOTest {
         // prefix of any word in the trie. You should empirically observe that
         // the performance is O(L) where L is the length of the word (the
         // corresponding height of the trie).
+        Trie trie = new Trie(new String[]{"table", "chair", "door", "hinge"});
+
+        assertTrue(trie.contains("table"));
+        assertTrue(trie.contains("chair"));
+        assertTrue(trie.contains("door"));
+        assertTrue(trie.contains("hinge"));
+        assertFalse(trie.contains("rug"));
+        assertFalse(trie.contains("shoe"));
+
+        assertTrue(trie.possiblePrefix("tab"));
+        assertTrue(trie.possiblePrefix("tabl"));
+        assertTrue(trie.possiblePrefix("table"));
+        assertTrue(trie.possiblePrefix("c"));
+        assertTrue(trie.possiblePrefix("chai"));
+        assertTrue(trie.possiblePrefix("do"));
+        assertTrue(trie.possiblePrefix("hin"));
+        assertTrue(trie.possiblePrefix(""));
+        assertFalse(trie.possiblePrefix("able"));
+        assertFalse(trie.possiblePrefix("oor"));
+        assertFalse(trie.possiblePrefix("nope"));
+
     }
 
     @Test
-    public void test7() {
+    public void test7() throws IOException {
         // write test cases for the 'findWordsFromPos' method in the 'Boggle' class.
         // You should construct boards of different sizes and different configurations
         // of letters and special dictionaries to test the following scenarios.
@@ -242,6 +255,14 @@ public class TODOTest {
         // + the letter at current position form a prefix of a word in the dictionary,
         // and the string 's' + the letter at current position do not form a prefix of
         // any word in the dictionary.
+
+        Trie dict = new Trie(new File("commonwords.txt"));
+
+        char[][] chars = new char[][]{{'a', 'b', 'c'},
+                                      {'d', 'e', 'f'},
+                                      {'g', 'h', 'i'}};
+
+        Boggle boggle = new Boggle(chars, dict);
 
     }
 
