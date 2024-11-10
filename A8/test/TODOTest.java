@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -255,15 +256,37 @@ public class TODOTest {
         // + the letter at current position form a prefix of a word in the dictionary,
         // and the string 's' + the letter at current position do not form a prefix of
         // any word in the dictionary.
+        char[] @NotNull [] chars = {
+                {'E', 'I', 'L', 'A'},
+                {'T', 'P', 'A', 'G'},
+                {'R', 'E', 'T', 'O'},
+                {'H', 'T', 'A', 'Y'}
+        };
 
-        Trie dict = new Trie(new File("commonwords.txt"));
+        Boggle boggle;
 
-        char[][] chars = new char[][]{{'a', 'b', 'c'},
-                                      {'d', 'e', 'f'},
-                                      {'g', 'h', 'i'}};
+        boggle = new Boggle(chars, new Trie(new File("commonwords.txt")));
+        boggle.findWordsFromPos(new Tile<>('L', 0, 2), "");
+        assertEquals(9, boggle.getFoundWords().size());
 
-        Boggle boggle = new Boggle(chars, dict);
+        boggle = new Boggle(chars, new Trie(new File("commonwords.txt")));
+        boggle.findWordsFromPos(new Tile<>('Y', 3, 3), "");
+        assertEquals(1, boggle.getFoundWords().size());
 
+        boggle = new Boggle(chars, new Trie(new File("commonwords.txt")));
+        boggle.findWords();
+        boggle.getFoundWords().stream()
+                .filter(word -> !word.isEmpty()) // Ensures no empty strings
+                .collect(Collectors.groupingBy(
+                        word -> word.charAt(0),       // Group by the first character
+                        Collectors.counting()          // Count occurrences in each group
+                )).forEach((x, y) -> System.out.println(x + " " + y));
+        System.out.println(boggle.getFoundWords().stream().filter((x) -> x.startsWith("P")).toList());
+
+        boggle = new Boggle(chars, new Trie(new File("commonwords.txt")));
+        boggle.findWordsFromPos(new Tile<>('P', 1, 1), "");
+        System.out.println(boggle.getFoundWords());
+        assertEquals(27, boggle.getFoundWords().size());
     }
 
 }

@@ -81,14 +81,15 @@ public class Boggle {
     public void findWordsFromPos(@NotNull Tile<Character> tile, @NotNull String s) {
         s += tile.toString();
 
-        if(dict.contains(s)){
+        if(dict.contains(s.toLowerCase())){
             foundWords.add(s);
         }
 
-        if(dict.possiblePrefix(s)){
+        if(dict.possiblePrefix(s.toLowerCase())){
             tile.setVisited();
             @NotNull String finalS = s;
             board.getFreshNeighbors(tile).forEach((x) -> findWordsFromPos(x, finalS));
+            tile.reset();
         }
     }
 
