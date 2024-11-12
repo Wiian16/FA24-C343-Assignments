@@ -81,7 +81,7 @@ public class Boggle {
     public void findWordsFromPos(@NotNull Tile<Character> tile, @NotNull String s) {
         s += tile.toString();
 
-        if(dict.contains(s.toLowerCase())){
+        if(dict.contains(s.toLowerCase()) && s.length() > 2){
             foundWords.add(s);
         }
 
@@ -99,10 +99,7 @@ public class Boggle {
      */
     public void findWords() {
         foundWords.clear();
-        for (@NotNull Tile<Character> tile : board){
-            System.out.println("tile = " + tile);;
-            findWordsFromPos(tile, "");
-        }
+        for (@NotNull Tile<Character> tile : board) findWordsFromPos(tile, "");
     }
 
     public @NotNull HashSet<String> getFoundWords() {

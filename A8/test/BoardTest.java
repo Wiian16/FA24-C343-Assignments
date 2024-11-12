@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class BoardTest {
 
     long timeIt (@NotNull Runnable r) {
@@ -44,13 +46,16 @@ class BoardTest {
         game1 = new Boggle(new Board<>(tiles),words);
         game2 = new Boggle(new Board<>(tiles),trie);
 
-        game1.show();
+//        game1.show();
 
         long t1 = timeIt(game1::findWords);
         long t2 = timeIt(game2::findWords);
 
         System.out.printf("slow --- Found %d words in %d ms!%n", game1.getFoundWords().size(), t1);
         System.out.printf("fast --- Found %d words in %d ms!%n", game2.getFoundWords().size(), t2);
+
+//        assertEquals(29, game1.getFoundWords().size());
+//        assertEquals(29, game2.getFoundWords().size());
 
         for (String fs : game1.getFoundWords()) System.out.println(fs);
     }

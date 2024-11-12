@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TODOTest {
+    public TODOTest() throws IOException {
+    }
+
     Board<Integer> makeBoard(int size){
         Tile<Integer>[][] tiles = makeTiles(size);
 
@@ -256,37 +259,61 @@ public class TODOTest {
         // + the letter at current position form a prefix of a word in the dictionary,
         // and the string 's' + the letter at current position do not form a prefix of
         // any word in the dictionary.
-        char[] @NotNull [] chars = {
-                {'E', 'I', 'L', 'A'},
-                {'T', 'P', 'A', 'G'},
-                {'R', 'E', 'T', 'O'},
-                {'H', 'T', 'A', 'Y'}
-        };
+        Trie dict = new Trie(new File("commonwords.txt"));
 
-        Boggle boggle;
+        char[][] board = {{'a', 't', 'r', 's'},
+                          {'n', 'i', 'o', 't'},
+                          {'b', 'e', 'l', 's'},
+                          {'u', 'd', 'g', 'y'}};
 
-        boggle = new Boggle(chars, new Trie(new File("commonwords.txt")));
-        boggle.findWordsFromPos(new Tile<>('L', 0, 2), "");
-        assertEquals(9, boggle.getFoundWords().size());
+        Boggle game = new Boggle(board, dict);
 
-        boggle = new Boggle(chars, new Trie(new File("commonwords.txt")));
-        boggle.findWordsFromPos(new Tile<>('Y', 3, 3), "");
-        assertEquals(1, boggle.getFoundWords().size());
+        game.findWordsFromPos(new Tile<>('a', 0, 0), "");
 
-        boggle = new Boggle(chars, new Trie(new File("commonwords.txt")));
-        boggle.findWords();
-        boggle.getFoundWords().stream()
-                .filter(word -> !word.isEmpty()) // Ensures no empty strings
-                .collect(Collectors.groupingBy(
-                        word -> word.charAt(0),       // Group by the first character
-                        Collectors.counting()          // Count occurrences in each group
-                )).forEach((x, y) -> System.out.println(x + " " + y));
-        System.out.println(boggle.getFoundWords().stream().filter((x) -> x.startsWith("P")).toList());
+        assertEquals(9, game.getFoundWords().size());
 
-        boggle = new Boggle(chars, new Trie(new File("commonwords.txt")));
-        boggle.findWordsFromPos(new Tile<>('P', 1, 1), "");
-        System.out.println(boggle.getFoundWords());
-        assertEquals(27, boggle.getFoundWords().size());
+        board = new char[][]{{'e', 'i', 'f', 't'},
+                             {'l', 'm', 'a', 'r'},
+                             {'d', 'n', 'o', 's'},
+                             {'c', 'k', 'p', 'q'}};
+
+        game = new Boggle(board, dict);
+
+        game.findWordsFromPos(new Tile<>('a', 1, 2), "");
+
+        assertEquals(17, game.getFoundWords().size());
+
+        board = new char[][]{{'k'}};
+
+        game = new Boggle(board, dict);
+        game.findWordsFromPos(new Tile<>('k', 0, 0), "aardvar");
+
+        assertEquals(1, game.getFoundWords().size());
+
+        board = new char[][]{{'r'}};
+
+        game = new Boggle(board, dict);
+        game.findWordsFromPos(new Tile<>('r', 0, 0), "aardva");
+
+        assertEquals(0, game.getFoundWords().size());
+
+        board = new char[][]{{'z'}};
+
+        game = new Boggle(board, dict);
+        game.findWordsFromPos(new Tile<>('z', 0, 0), "aardvar");
+
+        assertEquals(0, game.getFoundWords().size());
+
+        dict = new Trie(new String[]{"lid", "last", "lip", "lint", "lame", "lug"});
+
+        board = new char[][]{{'r', 'o', 's', 't'},
+                             {'e', 'a', 'p', 'n'},
+                             {'m', 'l', 'i', 'd'},
+                             {'h', 'q', 'u', 'g'}};
+
+        game = new Boggle(board, dict);
+        game.findWordsFromPos(new Tile<>('l', 2, 1), "");
+
+        assertEquals(6, game.getFoundWords().size());
     }
-
 }
