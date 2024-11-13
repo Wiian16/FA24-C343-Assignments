@@ -34,8 +34,14 @@ public class DirectedGraph {
      * Returns the set of neighbors of the given node.
      */
     public @NotNull Set<String> neighbors(@NotNull String node) {
-        return adjacencyLists.get(node).stream().map(Edge::destination)
-                .collect(Collectors.toCollection(LinkedHashSet::new));
+        Set<Edge> edges = adjacencyLists.get(node);
+        Set<String> neighbors = new LinkedHashSet<>();
+
+        for(Edge edge : edges){
+            neighbors.add(edge.destination());
+        }
+
+        return neighbors;
     }
 
     public void addEdge (@NotNull Edge edge) {
@@ -76,14 +82,14 @@ public class DirectedGraph {
 
         for(String key : adjacencyLists.keySet()){
             if(!transposed.containsKey(key)){
-                transposed.put(key, new HashSet<>());
+                transposed.put(key, new LinkedHashSet<>());
             }
 
             adjacencyLists.get(key).forEach((x) -> {
                 Edge newEdge = x.flip();
 
                 if(!transposed.containsKey(newEdge.source())){
-                    transposed.put(newEdge.source(), new HashSet<>());
+                    transposed.put(newEdge.source(), new LinkedHashSet<>());
                 }
 
                 transposed.get(newEdge.source()).add(newEdge);

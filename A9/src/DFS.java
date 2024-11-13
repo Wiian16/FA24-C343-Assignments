@@ -38,7 +38,14 @@ public class DFS {
      * and the method is called recursively on all its neighbors.
      */
     public void traverse (@NotNull String source) {
-        // TODO: Implement the traverse method
+        if(currentTraversal.contains(source)){
+            return;
+        }
+
+        currentTraversal.add(source);
+        for(String node : graph.neighbors(source)){
+            traverse(node);
+        }
     }
 
     /**
@@ -47,7 +54,11 @@ public class DFS {
      * the currentTraversal list is cleared to prepare for the next traversal.
      */
     public void traverse (@NotNull List<String> sources) {
-        // TODO: Implement the traverse method
+        sources.forEach((x) -> {
+            traverse(x);
+            allTraversals.put(x, new ArrayList<>(currentTraversal));
+            currentTraversal.clear();
+        });
     }
 }
 
