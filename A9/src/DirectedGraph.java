@@ -72,7 +72,6 @@ public class DirectedGraph {
      * graph, then there is an edge from B to A in the transposed graph.
      */
     public @NotNull DirectedGraph transpose () {
-        // TODO: Implement the transpose method
         HashMap<String, Set<Edge>> transposed = new HashMap<>();
 
         for(String key : adjacencyLists.keySet()){
