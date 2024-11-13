@@ -34,8 +34,8 @@ public class DirectedGraph {
      * Returns the set of neighbors of the given node.
      */
     public @NotNull Set<String> neighbors(@NotNull String node) {
-        // TODO: Implement the neighbors method
-        return null;
+        return adjacencyLists.get(node).stream().map(Edge::destination)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public void addEdge (@NotNull Edge edge) {
@@ -51,7 +51,18 @@ public class DirectedGraph {
      * in the adjacencyLists map even if it has no outgoing edges.
      */
     public void addEdge (@NotNull String source, @NotNull String destination) {
-       // TODO: Implement the addEdge method
+        nodes.add(source);
+        nodes.add(destination);
+
+        if(!adjacencyLists.containsKey(source)){
+            adjacencyLists.put(source, new HashSet<>());
+        }
+
+        if(!adjacencyLists.containsKey(destination)){
+            adjacencyLists.put(destination, new HashSet<>());
+        }
+
+        adjacencyLists.get(source).add(new Edge(source, destination));
     }
 
     /**
@@ -62,6 +73,24 @@ public class DirectedGraph {
      */
     public @NotNull DirectedGraph transpose () {
         // TODO: Implement the transpose method
-        return null;
+        HashMap<String, Set<Edge>> transposed = new HashMap<>();
+
+        for(String key : adjacencyLists.keySet()){
+            if(!transposed.containsKey(key)){
+                transposed.put(key, new HashSet<>());
+            }
+
+            adjacencyLists.get(key).forEach((x) -> {
+                Edge newEdge = x.flip();
+
+                if(!transposed.containsKey(newEdge.source())){
+                    transposed.put(newEdge.source(), new HashSet<>());
+                }
+
+                transposed.get(newEdge.source()).add(newEdge);
+            });
+        }
+
+        return new DirectedGraph(name, transposed);
     }
 }
