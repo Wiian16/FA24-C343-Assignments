@@ -1,7 +1,6 @@
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DirectedGraph {
     private final @NotNull String name;
@@ -35,7 +34,7 @@ public class DirectedGraph {
      */
     public @NotNull Set<String> neighbors(@NotNull String node) {
         Set<Edge> edges = adjacencyLists.get(node);
-        Set<String> neighbors = new LinkedHashSet<>();
+        Set<String> neighbors = new HashSet<>();
 
         for(Edge edge : edges){
             neighbors.add(edge.destination());
@@ -82,14 +81,14 @@ public class DirectedGraph {
 
         for(String key : adjacencyLists.keySet()){
             if(!transposed.containsKey(key)){
-                transposed.put(key, new LinkedHashSet<>());
+                transposed.put(key, new HashSet<>());
             }
 
             adjacencyLists.get(key).forEach((x) -> {
                 Edge newEdge = x.flip();
 
                 if(!transposed.containsKey(newEdge.source())){
-                    transposed.put(newEdge.source(), new LinkedHashSet<>());
+                    transposed.put(newEdge.source(), new HashSet<>());
                 }
 
                 transposed.get(newEdge.source()).add(newEdge);
