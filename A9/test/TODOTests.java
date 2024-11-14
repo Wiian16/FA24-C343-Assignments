@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -168,5 +169,119 @@ public class TODOTests {
         expected = Set.of(new Edge("J", "F"));
         assertEquals(expected, adjacencyLists.get("J"),
                 String.format("Expected :%s\nActual   :%s", expected, adjacencyLists.get("J")));
+    }
+
+    // DFS Tests
+
+    @Test
+    void testDFS() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "D");
+        DFS dfs = new DFS(graph);
+        dfs.traverse("A");
+        List<String> traversal = dfs.getTraversal();
+
+        List<String> expected = List.of("A", "B", "C", "D");
+        assertEquals(expected, traversal,
+                String.format("Expected :%s\nActual   :%s", expected, traversal));
+    }
+
+    @Test
+    void testDisconnectedDFS () {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("C", "D");
+        DFS dfs = new DFS(graph);
+        dfs.traverse(List.of("A", "C"));
+
+        List<String> expected;
+
+        expected = List.of("A", "B");
+        assertEquals(expected, dfs.getAllTraversals().get("A"),
+                String.format("Expected :%s\nActual   :%s", expected, dfs.getAllTraversals().get("A")));
+
+        expected = List.of("C", "D");
+        assertEquals(expected, dfs.getAllTraversals().get("C"),
+                String.format("Expected :%s\nActual   :%s", expected, dfs.getAllTraversals().get("C")));
+    }
+
+    @Test
+    void testg0 () {
+        DirectedGraph graph = ExampleGraphs.g0();
+        DFS dfs = new DFS(graph);
+        dfs.traverse("A");
+
+        List<String> expected = List.of("A", "B", "C", "D");
+        assertEquals(expected, dfs.getTraversal(),
+                String.format("Expected :%s\nActual   :%s", expected, dfs.getTraversal())); //todo: remove all messages
+    }
+
+    @Test
+    void testg1 () {
+        DirectedGraph graph = ExampleGraphs.g1();
+        DFS dfs = new DFS(graph);
+        dfs.traverse("A");
+
+        List<String> expected = List.of("A", "B", "C", "D", "E");
+        assertEquals(expected, dfs.getTraversal());
+    }
+
+    @Test
+    void testg2 () {
+        DirectedGraph graph = ExampleGraphs.g2();
+        DFS dfs = new DFS(graph);
+        dfs.traverse("A");
+
+        List<String> expected = List.of("A", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A12", "A9", "A10",
+                "A11");
+        assertEquals(expected, dfs.getTraversal());
+    }
+
+    @Test
+    void testg3 () {
+        DirectedGraph graph = ExampleGraphs.g3();
+        DFS dfs;
+
+        dfs = new DFS(graph);
+        dfs.traverse("A");
+
+        List<String> expected;
+
+        expected = List.of("A", "C", "D", "F", "J", "H", "G", "I");
+        assertEquals(expected, dfs.getTraversal());
+
+        HashMap<String,List<String>> traversals;
+
+        dfs.reset();
+        dfs.traverse(List.of("A","B","E"));
+        traversals = dfs.getAllTraversals();
+        expected = List.of("A", "C", "D", "F", "J", "H", "G", "I");
+        assertEquals(expected, traversals.get("A"));
+        expected = List.of("B");
+        assertEquals(expected, traversals.get("B"));
+        expected = List.of("E");
+        assertEquals(expected, traversals.get("E"));
+
+        dfs.reset();
+        dfs.traverse(List.of("B","E","A"));
+        traversals = dfs.getAllTraversals();
+        expected = List.of("B", "A", "C", "D", "J", "H", "G", "I");
+        assertEquals(expected, traversals.get("B"));
+        expected = List.of("E");
+        assertEquals(expected, traversals.get("E"));
+        expected = List.of();
+        assertEquals(expected, traversals.get("A"));
+
+        dfs.reset();
+        dfs.traverse(List.of("E","B","A"));
+        traversals = dfs.getAllTraversals();
+        expected = List.of("E", "A", "C", "D", "F", "J", "H", "G", "I");
+        assertEquals(expected, traversals.get("E"));
+        expected = List.of("B");
+        assertEquals(expected, traversals.get("B"));
+        expected = List.of();
+        assertEquals(expected, traversals.get("A"));
     }
 }
