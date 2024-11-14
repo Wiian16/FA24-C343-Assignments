@@ -37,7 +37,7 @@ public class DFS {
      * When a node is visited, it is added to the current traversal,
      * and the method is called recursively on all its neighbors.
      */
-    public void traverse (@NotNull String source) {
+    public void traverse (@NotNull String source) { //todo: respect order of nodes (alpha???)
         if(currentTraversal.contains(source)){
             return;
         }
