@@ -37,8 +37,8 @@ public class DFS {
      * When a node is visited, it is added to the current traversal,
      * and the method is called recursively on all its neighbors.
      */
-    public void traverse (@NotNull String source) { //todo: respect order of nodes (alpha???)
-        if(currentTraversal.contains(source)){
+    public void traverse (@NotNull String source) {
+        if(visited(source)){
             return;
         }
 
@@ -46,6 +46,21 @@ public class DFS {
         for(String node : graph.neighbors(source)){
             traverse(node);
         }
+    }
+
+
+    private boolean visited(String node){
+        if(currentTraversal.contains(node)){
+            return true;
+        }
+
+        for(List<String> pastTraversal : allTraversals.values()){
+            if(pastTraversal.contains(node)){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
