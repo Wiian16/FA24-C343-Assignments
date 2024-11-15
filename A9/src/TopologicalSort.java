@@ -28,9 +28,11 @@ public class TopologicalSort {
      */
     public void traverse(@NotNull String current) {
         // TODO: Implement the traverse method
-        if(sortedList.contains(current)){
+        if(visited.contains(current)){
             return;
         }
+
+        visited.add(current);
 
         for(String node : graph.neighbors(current)){
             traverse(node);

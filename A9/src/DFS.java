@@ -38,29 +38,15 @@ public class DFS {
      * and the method is called recursively on all its neighbors.
      */
     public void traverse (@NotNull String source) {
-        if(visited(source)){
+        if(visited.contains(source)){
             return;
         }
 
         currentTraversal.add(source);
+        visited.add(source);
         for(String node : graph.neighbors(source)){
             traverse(node);
         }
-    }
-
-
-    private boolean visited(String node){
-        if(currentTraversal.contains(node)){
-            return true;
-        }
-
-        for(List<String> pastTraversal : allTraversals.values()){
-            if(pastTraversal.contains(node)){
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
