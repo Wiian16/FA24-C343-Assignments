@@ -1,6 +1,7 @@
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -27,6 +28,15 @@ public class TopologicalSort {
      */
     public void traverse(@NotNull String current) {
         // TODO: Implement the traverse method
+        if(sortedList.contains(current)){
+            return;
+        }
+
+        for(String node : graph.neighbors(current)){
+            traverse(node);
+        }
+
+        sortedList.addFirst(current);
     }
 
     public void traverse(@NotNull List<String> sources) {

@@ -274,5 +274,40 @@ public class TODOTests {
         assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
     }
 
+    //Topological Sort Tests
+
+    @Test
+    void simple() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "D");
+        TopologicalSort ts = new TopologicalSort(graph);
+        ts.traverse("A");
+        List<String> expected = List.of("A", "B", "C", "D");
+        List<String> actual = ts.getSortedList();
+        assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
+    }
+
+    @Test
+    void g0() {
+        DirectedGraph graph = ExampleGraphs.g0();
+        TopologicalSort ts = new TopologicalSort(graph);
+        ts.traverse("A");
+        List<String> expected = List.of("A", "B", "C", "D");
+        List<String> actual = ts.getSortedList();
+        assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
+    }
+
+    @Test
+    void g2() {
+        DirectedGraph graph = ExampleGraphs.g2();
+        TopologicalSort ts = new TopologicalSort(graph);
+        ts.traverse("A");
+        List<String> expected = List.of("A", "A8", "A9", "A11", "A10", "A12", "A7", "A2", "A6", "A3", "A5", "A4");
+        List<String> actual = ts.getSortedList();
+        assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
+    }
+
     //todo: add more tests from other files
 }
