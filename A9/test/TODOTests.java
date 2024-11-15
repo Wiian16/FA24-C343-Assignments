@@ -426,5 +426,101 @@ public class TODOTests {
         assertTrue(cycleDetection.hasCycle());
     }
 
+    //Strongly Connected Components tests
+
+    @Test
+    void singleCycle() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "A");
+        StronglyConnectedComponents scc = new StronglyConnectedComponents(graph);
+        HashMap<String, List<String>> components = scc.compute();
+        assertTrue(components.get("A").containsAll(List.of("A", "B", "C")));
+    }
+
+    @Test
+    void twoDisconnectedCycles() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "A");
+        graph.addEdge("C", "D");
+        graph.addEdge("D", "C");
+        StronglyConnectedComponents scc = new StronglyConnectedComponents(graph);
+        HashMap<String, List<String>> components = scc.compute();
+        assertTrue(components.get("A").containsAll(List.of("A", "B")));
+        assertTrue(components.get("C").containsAll(List.of("C", "D")));
+    }
+
+    @Test
+    void multiComponentWithCrossConnections() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "A");
+        graph.addEdge("D", "E");
+        graph.addEdge("E", "D");
+        graph.addEdge("C", "D");
+        StronglyConnectedComponents scc = new StronglyConnectedComponents(graph);
+        HashMap<String, List<String>> components = scc.compute();
+        assertTrue(components.get("A").containsAll(List.of("A", "B", "C")));
+        assertTrue(components.get("D").containsAll(List.of("D", "E")));
+    }
+
+    @Test
+    void chainOfComponents() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "A");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "D");
+        graph.addEdge("D", "C");
+        graph.addEdge("D", "E");
+        graph.addEdge("E", "F");
+        graph.addEdge("F", "E");
+        StronglyConnectedComponents scc = new StronglyConnectedComponents(graph);
+        HashMap<String, List<String>> components = scc.compute();
+        assertTrue(components.get("A").containsAll(List.of("A", "B")));
+        assertTrue(components.get("C").containsAll(List.of("C", "D")));
+        assertTrue(components.get("E").containsAll(List.of("E", "F")));
+    }
+
+    @Test
+    void largeSCCWithSmallerOnes() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "D");
+        graph.addEdge("D", "E");
+        graph.addEdge("E", "A");
+        graph.addEdge("F", "G");
+        graph.addEdge("G", "H");
+        graph.addEdge("H", "F");
+        graph.addEdge("I", "J");
+        graph.addEdge("E", "F");
+        graph.addEdge("G", "I");
+        StronglyConnectedComponents scc = new StronglyConnectedComponents(graph);
+        HashMap<String, List<String>> components = scc.compute();
+        assertTrue(components.get("A").containsAll(List.of("A", "B", "C", "D", "E")));
+        assertTrue(components.get("F").containsAll(List.of("F", "G", "H")));
+        assertTrue(components.get("I").contains("I"));
+    }
+
+    @Test
+    void nestedCycles() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "A");
+        graph.addEdge("D", "E");
+        graph.addEdge("E", "F");
+        graph.addEdge("F", "D");
+        graph.addEdge("C", "D");
+        graph.addEdge("F", "B");
+        StronglyConnectedComponents scc = new StronglyConnectedComponents(graph);
+        HashMap<String, List<String>> components = scc.compute();
+        assertTrue(components.get("A").containsAll(List.of("A", "B", "C", "D", "E", "F")));
+    }
+
     //todo: add more tests from other files
 }

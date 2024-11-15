@@ -1,5 +1,6 @@
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,15 @@ public class StronglyConnectedComponents {
      * exit node of each traversal to the list of nodes visited in that traversal.
      */
     public @NotNull HashMap<String,List<String>> compute () {
-        // TODO: Implement the compute method
-        return null;
+        TopologicalSort topo = new TopologicalSort(graph);
+        topo.traverse(new ArrayList<>(graph.getNodes()));
+        List<String> topoList = topo.getSortedList();
+        DirectedGraph transposed = graph.transpose();
+        DFS dfs = new DFS(transposed);
+
+        dfs.traverse(new ArrayList<>(topoList));
+
+        return dfs.getAllTraversals();
+
     }
 }
