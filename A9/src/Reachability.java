@@ -16,8 +16,7 @@ public class Reachability {
      * was used in the most recent traversal.
      */
     public boolean isReachable (@NotNull String node) {
-        // TODO: Implement the isReachable method
-        return false;
+        return visited.contains(node);
     }
 
     /**
@@ -26,6 +25,12 @@ public class Reachability {
      * and the method is called recursively on all its neighbors.
      */
     public void traverse (@NotNull String current) {
-        // TODO: Implement the traverse method
+        if(visited.contains(current)){
+            return;
+        }
+
+        visited.add(current);
+
+        graph.neighbors(current).forEach(this::traverse);
     }
 }

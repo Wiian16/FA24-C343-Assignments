@@ -522,5 +522,92 @@ public class TODOTests {
         assertTrue(components.get("A").containsAll(List.of("A", "B", "C", "D", "E", "F")));
     }
 
+    //Reachability Tests
+
+    @Test
+    void testReachableSimpleGraph() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("B", "D");
+        graph.addEdge("C", "E");
+        graph.addEdge("D", "E");
+        Reachability reachability = new Reachability(graph);
+        reachability.traverse("A");
+        assertTrue(reachability.isReachable("D"));
+        assertTrue(reachability.isReachable("E"));
+        assertTrue(reachability.isReachable("A"));
+    }
+
+    @Test
+    void testReachableCyclicGraph() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "F");
+        graph.addEdge("F", "E");
+        graph.addEdge("E", "D");
+        graph.addEdge("D", "A");
+        Reachability reachability = new Reachability(graph);
+        reachability.traverse("A");
+        assertTrue(reachability.isReachable("B"));
+        assertTrue(reachability.isReachable("C"));
+        assertTrue(reachability.isReachable("D"));
+        assertTrue(reachability.isReachable("E"));
+        assertTrue(reachability.isReachable("F"));
+    }
+
+    @Test
+    void testReachableDisconnectedGraph() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("D", "E");
+        graph.addEdge("E", "F");
+        Reachability reachability = new Reachability(graph);
+        reachability.traverse("A");
+        assertTrue(reachability.isReachable("C"));
+        assertFalse(reachability.isReachable("D"));
+        assertFalse(reachability.isReachable("E"));
+    }
+
+    @Test
+    void testReachableFullyConnectedGraph() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("A", "D");
+        graph.addEdge("B", "C");
+        graph.addEdge("B", "E");
+        graph.addEdge("C", "F");
+        graph.addEdge("D", "E");
+        graph.addEdge("D", "F");
+        graph.addEdge("E", "F");
+        Reachability reachability = new Reachability(graph);
+        reachability.traverse("A");
+        assertTrue(reachability.isReachable("B"));
+        assertTrue(reachability.isReachable("C"));
+        assertTrue(reachability.isReachable("D"));
+        assertTrue(reachability.isReachable("E"));
+        assertTrue(reachability.isReachable("F"));
+    }
+
+    @Test
+    void testReachableTreeGraph() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("A", "C");
+        graph.addEdge("B", "D");
+        graph.addEdge("C", "E");
+        graph.addEdge("C", "F");
+        Reachability reachability = new Reachability(graph);
+        reachability.traverse("A");
+        assertTrue(reachability.isReachable("B"));
+        assertTrue(reachability.isReachable("C"));
+        assertTrue(reachability.isReachable("D"));
+        assertTrue(reachability.isReachable("E"));
+        assertTrue(reachability.isReachable("F"));
+        assertTrue(reachability.isReachable("A"));
+    }
+
     //todo: add more tests from other files
 }
