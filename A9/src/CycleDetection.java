@@ -27,6 +27,20 @@ public class CycleDetection {
      * If it is, then a cycle has been detected.
      */
     public void traverse (@NotNull String current) {
-       // TODO: Implement the traverse method
+        if(visited.contains(current)){
+            if(ancestors.contains(current)){
+                hasCycle = true;
+            }
+            return;
+        }
+
+        ancestors.add(current);
+        visited.add(current);
+
+        for(String node : graph.neighbors(current)){
+            traverse(node);
+        }
+
+        ancestors.remove(current);
     }
 }

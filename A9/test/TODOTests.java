@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TODOTests {
     // The current test cases are fragile, testing the string representation of
@@ -307,6 +306,124 @@ public class TODOTests {
         List<String> expected = List.of("A", "A8", "A9", "A11", "A10", "A12", "A7", "A2", "A6", "A3", "A5", "A4");
         List<String> actual = ts.getSortedList();
         assertTrue(expected.containsAll(actual) && actual.containsAll(expected));
+    }
+
+    //Cycle detection tests
+    @Test
+    void testSimpleTriangleCycleDetection() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "A");
+        CycleDetection cycleDetection = new CycleDetection(graph);
+        cycleDetection.traverse("A");
+        assertTrue(cycleDetection.hasCycle());
+    }
+
+    @Test
+    void testSquareCycleDetection() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "D");
+        graph.addEdge("D", "A");
+        CycleDetection cycleDetection = new CycleDetection(graph);
+        cycleDetection.traverse("A");
+        assertTrue(cycleDetection.hasCycle());
+    }
+
+    @Test
+    void testAcyclicTreeGraph() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("A", "C");
+        graph.addEdge("B", "D");
+        graph.addEdge("B", "E");
+        CycleDetection cycleDetection = new CycleDetection(graph);
+        cycleDetection.traverse("A");
+        assertFalse(cycleDetection.hasCycle());
+    }
+
+    @Test
+    void testDAGNoCycleDetection() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "D");
+        CycleDetection cycleDetection = new CycleDetection(graph);
+        cycleDetection.traverse("A");
+        assertFalse(cycleDetection.hasCycle());
+    }
+
+    @Test
+    void testMultipleCycles() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "A");
+        graph.addEdge("B", "D");
+        graph.addEdge("D", "E");
+        graph.addEdge("E", "B");
+        CycleDetection cycleDetection = new CycleDetection(graph);
+        cycleDetection.traverse("A");
+        assertTrue(cycleDetection.hasCycle());
+    }
+
+    @Test
+    void testNestedCycles() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "D");
+        graph.addEdge("D", "A");
+        graph.addEdge("B", "E");
+        graph.addEdge("E", "F");
+        graph.addEdge("F", "B");
+        CycleDetection cycleDetection = new CycleDetection(graph);
+        cycleDetection.traverse("A");
+        assertTrue(cycleDetection.hasCycle());
+    }
+
+    @Test
+    void testSelfLoopCycleDetection() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "A");
+        CycleDetection cycleDetection = new CycleDetection(graph);
+        cycleDetection.traverse("A");
+        assertTrue(cycleDetection.hasCycle());
+    }
+
+    @Test
+    void testPartlyCyclicGraph() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("B", "C");
+        graph.addEdge("C", "A"); // Cyclic component
+        graph.addEdge("D", "E");
+        graph.addEdge("E", "F"); // Acyclic component
+        CycleDetection cycleDetection = new CycleDetection(graph);
+        cycleDetection.traverse("A");
+        assertTrue(cycleDetection.hasCycle());
+    }
+
+    @Test
+    void testCompleteGraphCycleDetection() {
+        DirectedGraph graph = new DirectedGraph("g");
+        graph.addEdge("A", "B");
+        graph.addEdge("A", "C");
+        graph.addEdge("A", "D");
+        graph.addEdge("B", "C");
+        graph.addEdge("B", "D");
+        graph.addEdge("C", "D");
+        graph.addEdge("B", "A");
+        graph.addEdge("C", "A");
+        graph.addEdge("D", "A");
+        graph.addEdge("C", "B");
+        graph.addEdge("D", "B");
+        graph.addEdge("D", "C");
+        CycleDetection cycleDetection = new CycleDetection(graph);
+        cycleDetection.traverse("A");
+        assertTrue(cycleDetection.hasCycle());
     }
 
     //todo: add more tests from other files
