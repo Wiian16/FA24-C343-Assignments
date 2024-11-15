@@ -27,7 +27,6 @@ public class TopologicalSort {
      * the current node is added to the sortedList.
      */
     public void traverse(@NotNull String current) {
-        // TODO: Implement the traverse method
         if(visited.contains(current)){
             return;
         }
