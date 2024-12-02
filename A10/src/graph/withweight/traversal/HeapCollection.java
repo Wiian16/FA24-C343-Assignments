@@ -58,7 +58,7 @@ public class HeapCollection extends WeightedNodeCollection {
 
     public Optional<String> getParent(String n) {
         int parentIndex = (indices.get(n) - 1) / 2;
-        if (parentIndex < 0) return Optional.empty();
+        if (parentIndex <= 0) return Optional.empty();
         return Optional.of(nodes.get(parentIndex));
     }
 
