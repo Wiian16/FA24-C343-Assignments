@@ -1,5 +1,7 @@
 package graph.noweight;
 
+import java.awt.image.DirectColorModel;
+import java.security.DigestException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,14 +48,15 @@ public class DirectedGraph {
      * Return a set of the outgoing edges from the given node.
      */
     public Set<Edge> outgoingEdges (String node) {
-        throw new Error("TODO");
+        return !adjacencyLists.containsKey(node) ? Set.of() : adjacencyLists.get(node);
     }
 
     /**
      * Return a set of the neighbors of the given node.
      */
     public Set<String> neighbors(String node) {
-        throw new Error("TODO");
+        return !adjacencyLists.containsKey(node) ? Set.of() :
+                adjacencyLists.get(node).stream().map(Edge::destination).collect(Collectors.toSet());
     }
 
     public void insertEdge (Edge edge) {
@@ -64,13 +67,27 @@ public class DirectedGraph {
      * Insert the given edge into the graph.
      */
     public void insertEdge (String source, String destination) {
-      throw new Error("TODO");
+        if(!nodes.contains(source)){
+            nodes.add(source);
+            adjacencyLists.put(source, new HashSet<>());
+        }
+
+        adjacencyLists.get(source).add(new Edge(source, destination));
     }
     /**
      * Remove the given edge from the graph.
      */
     public void removeEdge (Edge edge) {
-        throw new Error("TODO");
+        if(!nodes.contains(edge.source())){
+            throw new Error("Edge not in graph");
+        }
+
+        adjacencyLists.get(edge.source()).remove(edge);
+
+        if(adjacencyLists.get(edge.source()).isEmpty()){
+            nodes.remove(edge.source());
+            adjacencyLists.remove(edge.source());
+        }
     }
 
     /**
@@ -81,7 +98,15 @@ public class DirectedGraph {
      * the original lists.
      */
     public DirectedGraph copy () {
-        throw new Error("TODO");
+        DirectedGraph dg = new DirectedGraph(nodes);
+
+        for(String key : adjacencyLists.keySet()){
+            for(Edge edge : adjacencyLists.get(key)){
+                dg.insertEdge(edge);
+            }
+        }
+
+        return dg;
     }
 
     /**
@@ -89,7 +114,19 @@ public class DirectedGraph {
      * a transpose graph, the direction of every edge is reversed.
      */
     public DirectedGraph transpose () {
-        throw new Error("TODO");
+        DirectedGraph dg = new DirectedGraph();
+
+        for(String key : adjacencyLists.keySet()){
+            for(Edge edge : adjacencyLists.get(key)){
+                if(!dg.adjacencyLists.containsKey(edge.destination())){
+                    dg.adjacencyLists.put(edge.destination(), new HashSet<>());
+                }
+
+                dg.adjacencyLists.get(edge.destination()).add(edge.flip());
+            }
+        }
+
+        return dg;
     }
 
     /**
@@ -98,6 +135,14 @@ public class DirectedGraph {
      * an edge B -> A.
      */
     public DirectedGraph bidirectional () {
-        throw new Error("TODO");
+        DirectedGraph copy = copy();
+
+        for(String key : adjacencyLists.keySet()){
+            for(Edge edge : adjacencyLists.get(key)){
+                copy.insertEdge(edge.flip());
+            }
+        }
+
+        return copy;
     }
 }
