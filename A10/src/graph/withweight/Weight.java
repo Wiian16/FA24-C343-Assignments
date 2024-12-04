@@ -42,7 +42,7 @@ public class Weight implements Comparable<Weight>{
     }
 
     public static Weight min (Weight w1, Weight w2) {
-        throw new Error("TODO");
+        return w1.weight < w2.weight ? w1 : w2;
     }
 
     public boolean equals (Object o) {

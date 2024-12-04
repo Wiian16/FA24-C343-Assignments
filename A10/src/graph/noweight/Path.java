@@ -31,7 +31,7 @@ public class Path implements Iterable<Edge> {
      * flipped, just the order of the edges in the list.
      */
     public void reverse() {
-        throw new Error("TODO");
+        Collections.reverse(edges);
     }
 
     public void add(Edge edge) {

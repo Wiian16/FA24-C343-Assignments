@@ -30,7 +30,9 @@ public class WeightedPath extends Path {
      * of the existing minWeight and the given weight.
      */
     public void add(Edge edge, Weight w) {
-        throw new Error("TODO");
+        super.add(edge);
+        totalWeight = totalWeight.add(w);
+        minWeight = Weight.min(minWeight, w);
     }
 
 }
