@@ -72,6 +72,11 @@ public class DirectedGraph {
             adjacencyLists.put(source, new HashSet<>());
         }
 
+        if(!nodes.contains(destination)){
+            nodes.add(destination);
+            adjacencyLists.put(destination, new HashSet<>());
+        }
+
         adjacencyLists.get(source).add(new Edge(source, destination));
     }
     /**
@@ -87,6 +92,11 @@ public class DirectedGraph {
         if(adjacencyLists.get(edge.source()).isEmpty()){
             nodes.remove(edge.source());
             adjacencyLists.remove(edge.source());
+        }
+
+        if(adjacencyLists.get(edge.destination()).isEmpty()){
+            nodes.remove(edge.destination());
+            adjacencyLists.remove(edge.destination());
         }
     }
 
