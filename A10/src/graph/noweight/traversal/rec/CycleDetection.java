@@ -33,7 +33,16 @@ public class CycleDetection extends RecursiveGraphTraversal {
         return hasCycle;
     }
 
-    public void enterAction(String node) { throw new Error("TODO"); }
-    public void touchAction(String node) { throw new Error("TODO"); }
-    public void exitAction(String node) { throw new Error("TODO"); }
+    public void enterAction(String node) {
+        super.enterAction(node);
+        ancestors.add(node);
+    }
+    public void touchAction(String node) {
+        if(ancestors.contains(node)){
+            hasCycle = true;
+        }
+    }
+    public void exitAction(String node) {
+        ancestors.remove(node);
+    }
 }

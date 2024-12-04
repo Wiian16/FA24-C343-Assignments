@@ -3,7 +3,10 @@ package graph.noweight.traversal.rec;
 import graph.noweight.DirectedGraph;
 import graph.noweight.traversal.GraphTraversal;
 
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
 /**
  *  TIER II
@@ -26,16 +29,34 @@ public abstract class RecursiveGraphTraversal extends GraphTraversal {
         super(graph, allNodes);
     }
 
-    public void enterAction (String node) {}
+    public void enterAction (String node) {
+        visited.add(node);
+    }
     public void touchAction (String node) {}
     public void exitAction (String node) {}
-    public void sourceAction(String node) {}
+    public void sourceAction(String node) {
+        visited.clear();
+    }
 
     public void traverseFromSource(String current) {
-        throw new Error("TODO");
+        if(visited.contains(current)){
+            touchAction(current);
+            return;
+        }
+
+        enterAction(current);
+
+        for(String node : graph.neighbors(current)){
+            traverseFromSource(node);
+        }
+
+        exitAction(current);
     }
 
     public void traverseFromAllSources() {
-        throw new Error("TODO");
+        for(String node : allNodes){
+            sourceAction(node);
+            traverseFromSource(node);
+        }
     }
 }
