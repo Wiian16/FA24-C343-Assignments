@@ -17,7 +17,16 @@ public class QueueCollection extends NodeCollection {
         this.queue = new LinkedList<>();
         queue.add(start);
     }
-    public boolean isEmpty() { throw new Error("TODO"); }
-    public String get() { throw new Error("TODO"); }
-    public void add(String node) { throw new Error("TODO"); }
+
+    public boolean isEmpty() {
+        return queue.isEmpty();
+    }
+
+    public String get() {
+        return queue.remove();
+    }
+
+    public void add(String node) {
+        queue.add(node);
+    }
 }

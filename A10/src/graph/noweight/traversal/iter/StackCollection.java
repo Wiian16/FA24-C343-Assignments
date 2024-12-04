@@ -16,7 +16,16 @@ public class StackCollection extends NodeCollection {
         stack = new Stack<>();
         stack.push(start);
     }
-    public boolean isEmpty() { throw new Error("TODO"); }
-    public String get() { throw new Error("TODO"); }
-    public void add(String node) { throw new Error("TODO"); }
+
+    public boolean isEmpty() {
+        return stack.isEmpty();
+    }
+
+    public String get() {
+        return stack.pop();
+    }
+
+    public void add(String node) {
+        stack.push(node);
+    }
 }
