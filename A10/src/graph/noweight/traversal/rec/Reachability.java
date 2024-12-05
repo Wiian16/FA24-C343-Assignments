@@ -38,7 +38,26 @@ public class Reachability extends RecursiveGraphTraversal {
         return table;
     }
 
-    public void enterAction (String node) { throw new Error("TODO"); }
-    public void touchAction (String node) { throw new Error("TODO"); }
-    public void exitAction (String node) { throw new Error("TODO"); }
+    public void enterAction (String node) {
+        super.enterAction(node);
+
+        if(!table.containsKey(node)){
+            table.put(node, new HashSet<>());
+        }
+
+        for(String neighbor : graph.neighbors(node)){
+            if(!table.containsKey(neighbor)){
+                table.put(neighbor, new HashSet<>());
+            }
+
+            table.get(neighbor).add(node);
+        }
+    }
+
+    public void touchAction (String node) {
+
+    }
+
+    public void exitAction (String node) {
+    }
 }
