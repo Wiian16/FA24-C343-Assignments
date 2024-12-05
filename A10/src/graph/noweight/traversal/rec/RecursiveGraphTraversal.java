@@ -55,8 +55,8 @@ public abstract class RecursiveGraphTraversal extends GraphTraversal {
 
     public void traverseFromAllSources() {
         for(String node : allNodes){
-            sourceAction(node);
             traverseFromSource(node);
+            sourceAction(node);
         }
     }
 }
