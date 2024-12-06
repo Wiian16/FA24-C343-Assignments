@@ -43,14 +43,15 @@ public class WeightedDirectedGraph extends DirectedGraph {
      * remove the edge from the graph.
      */
     public void subtractEdgeWeight (Edge edge, Weight diff) {
-        throw new Error("TODO");
+        weights.put(edge, weights.get(edge).subtract(diff));
     }
 
     /**
      * Insert the given edge.
      */
     public void insertEdge (Edge edge, Weight weight) {
-        throw new Error("TODO");
+        super.insertEdge(edge);
+        weights.put(edge, weight);
     }
 
     public void insertEdge (String source, String destination, int weight) {
@@ -65,14 +66,20 @@ public class WeightedDirectedGraph extends DirectedGraph {
      * the original graph.
      */
     public WeightedDirectedGraph copy () {
-        throw new Error("TODO");
+        return new WeightedDirectedGraph(super.copy(), new HashMap<>(weights));
     }
 
     /**
      * Return a new WeightedDirectedGraph that is the bidirectional version of this graph.
      */
     public WeightedDirectedGraph bidirectional () {
-        throw new Error("TODO");
+        DirectedGraph bidirectional = super.bidirectional();
+        HashMap<Edge, Weight> biWeights = new HashMap<>(weights);
+        for(Edge edge : biWeights.keySet()){
+            weights.put(edge.flip(), biWeights.get(edge));
+        }
+
+        return new WeightedDirectedGraph(bidirectional, biWeights);
     }
 
     public boolean equals (Object o) {
