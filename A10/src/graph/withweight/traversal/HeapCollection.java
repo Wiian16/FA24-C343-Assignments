@@ -94,11 +94,32 @@ public class HeapCollection extends WeightedNodeCollection {
     }
 
     public void moveDown(String n) {
-        throw new Error("TODO");
+        Optional<String> minChildOptional = getMinChild(n);
+
+        if(minChildOptional.isEmpty()){
+            return;
+        }
+
+        String minChild = minChildOptional.get();
+
+        if(getWeight(n).compareTo(getWeight(minChild)) > 0){
+            swap(n, minChild);
+            moveDown(minChild);
+        }
     }
 
     public void moveUp(String n) {
-        throw new Error("TODO");
+        Optional<String> parentOptional = getParent(n);
+        if(parentOptional.isEmpty()){
+            return;
+        }
+
+        String parent = parentOptional.get();
+
+        if(getWeight(n).compareTo(getWeight(parent)) < 0){
+            swap(n, parent);
+            moveUp(n);
+        }
     }
 
     public void insert(String n, Weight w) {
