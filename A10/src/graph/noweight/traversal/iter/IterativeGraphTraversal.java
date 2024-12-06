@@ -39,6 +39,18 @@ public abstract class IterativeGraphTraversal extends GraphTraversal {
      * and what to do when relaxing an edge.
      */
     public void iterativeTraversal () {
-        throw new Error("TODO");
+        while(!collection.isEmpty()){
+            String node = collection.get();
+
+            if(visited.contains(node)){
+                continue;
+            }
+
+            visited.add(node);
+
+            enterAction(node);
+
+            graph.outgoingEdges(node).forEach(this::relaxEdge);
+        }
     }
 }
