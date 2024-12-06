@@ -32,10 +32,10 @@ public class DFSiter extends IterativeGraphTraversal {
     }
 
     public void enterAction(String node) {
-        throw new Error("TODO");
+        traversal.add(node);
     }
     public void relaxEdge(Edge edge) {
-        throw new Error("TODO");
+        collection.add(edge.destination());
     }
 }
 
