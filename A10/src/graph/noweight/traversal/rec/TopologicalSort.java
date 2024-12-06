@@ -31,6 +31,6 @@ public class TopologicalSort extends RecursiveGraphTraversal {
     }
 
     public void exitAction (String node) {
-        throw new Error("TODO");
+        traversal.addFirst(node);
     }
 }

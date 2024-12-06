@@ -5,6 +5,7 @@ import graph.noweight.traversal.GraphTraversal;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.ToLongBiFunction;
 
 /**
  * TIER II
@@ -26,7 +27,20 @@ public class StronglyConnectedComponents extends GraphTraversal {
     }
 
     public HashMap<String,List<String>> computeSCC () {
-        throw new Error("TODO");
+        HashMap<String, List<String>> scc = new HashMap<>();
+        DirectedGraph transpose = graph.transpose();
+
+        for(String node : allNodes){
+            TopologicalSort topo = new TopologicalSort(graph);
+            topo.traverseFromSource(node);
+            List<String> topoSort = topo.getTraversal();
+
+            DFSrec dfs = new DFSrec(transpose, topoSort);
+            dfs.traverseFromAllSources();
+            scc.putAll(dfs.getAllTraversals());
+        }
+
+        return scc;
     }
 
 }

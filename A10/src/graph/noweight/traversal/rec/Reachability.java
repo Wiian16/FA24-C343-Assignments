@@ -28,36 +28,38 @@ import java.util.Set;
 public class Reachability extends RecursiveGraphTraversal {
     private final HashMap<String, Set<String>> table;
 
-    public Reachability (DirectedGraph graph) {
+    public Reachability(DirectedGraph graph) {
         super(graph);
         this.table = new HashMap<>();
-        for (String node : graph.getAllNodes()) table.put(node, new HashSet<>());
+        for(String node : graph.getAllNodes())
+            table.put(node, new HashSet<>());
     }
 
     public HashMap<String, Set<String>> getTable() {
         return table;
     }
 
-    public void enterAction (String node) {
+    public void enterAction(String node) {
         super.enterAction(node);
 
-        if(!table.containsKey(node)){
+        touchAction(node);
+    }
+
+    public void touchAction(String node) {
+
+        if(!table.containsKey(node)) {
             table.put(node, new HashSet<>());
         }
 
-        for(String neighbor : graph.neighbors(node)){
-            if(!table.containsKey(neighbor)){
+        for(String neighbor : graph.neighbors(node)) {
+            if(!table.containsKey(neighbor)) {
                 table.put(neighbor, new HashSet<>());
             }
 
             table.get(neighbor).add(node);
+            table.get(neighbor).addAll(table.get(node));
         }
     }
 
-    public void touchAction (String node) {
-
-    }
-
-    public void exitAction (String node) {
-    }
+    public void exitAction(String node) {}
 }
