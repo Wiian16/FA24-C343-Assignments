@@ -3,9 +3,9 @@ package graph.noweight.traversal.rec;
 import graph.noweight.DirectedGraph;
 import graph.noweight.traversal.GraphTraversal;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.ToLongBiFunction;
 
 /**
  * TIER II
@@ -28,19 +28,19 @@ public class StronglyConnectedComponents extends GraphTraversal {
 
     public HashMap<String,List<String>> computeSCC () {
         HashMap<String, List<String>> scc = new HashMap<>();
-        DirectedGraph transpose = graph.transpose();
 
-        for(String node : allNodes){
-            TopologicalSort topo = new TopologicalSort(graph);
-            topo.traverseFromSource(node);
-            List<String> topoSort = topo.getTraversal();
+        TopologicalSort topo = new TopologicalSort(graph);
+        topo.traverseFromAllSources();
+        List<String> topoSort = topo.getTraversal();
 
-            DFSrec dfs = new DFSrec(transpose, topoSort);
-            dfs.traverseFromAllSources();
-            scc.putAll(dfs.getAllTraversals());
+        DFSrec dfs = new DFSrec(graph.transpose(), topoSort.reversed());
+        dfs.traverseFromAllSources();
+        HashMap<String, List<String>> dfsMap = dfs.getAllTraversals();
+
+        for(String node : topoSort){
+            scc.put(node, dfsMap.get(node));
         }
 
         return scc;
     }
-
 }
