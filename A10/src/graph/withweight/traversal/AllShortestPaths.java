@@ -46,7 +46,13 @@ public class AllShortestPaths extends WeightedIterativeGraphTraversal {
      * </ul>
      */
     public void relaxEdge(Edge edge) {
-        throw new Error("TODO");
+        if(visited.contains(edge.destination())){
+            return;
+        }
+
+        Weight newWeight = weights.get(edge).add(collection.getWeight(edge.source()));
+
+
     }
 
     /**
@@ -54,7 +60,15 @@ public class AllShortestPaths extends WeightedIterativeGraphTraversal {
      * path from the source to the given destination node.
      */
     public WeightedPath getPath (String destination) {
-        throw new Error("TODO");
+        WeightedPath path = new WeightedPath();
+
+        for(String node : previousNodes.keySet()){
+            Edge edge = new Edge(previousNodes.get(node), node);
+
+            path.add(edge, weights.get(edge));
+        }
+
+        return path;
     }
 
 }
