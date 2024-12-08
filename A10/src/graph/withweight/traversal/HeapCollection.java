@@ -130,7 +130,21 @@ public class HeapCollection extends WeightedNodeCollection {
     }
 
     public String extractMin() {
-        throw new Error("TODO");
+        String min = nodes.getFirst();
+
+
+        swap(min, nodes.getLast());
+
+        nodes.remove(min);
+        indices.remove(min);
+        weights.remove(min);
+        size--;
+
+        if(!nodes.isEmpty()) {
+            moveDown(nodes.getFirst());
+        }
+
+        return min;
     }
 }
 
