@@ -75,8 +75,8 @@ public class WeightedDirectedGraph extends DirectedGraph {
     public WeightedDirectedGraph bidirectional () {
         DirectedGraph bidirectional = super.bidirectional();
         HashMap<Edge, Weight> biWeights = new HashMap<>(weights);
-        for(Edge edge : biWeights.keySet()){
-            weights.put(edge.flip(), biWeights.get(edge));
+        for(Edge edge : weights.keySet()){
+            biWeights.put(edge.flip(), weights.get(edge));
         }
 
         return new WeightedDirectedGraph(bidirectional, biWeights);
