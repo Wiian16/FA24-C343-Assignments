@@ -1,8 +1,5 @@
 import graph.noweight.DirectedGraph;
-import graph.noweight.traversal.rec.CycleDetection;
-import graph.noweight.traversal.rec.DFSrec;
-import graph.noweight.traversal.rec.Reachability;
-import graph.noweight.traversal.rec.TopologicalSort;
+import graph.noweight.traversal.rec.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -161,19 +158,19 @@ public class MyTier2Tests {
 
     //Reachability Tests
 
-    private DirectedGraph graph;
+    private DirectedGraph topoGraph;
     private Reachability reachability;
 
     @BeforeEach
     void setUp3() {
-        graph = new DirectedGraph();
-        graph.insertEdge("A", "B");
-        graph.insertEdge("B", "C");
-        graph.insertEdge("C", "A"); // Cycle
-        graph.insertEdge("D", "B");
-        graph.insertEdge("E", "F"); // Disconnected subgraph
+        topoGraph = new DirectedGraph();
+        topoGraph.insertEdge("A", "B");
+        topoGraph.insertEdge("B", "C");
+        topoGraph.insertEdge("C", "A"); // Cycle
+        topoGraph.insertEdge("D", "B");
+        topoGraph.insertEdge("E", "F"); // Disconnected subgraph
 
-        reachability = new Reachability(graph);
+        reachability = new Reachability(topoGraph);
         reachability.traverseFromAllSources();
     }
 
@@ -198,9 +195,9 @@ public class MyTier2Tests {
 
     @Test
     void testReachabilityWithBranching() {
-        graph.insertEdge("A", "D");
-        graph.insertEdge("D", "E");
-        reachability = new Reachability(graph);
+        topoGraph.insertEdge("A", "D");
+        topoGraph.insertEdge("D", "E");
+        reachability = new Reachability(topoGraph);
         reachability.traverseFromAllSources();
 
         Map<String, Set<String>> table = reachability.getTable();
@@ -288,5 +285,74 @@ public class MyTier2Tests {
         }
 
         return true; // Valid topological order
+    }
+
+    @Test
+    void testAllSourcesTopo2(){
+        DirectedGraph graph = new DirectedGraph();
+        graph.insertEdge("A", "B");
+        graph.insertEdge("A", "C");
+        graph.insertEdge("B", "C");
+        graph.insertEdge("B", "E");
+        graph.insertEdge("B", "D");
+        graph.insertEdge("E", "B");
+        graph.insertEdge("D", "E");
+
+        TopologicalSort topologicalSort = new TopologicalSort(graph);
+        topologicalSort.traverseFromAllSources();
+        System.out.println("topologicalSort = " + topologicalSort.getTraversal());
+        assertEquals(5, topologicalSort.getTraversal().size());
+    }
+
+    //SCC tests
+
+    private DirectedGraph graph;
+
+    @BeforeEach
+    void setUp4() {
+        // Initialize the graph for each test.
+        graph = new DirectedGraph();
+    }
+
+    @Test
+    void testEmptySCCGraph() {
+        StronglyConnectedComponents scc = new StronglyConnectedComponents(graph);
+        HashMap<String, List<String>> result = scc.computeSCC();
+        assertTrue(result.isEmpty(), "The SCC result should be empty for an empty graph.");
+    }
+
+    @Test
+    void testSimpleConnectedGraph() {
+        DirectedGraph graph = new DirectedGraph();
+        graph.insertEdge("A", "B");
+        graph.insertEdge("A", "C");
+        graph.insertEdge("B", "C");
+        graph.insertEdge("B", "E");
+        graph.insertEdge("B", "D");
+        graph.insertEdge("E", "B");
+        graph.insertEdge("D", "E");
+
+        StronglyConnectedComponents scc = new StronglyConnectedComponents(graph);
+        HashMap<String, List<String>> sccMap = scc.computeSCC();
+
+        assertEquals(List.of("A"), sccMap.get("A"));
+        assertEquals(Set.of("B", "E", "D"), Set.copyOf(sccMap.get("B")));
+        assertEquals(List.of("C"), sccMap.get("C"));
+        assertEquals(List.of(), sccMap.get("D"));
+        assertEquals(List.of(), sccMap.get("E"));
+    }
+
+    @Test
+    void testSelfLoop() {
+        graph.insertEdge("A", "A");
+
+        StronglyConnectedComponents scc = new StronglyConnectedComponents(graph);
+        HashMap<String, List<String>> result = scc.computeSCC();
+
+        assertEquals(1, result.size(), "There should be 1 strongly connected component.");
+        List<String> component = result.get("A");
+        assertNotNull(component, "The component should not be null.");
+        assertEquals(1, component.size(), "The component should contain just node 'A'.");
+        assertTrue(component.contains("A"), "The component should contain node 'A'.");
     }
 }

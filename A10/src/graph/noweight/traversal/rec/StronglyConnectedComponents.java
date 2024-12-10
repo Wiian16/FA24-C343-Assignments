@@ -33,7 +33,7 @@ public class StronglyConnectedComponents extends GraphTraversal {
         topo.traverseFromAllSources();
         List<String> topoSort = topo.getTraversal();
 
-        DFSrec dfs = new DFSrec(graph.transpose(), topoSort.reversed());
+        DFSrec dfs = new DFSrec(graph.transpose(), topoSort);
         dfs.traverseFromAllSources();
         HashMap<String, List<String>> dfsMap = dfs.getAllTraversals();
 

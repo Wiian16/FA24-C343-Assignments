@@ -48,5 +48,6 @@ public class DFSrec extends RecursiveGraphTraversal {
 
     public void sourceAction(String current) {
         allTraversals.put(current, new ArrayList<>(currentTraversal));
+        currentTraversal.clear();
     }
 }
