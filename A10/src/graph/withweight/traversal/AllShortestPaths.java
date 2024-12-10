@@ -46,13 +46,25 @@ public class AllShortestPaths extends WeightedIterativeGraphTraversal {
      * </ul>
      */
     public void relaxEdge(Edge edge) {
-        if(visited.contains(edge.destination())){
+        if (visited.contains(edge.destination())) {
             return;
         }
 
-        Weight newWeight = weights.get(edge).add(collection.getWeight(edge.source()));
+        Weight newWeight = weights.get(edge);
+        if(newWeight == null){
+            newWeight = Weight.INFINITY;
+        }
+        newWeight.add(collection.getWeight(edge.source()));
 
+        Weight previousWeight = collection.getWeight(edge.destination());
+        if (previousWeight == null) {
+            previousWeight = Weight.INFINITY;
+        }
 
+        if (newWeight.compareTo(previousWeight) < 0) {
+            collection.setWeight(edge.destination(), newWeight);
+            previousNodes.put(edge.destination(), edge.source());
+        }
     }
 
     /**
@@ -70,5 +82,4 @@ public class AllShortestPaths extends WeightedIterativeGraphTraversal {
 
         return path;
     }
-
 }
