@@ -47,7 +47,25 @@ public class MinimumSpanningTree extends WeightedIterativeGraphTraversal {
      * </ul>
      */
     public void relaxEdge(Edge edge) {
-        throw new Error("TODO");
+        if(visited.contains(edge.destination())){
+            return;
+        }
+
+        if(collection.getWeight(edge.source()) == null){
+            collection.add(edge.source());
+        }
+        if(collection.getWeight(edge.destination()) == null) {
+            collection.add(edge.destination());
+        }
+
+        Weight currentWeight = weights.get(edge);
+
+        Weight prevWeight = collection.getWeight(edge.destination());
+
+        if(currentWeight.compareTo(prevWeight) < 0){
+            collection.setWeight(edge.destination(), currentWeight);
+            previousNodes.put(edge.destination(), edge.source());
+        }
     }
 
     /**
@@ -55,7 +73,14 @@ public class MinimumSpanningTree extends WeightedIterativeGraphTraversal {
      * previousNodes map.
      */
     public int getWeight() {
-        throw new Error("TODO");
+        int total = 0;
+
+        for(String node : previousNodes.keySet()){
+            Edge edge = new Edge(previousNodes.get(node), node);
+            total += weights.get(edge).value();
+        }
+
+        return total;
     }
 
 }
