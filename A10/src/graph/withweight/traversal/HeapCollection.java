@@ -45,6 +45,7 @@ public class HeapCollection extends WeightedNodeCollection {
     public Weight getWeight(String node) {
         return weights.get(node);
     }
+    public HashMap<String, Integer> getIndices() { return indices; }
 
     /**
      * The caller should guarantee that the new weight is less than the current one.
