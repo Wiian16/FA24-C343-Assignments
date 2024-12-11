@@ -50,15 +50,11 @@ public class AllShortestPaths extends WeightedIterativeGraphTraversal {
             return;
         }
 
-        if(collection.getWeight(edge.source()) == null){
-            collection.add(edge.source());
-            collection.setWeight(edge.source(), Weight.ZERO);
-        }
         if(collection.getWeight(edge.destination()) == null){
             collection.add(edge.destination());
         }
 
-        Weight newWeight = collection.getWeight(edge.source()).add(weights.get(edge));
+        Weight newWeight = getPath(edge.source()).totalWeight().add(weights.get(edge));
         Weight prevWeight = collection.getWeight(edge.destination());
 
         if(newWeight.compareTo(prevWeight) < 0){
