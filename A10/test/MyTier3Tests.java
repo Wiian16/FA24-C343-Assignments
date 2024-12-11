@@ -1,5 +1,6 @@
 import graph.noweight.DirectedGraph;
 import graph.noweight.Edge;
+import graph.noweight.traversal.iter.BFS;
 import graph.noweight.traversal.iter.DFSiter;
 import graph.withweight.Weight;
 import graph.withweight.WeightedDirectedGraph;
@@ -116,5 +117,26 @@ public class MyTier3Tests {
 
         List<String> traversal = dfs.getTraversal();
         assertTrue(traversal.isEmpty());
+    }
+
+    //BFS tests
+
+    @Test
+    void testSimpleBFSGraph(){
+        // Create the graph
+        DirectedGraph graph = new WeightedDirectedGraph();
+
+        // Add edges and their capacities
+        graph.insertEdge("A", "B");
+        graph.insertEdge("A", "C");
+        graph.insertEdge("B", "C");
+        graph.insertEdge("B", "D");
+        graph.insertEdge("C", "D");
+
+        BFS bfs = new BFS(graph, "A");
+        bfs.iterativeTraversal();
+
+        System.out.println(bfs.getTraversal());
+        System.out.println(bfs.getPreviousNodes());
     }
 }

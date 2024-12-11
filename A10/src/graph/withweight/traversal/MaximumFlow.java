@@ -44,7 +44,25 @@ public class MaximumFlow {
      * weight currentFlow.
      */
     public void updateResidual (Path path, Weight currentFlow) {
-        throw new Error("TODO");
+        WeightedDirectedGraph residual = getResidual();
+
+        for(Edge edge : path.edges()){
+            residual.subtractEdgeWeight(edge, currentFlow);
+
+            if(residual.getWeights().get(edge).value() == 0){
+                residual.removeEdge(edge);
+            }
+            else if(residual.getAllEdges().contains(edge.flip())){
+                Weight newWeight = residual.getWeights().get(edge.flip()).add(currentFlow);
+                residual.getWeights().put(edge.flip(), newWeight);
+            }
+            else{
+                residual.insertEdge(edge.flip(), currentFlow);
+            }
+        }
+
+        System.out.println("currentFlow = " + currentFlow);
+        maxFlow = maxFlow.add(currentFlow);
     }
 
     /**
@@ -52,7 +70,34 @@ public class MaximumFlow {
      * the method throws a NoPathE exception.
      */
     WeightedPath bfsPath (String start, String end) throws NoPathE{
-        throw new Error("TODO");
+        BFS bfs = new BFS(getResidual(), start);
+        bfs.iterativeTraversal();
+        HashMap<String, String> prevNodes = bfs.getPreviousNodes();
+
+        if(!prevNodes.containsKey(end)){
+            throw new NoPathE();
+        }
+
+        WeightedPath path = getPath(prevNodes, destination);
+
+        if(!getResidual().getAllEdges().containsAll(path.edges())){
+            throw new NoPathE();
+        }
+
+        return path;
+    }
+
+    WeightedPath getPath(HashMap<String, String> previousNodes, String destination){
+        if(!previousNodes.containsKey(destination)){
+            return new WeightedPath();
+        }
+
+        WeightedPath path = getPath(previousNodes, previousNodes.get(destination));
+
+        Edge edge = new Edge(previousNodes.get(destination), destination);
+        path.add(edge, graph.getWeights().get(edge));
+
+        return path;
     }
 
     /**
@@ -71,7 +116,17 @@ public class MaximumFlow {
      * We repeat until there is no possible path in the residual graph.
      */
     public void runMaxFlow() {
-        throw new Error("TODO");
+        while(true){
+            WeightedPath path;
+            try{
+                path = bfsPath(source, destination);
+            }
+            catch(NoPathE e){
+                break;
+            }
+
+            updateResidual(path, path.minWeight());
+        }
     }
 
     public static class NoPathE extends Exception{}

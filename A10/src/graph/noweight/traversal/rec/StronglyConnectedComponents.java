@@ -26,7 +26,7 @@ public class StronglyConnectedComponents extends GraphTraversal {
         super(graph);
     }
 
-    public HashMap<String,List<String>> computeSCC () { //todo
+    public HashMap<String,List<String>> computeSCC () {
         HashMap<String, List<String>> scc = new HashMap<>();
 
         TopologicalSort topo = new TopologicalSort(graph);
