@@ -1,11 +1,17 @@
+import graph.noweight.Edge;
 import graph.withweight.Weight;
 import graph.withweight.WeightedDirectedGraph;
+import graph.withweight.WeightedPath;
+import graph.withweight.traversal.AllShortestPaths;
 import graph.withweight.traversal.MinimumSpanningTree;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MyTier4Tests {
     // Helper method to create a simple weighted directed graph
@@ -120,5 +126,67 @@ public class MyTier4Tests {
 
         // Verify the total weight of the MST
         assertEquals(10, mst.getWeight());
+    }
+
+    // Shortest Path tests
+
+    private WeightedDirectedGraph graph;
+    private AllShortestPaths shortestPaths;
+
+    @BeforeEach
+    void setUp() {
+        graph = new WeightedDirectedGraph();
+
+        graph.insertEdge("A", "B", 1);
+        graph.insertEdge("A", "C", 4);
+        graph.insertEdge("B", "C", 2);
+        graph.insertEdge("B", "D", 6);
+        graph.insertEdge("C", "D", 3);
+        graph.insertEdge("D", "E", 1);
+    }
+
+    @Test
+    void testShortestPathsInitialization() {
+        shortestPaths = new AllShortestPaths(graph, "A");
+        assertNotNull(shortestPaths, "AllShortestPaths instance should not be null");
+    }
+
+    @Test
+    void testShortestPathToSingleNode() {
+        shortestPaths = new AllShortestPaths(graph, "A");
+        WeightedPath path = shortestPaths.getPath("B");
+
+        assertEquals(1, path.totalWeight().value(), "Shortest path weight from A to B should be 1");
+        List<Edge> edges = path.edges();
+        assertEquals(1, edges.size(), "Path from A to B should have 1 edge");
+        assertEquals(new Edge("A", "B"), edges.getFirst(), "Edge should be from A to B");
+    }
+
+    @Test
+    void testShortestPathToMultipleNodes() {
+        shortestPaths = new AllShortestPaths(graph, "A");
+
+        // Path from A to D
+        WeightedPath pathToD = shortestPaths.getPath("D");
+        assertEquals(6, pathToD.totalWeight().value(), "Shortest path weight from A to D should be 6");
+
+        List<Edge> edgesToD = pathToD.edges();
+        assertEquals(2, edgesToD.size(), "Path from A to D should have 2 edges");
+        assertEquals(new Edge("A", "B"), edgesToD.get(0), "First edge should be from A to B");
+        assertEquals(new Edge("B", "D"), edgesToD.get(1), "Second edge should be from B to D");
+    }
+
+    @Test
+    void testPathThroughMultipleEdges() {
+        shortestPaths = new AllShortestPaths(graph, "A");
+        WeightedPath pathToE = shortestPaths.getPath("E");
+
+        assertEquals(7, pathToE.totalWeight().value(), "Shortest path weight from A to E should be 7");
+
+        List<Edge> edgesToE = pathToE.edges();
+        assertEquals(3, edgesToE.size(), "Path from A to E should have 3 edges");
+        assertEquals(new Edge("A", "B"), edgesToE.get(0), "First edge should be from A to B");
+        assertEquals(new Edge("B", "D"), edgesToE.get(1), "Second edge should be from B to D");
+        assertEquals(new Edge("D", "E"), edgesToE.get(2), "Third edge should be from D to E");
     }
 }
