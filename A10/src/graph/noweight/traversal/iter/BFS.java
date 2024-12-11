@@ -38,12 +38,10 @@ public class BFS extends IterativeGraphTraversal{
     public HashMap<String,String> getPreviousNodes() { return previousNodes; }
 
     public void enterAction(String node) {
-        System.out.println("Entering " + node);
         visited.add(node);
         traversal.add(node);
     }
     public void relaxEdge(Edge edge) {
-        System.out.println("Relaxing " + edge);
         if(visited.contains(edge.destination())){
             return;
         }

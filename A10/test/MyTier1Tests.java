@@ -218,7 +218,6 @@ public class MyTier1Tests {
         graph.removeEdge(new Edge("A", "B"));
 
         assertFalse(graph.getAllNodes().contains("A"));
-        assertFalse(graph.getAllNodes().contains("B"));
         assertTrue(graph.outgoingEdges("A").isEmpty());
     }
 

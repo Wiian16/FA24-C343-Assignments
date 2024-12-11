@@ -93,11 +93,6 @@ public class DirectedGraph {
             nodes.remove(edge.source());
             adjacencyLists.remove(edge.source());
         }
-
-//        if(adjacencyLists.get(edge.destination()) != null && adjacencyLists.get(edge.destination()).isEmpty()){
-//            nodes.remove(edge.destination());
-//            adjacencyLists.remove(edge.destination());
-//        }
     }
 
     /**

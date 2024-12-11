@@ -136,7 +136,10 @@ public class MyTier3Tests {
         BFS bfs = new BFS(graph, "A");
         bfs.iterativeTraversal();
 
-        System.out.println(bfs.getTraversal());
-        System.out.println(bfs.getPreviousNodes());
+        List<String> traversal = bfs.getTraversal();
+
+        assertEquals(4, traversal.size());
+        assertEquals("A", traversal.getFirst());
+        assertEquals("D", traversal.getLast());
     }
 }

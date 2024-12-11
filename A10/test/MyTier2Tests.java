@@ -300,7 +300,6 @@ public class MyTier2Tests {
 
         TopologicalSort topologicalSort = new TopologicalSort(graph);
         topologicalSort.traverseFromAllSources();
-        System.out.println("topologicalSort = " + topologicalSort.getTraversal());
         assertEquals(5, topologicalSort.getTraversal().size());
     }
 

@@ -61,7 +61,6 @@ public class MaximumFlow {
             }
         }
 
-        System.out.println("currentFlow = " + currentFlow);
         maxFlow = maxFlow.add(currentFlow);
     }
 
