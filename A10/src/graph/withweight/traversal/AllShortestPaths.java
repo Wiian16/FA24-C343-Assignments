@@ -46,22 +46,22 @@ public class AllShortestPaths extends WeightedIterativeGraphTraversal {
      * </ul>
      */
     public void relaxEdge(Edge edge) {
-        if (visited.contains(edge.destination())) {
+        if(visited.contains(edge.destination())){
             return;
         }
 
-        Weight newWeight = weights.get(edge);
-        if(newWeight == null){
-            newWeight = Weight.INFINITY;
+        if(collection.getWeight(edge.source()) == null){
+            collection.add(edge.source());
+            collection.setWeight(edge.source(), Weight.ZERO);
         }
-        newWeight.add(collection.getWeight(edge.source()));
-
-        Weight previousWeight = collection.getWeight(edge.destination());
-        if (previousWeight == null) {
-            previousWeight = Weight.INFINITY;
+        if(collection.getWeight(edge.destination()) == null){
+            collection.add(edge.destination());
         }
 
-        if (newWeight.compareTo(previousWeight) < 0) {
+        Weight newWeight = collection.getWeight(edge.source()).add(weights.get(edge));
+        Weight prevWeight = collection.getWeight(edge.destination());
+
+        if(newWeight.compareTo(prevWeight) < 0){
             collection.setWeight(edge.destination(), newWeight);
             previousNodes.put(edge.destination(), edge.source());
         }
@@ -72,13 +72,15 @@ public class AllShortestPaths extends WeightedIterativeGraphTraversal {
      * path from the source to the given destination node.
      */
     public WeightedPath getPath (String destination) {
-        WeightedPath path = new WeightedPath();
-
-        for(String node : previousNodes.keySet()){
-            Edge edge = new Edge(previousNodes.get(node), node);
-
-            path.add(edge, weights.get(edge));
+        if(!previousNodes.containsKey(destination)){
+            return new WeightedPath();
         }
+
+        String source = previousNodes.get(destination);
+
+        WeightedPath path = getPath(source);
+        Edge edge = new Edge(source, destination);
+        path.add(edge, weights.get(edge));
 
         return path;
     }
