@@ -32,6 +32,7 @@ public class DFSiter extends IterativeGraphTraversal {
     }
 
     public void enterAction(String node) {
+        super.enterAction(node);
         traversal.add(node);
     }
     public void relaxEdge(Edge edge) {

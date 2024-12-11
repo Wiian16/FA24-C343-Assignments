@@ -26,7 +26,10 @@ public abstract class IterativeGraphTraversal extends GraphTraversal {
     }
 
     public abstract void relaxEdge(Edge edge);
-    public void enterAction(String node) {}
+    public void enterAction(String node) {
+        System.out.println("Entering " + node);
+        visited.add(node);
+    }
 
     /**
      * Generic iterative traversal.
@@ -49,8 +52,6 @@ public abstract class IterativeGraphTraversal extends GraphTraversal {
             if(visited.contains(node)){
                 continue;
             }
-
-            visited.add(node);
 
             enterAction(node);
 

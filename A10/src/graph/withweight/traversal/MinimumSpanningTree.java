@@ -47,6 +47,7 @@ public class MinimumSpanningTree extends WeightedIterativeGraphTraversal {
      * </ul>
      */
     public void relaxEdge(Edge edge) {
+        System.out.println("Relaxing " + edge);
         if(visited.contains(edge.destination())){
             return;
         }

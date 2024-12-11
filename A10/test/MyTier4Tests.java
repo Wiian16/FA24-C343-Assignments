@@ -128,6 +128,25 @@ public class MyTier4Tests {
         assertEquals(10, mst.getWeight());
     }
 
+    @Test
+    public void mst4() {
+        WeightedDirectedGraph graph = new WeightedDirectedGraph();
+        graph.insertEdge("A", "B", 5);
+        graph.insertEdge("A", "C", 3);
+        graph.insertEdge("B", "C", 2);
+        graph.insertEdge("B", "D", 4);
+        graph.insertEdge("C", "D", 1);
+
+        MinimumSpanningTree mst = new MinimumSpanningTree(graph, "A");
+        mst.iterativeTraversal();
+
+        assertEquals(8, mst.getWeight());
+        HashMap<String, String> previousNodes = mst.getPreviousNodes();
+        assertEquals("C", previousNodes.get("D"));
+        assertEquals("B", previousNodes.get("B"));
+        assertEquals("A", previousNodes.get("A"));
+    }
+
     // Shortest Path tests
 
     private WeightedDirectedGraph graph;
