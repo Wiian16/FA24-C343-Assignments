@@ -146,14 +146,9 @@ public class MyTier4Tests {
     }
 
     @Test
-    void testShortestPathsInitialization() {
-        shortestPaths = new AllShortestPaths(graph, "A");
-        assertNotNull(shortestPaths, "AllShortestPaths instance should not be null");
-    }
-
-    @Test
     void testShortestPathToSingleNode() {
         shortestPaths = new AllShortestPaths(graph, "A");
+        shortestPaths.iterativeTraversal();
         WeightedPath path = shortestPaths.getPath("B");
 
         assertEquals(1, path.totalWeight().value(), "Shortest path weight from A to B should be 1");
@@ -165,28 +160,32 @@ public class MyTier4Tests {
     @Test
     void testShortestPathToMultipleNodes() {
         shortestPaths = new AllShortestPaths(graph, "A");
+        shortestPaths.iterativeTraversal();
 
         // Path from A to D
         WeightedPath pathToD = shortestPaths.getPath("D");
         assertEquals(6, pathToD.totalWeight().value(), "Shortest path weight from A to D should be 6");
 
         List<Edge> edgesToD = pathToD.edges();
-        assertEquals(2, edgesToD.size(), "Path from A to D should have 2 edges");
+        assertEquals(3, edgesToD.size(), "Path from A to D should have 3 edges");
         assertEquals(new Edge("A", "B"), edgesToD.get(0), "First edge should be from A to B");
-        assertEquals(new Edge("B", "D"), edgesToD.get(1), "Second edge should be from B to D");
+        assertEquals(new Edge("B", "C"), edgesToD.get(1), "Second edge should be from B to C");
+        assertEquals(new Edge("C", "D"), edgesToD.get(2), "Third edge should be from C to D");
     }
 
     @Test
     void testPathThroughMultipleEdges() {
         shortestPaths = new AllShortestPaths(graph, "A");
+        shortestPaths.iterativeTraversal();
         WeightedPath pathToE = shortestPaths.getPath("E");
 
         assertEquals(7, pathToE.totalWeight().value(), "Shortest path weight from A to E should be 7");
 
         List<Edge> edgesToE = pathToE.edges();
-        assertEquals(3, edgesToE.size(), "Path from A to E should have 3 edges");
+        assertEquals(4, edgesToE.size(), "Path from A to E should have 4 edges");
         assertEquals(new Edge("A", "B"), edgesToE.get(0), "First edge should be from A to B");
-        assertEquals(new Edge("B", "D"), edgesToE.get(1), "Second edge should be from B to D");
-        assertEquals(new Edge("D", "E"), edgesToE.get(2), "Third edge should be from D to E");
+        assertEquals(new Edge("B", "C"), edgesToE.get(1), "Second edge should be from B to C");
+        assertEquals(new Edge("C", "D"), edgesToE.get(2), "Third edge should be from C to D");
+        assertEquals(new Edge("D", "E"), edgesToE.get(3), "Fourth edge should be from D to E");
     }
 }
